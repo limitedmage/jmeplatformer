@@ -1,6 +1,7 @@
 package game;
 
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.GameCanvas;
 
 /**
@@ -11,6 +12,7 @@ public class Game extends GameCanvas implements Runnable
 {
 	private int x, y;//comentario
 	private double time;
+        Image temp = null;
 
 	private VampSprite sprite;
 
@@ -67,8 +69,8 @@ public class Game extends GameCanvas implements Runnable
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		g.setColor(0x00000000);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		  Image imgf = createImage("/fond.jpg");
+                  g.drawImage(imgf, 0, 0, 0);
 
 		sprite.draw(g);
 
@@ -116,4 +118,15 @@ public class Game extends GameCanvas implements Runnable
 		}
 		g.drawString("FPS: " + fps, 0, 0, 0);
 	}
+
+    private Image createImage(String string) {
+        try{
+            temp = Image.createImage(string);
+
+
+        } catch(Exception exc){
+         exc.printStackTrace();
+        }
+        return temp;
+    }
 }
