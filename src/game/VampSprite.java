@@ -163,8 +163,6 @@ public class VampSprite
 			sprite.setPosition(sprite.getX(), sHeight - fHeight);
 			this.setState(IDLE);
 		}
-
-		
 	}
 
 
