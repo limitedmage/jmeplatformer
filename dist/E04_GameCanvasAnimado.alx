@@ -1,0 +1,25 @@
+
+<loader version="1.0">
+    <application id="E04_GameCanvasAnimado">
+        <name>
+            E04_GameCanvasAnimado
+        </name>
+        <description>
+            ${MIDlet-Description}
+        </description>
+        <version>
+            1.0
+        </version>
+        <vendor>
+            Vendor
+        </vendor>
+        <copyright>
+            ${MIDlet-Copyright}
+        </copyright>
+        <fileset Java="1.0">
+            <directory/>
+            <files>E04_GameCanvasAnimado.cod</files>
+        </fileset>
+    </application>
+</loader>
+        
