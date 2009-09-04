@@ -76,6 +76,7 @@ public class VampSprite
 
 	public void update()
 	{
+
 		sprite.nextFrame();
 	}
 
@@ -148,19 +149,20 @@ public class VampSprite
 		if (this.state != JUMP && this.state != LAND)
 		{
 			this.setState(JUMP);
-			dy = -30;
+			dy = -50;
 		}
 
 		dy += gravity;
 		if (dy > 0 && this.state != LAND)
 			this.setState(LAND);
 
+		sprite.move(0, dy);
+
 		if (sprite.getY() > sHeight - fHeight)
 		{
+			sprite.setPosition(sprite.getX(), sHeight - fHeight);
 			this.setState(IDLE);
 		}
-
-		sprite.move(0, dy);
 	}
 
 
