@@ -6,13 +6,13 @@ import javax.microedition.midlet.*;
 /**
  * @author Juliana Peña <jpenao@gmail.com>
  */
-public class GameMidlet extends MIDlet //comentariooooo
+public class GameMidlet extends MIDlet
 {
 	private Game game;
 
     public void startApp()
 	{
-		if (game == null) // juego inicializado
+		if (game == null)
 		{
 			game = new Game();
 		}
