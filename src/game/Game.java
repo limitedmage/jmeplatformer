@@ -12,13 +12,15 @@ public class Game extends GameCanvas implements Runnable
 {
 	private int x, y;//comentario
 	private double time;
-        Image temp = null;
+    Image temp = null;
 
 	private VampSprite sprite;
 
 	private int entries;
 	private long startTime;
 	private int fps;
+
+	private boolean jumping;
 
 	public Game()
 	{
@@ -28,6 +30,7 @@ public class Game extends GameCanvas implements Runnable
 		int height = getHeight();
 
 		sprite = new VampSprite(width, height);
+		jumping = false;
 		
 		entries = 0;
 		startTime = System.currentTimeMillis();
@@ -99,7 +102,15 @@ public class Game extends GameCanvas implements Runnable
 
 		if ((this.getKeyStates() & UP_PRESSED) != 0)
 		{
-			sprite.jump();
+			if (!jumping)
+			{
+				sprite.jump();
+				jumping = true;
+			}
+		}
+		else
+		{
+			jumping = false;
 		}
 
 
