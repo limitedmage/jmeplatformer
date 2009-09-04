@@ -9,7 +9,7 @@ import javax.microedition.lcdui.game.GameCanvas;
  */
 public class Game extends GameCanvas implements Runnable
 {
-	private int x, y;
+	private int x, y;//comentario
 	private double time;
 
 	private VampSprite sprite;
