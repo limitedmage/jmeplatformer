@@ -23,9 +23,7 @@ public class Background
 			image = Image.createImage(imagePath);
 		}
 		catch (IOException ex)
-		{
-			
-		}
+		{}
 	}
 
 	/**
