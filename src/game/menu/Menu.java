@@ -109,6 +109,10 @@ public class Menu extends GameCanvas implements Runnable
 	 */
 	public void paint(Graphics g)
 	{
+		// clear screen
+		g.setColor(0x00000000);
+		g.drawRect(0, 0, getWidth(), getHeight());
+
 		int y = 0;
 		int x = 0;
 

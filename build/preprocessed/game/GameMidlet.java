@@ -16,12 +16,16 @@ public class GameMidlet extends MIDlet
 
     public void startApp()
 	{
+		
 		menu = new Menu(this);
 		menu.addChoice(new RunGameChoice());
 		menu.addChoice(new EndGameChoice());
 
 		menu.start();
 		Display.getDisplay(this).setCurrent(menu);
+		
+
+		//this.startGame();
     }
 
 	public void startGame()
