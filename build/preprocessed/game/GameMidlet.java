@@ -1,5 +1,6 @@
 package game;
 
+import game.menu.EndGameChoice;
 import game.menu.Menu;
 import game.menu.RunGameChoice;
 import javax.microedition.lcdui.Display;
@@ -17,6 +18,7 @@ public class GameMidlet extends MIDlet
 	{
 		menu = new Menu(this);
 		menu.addChoice(new RunGameChoice());
+		menu.addChoice(new EndGameChoice());
 
 		menu.start();
 		Display.getDisplay(this).setCurrent(menu);
@@ -41,4 +43,10 @@ public class GameMidlet extends MIDlet
     public void destroyApp(boolean unconditional)
 	{
     }
+
+	public void terminate()
+	{
+		this.destroyApp(true);
+		this.notifyDestroyed();
+	}
 }
