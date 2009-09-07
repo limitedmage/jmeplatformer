@@ -82,13 +82,13 @@ public class Game extends GameCanvas implements Runnable
 
 	private void update()
 	{
+		int keys = this.getKeyStates();
 
-
-		if ((this.getKeyStates() & LEFT_PRESSED) != 0)
+		if ((keys & LEFT_PRESSED) != 0)
 		{
 			sprite.walkLeft();
 		}
-		else if ((this.getKeyStates() & RIGHT_PRESSED) != 0)
+		else if ((keys & RIGHT_PRESSED) != 0)
 		{
 			sprite.walkRight();
 		}
@@ -97,7 +97,7 @@ public class Game extends GameCanvas implements Runnable
 			sprite.idle();
 		}
 
-		if ((this.getKeyStates() & UP_PRESSED) != 0)
+		if ((keys & UP_PRESSED) != 0)
 		{
 			if (!jumping)
 			{
