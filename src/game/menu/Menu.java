@@ -1,5 +1,6 @@
 package game.menu;
 
+import game.GameMidlet;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
@@ -12,13 +13,16 @@ public class Menu extends GameCanvas implements Runnable
 {
 	private Vector choices;
 	private int selected;
+	private GameMidlet midlet;
 
 	/**
 	 * Creates a new menu
 	 */
-	public Menu()
+	public Menu(GameMidlet midlet)
 	{
 		super(true);
+
+		this.midlet = midlet;
 
 		choices = new Vector();
 		selected = 0;
@@ -60,7 +64,13 @@ public class Menu extends GameCanvas implements Runnable
 	 */
 	public void select()
 	{
-		((MenuChoice)choices.elementAt(selected)).execute();
+		((MenuChoice)choices.elementAt(selected)).execute(midlet);
+	}
+
+	public void start()
+	{
+		Thread t = new Thread(this);
+		t.start();		// calls this.run()
 	}
 
 	/**
@@ -70,6 +80,7 @@ public class Menu extends GameCanvas implements Runnable
 	{
 		while (true)
 		{
+			update();
 			repaint();
 
 			try
@@ -91,6 +102,27 @@ public class Menu extends GameCanvas implements Runnable
 		for (int i = 0; i < len; i++)
 		{
 			((MenuChoice)choices.elementAt(i)).paint(g, 0, 0, i == selected);
+		}
+	}
+
+	private void update()
+	{
+		int keys = this.getKeyStates();
+		
+		if ((keys & DOWN_PRESSED) != 0)
+		{
+			this.nextChoice();
+		}
+
+		if ((keys & UP_PRESSED) != 0)
+		{
+			this.prevChoice();
+		}
+
+		if ((keys & FIRE_PRESSED) != 0)
+		{
+			System.out.println("Selecting");
+			this.select();
 		}
 	}
 }

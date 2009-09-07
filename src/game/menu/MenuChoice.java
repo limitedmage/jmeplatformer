@@ -1,6 +1,8 @@
 package game.menu;
 
+import game.GameMidlet;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.midlet.MIDlet;
 
 /**
  *
@@ -55,5 +57,5 @@ public abstract class MenuChoice
 	 * Abstract method that MenuChoice child classes should override.
 	 * Should implement what the menu choice does when selected.
 	 */
-	public abstract void execute(); // abstract class for menu action
+	public abstract void execute(GameMidlet midlet); // abstract class for menu action
 }
