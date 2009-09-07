@@ -17,8 +17,6 @@ public class Menu extends GameCanvas implements Runnable
 
 	private boolean menuChanged;
 
-	private boolean running;
-
 	private Thread t;
 
 	/**
@@ -36,7 +34,6 @@ public class Menu extends GameCanvas implements Runnable
 		selected = 0;
 
 		t = new Thread(this);
-		running = true;
 
 		this.setFullScreenMode(true);
 	}
@@ -78,7 +75,6 @@ public class Menu extends GameCanvas implements Runnable
 	public void select()
 	{
 		((MenuChoice)choices.elementAt(selected)).execute(midlet);
-		this.running = false;
 	}
 
 	public void start()
@@ -91,7 +87,7 @@ public class Menu extends GameCanvas implements Runnable
 	 */
 	public void run()
 	{
-		while (running)
+		while (true)
 		{
 			update();
 			repaint();

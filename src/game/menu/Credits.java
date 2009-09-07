@@ -1,5 +1,6 @@
 package game.menu;
 
+import game.GameMidlet;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
@@ -9,17 +10,17 @@ import javax.microedition.lcdui.game.GameCanvas;
  */
 public class Credits extends GameCanvas implements Runnable
 {
-	private boolean running;
 	private String text;
 	private Thread t;
+	private GameMidlet midlet;
 
-	public Credits()
+	public Credits(GameMidlet midlet)
 	{
 		super(true);
+		this.midlet = midlet;
 
 		t = new Thread(this);
 
-		running = true;
 		text = "Our Game!\n\nProgramming:\nAlex\nCarlos\nJuliana\n\nGráficos:\nLADs del TEC-CEM\n";
 
 		this.setFullScreenMode(true);
@@ -34,6 +35,7 @@ public class Credits extends GameCanvas implements Runnable
 	{
 		while (true)
 		{
+			update();
 			repaint();
 
 			try
@@ -42,6 +44,15 @@ public class Credits extends GameCanvas implements Runnable
 			}
 			catch (InterruptedException e)
 			{}
+		}
+	}
+
+	public void update()
+	{
+		// press any key to go back to main menu
+		if ((getKeyStates()) != 0)
+		{
+			midlet.startMainMenu();
 		}
 	}
 
