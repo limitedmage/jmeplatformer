@@ -2,7 +2,6 @@ package game.menu;
 
 import game.GameMidlet;
 import java.util.Vector;
-import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
@@ -18,6 +17,10 @@ public class Menu extends GameCanvas implements Runnable
 
 	private boolean menuChanged;
 
+	private boolean running;
+
+	private Thread t;
+
 	/**
 	 * Creates a new menu
 	 */
@@ -31,6 +34,9 @@ public class Menu extends GameCanvas implements Runnable
 
 		choices = new Vector();
 		selected = 0;
+
+		t = new Thread(this);
+		running = true;
 	}
 
 	/**
@@ -74,7 +80,6 @@ public class Menu extends GameCanvas implements Runnable
 
 	public void start()
 	{
-		Thread t = new Thread(this);
 		t.start();		// calls this.run()
 	}
 
@@ -83,7 +88,7 @@ public class Menu extends GameCanvas implements Runnable
 	 */
 	public void run()
 	{
-		while (true)
+		while (running)
 		{
 			update();
 			repaint();
@@ -96,6 +101,7 @@ public class Menu extends GameCanvas implements Runnable
 			{}
 		}
 	}
+
 
 	/**
 	 * Draws the menu
@@ -142,7 +148,7 @@ public class Menu extends GameCanvas implements Runnable
 
 		else if ((keys & FIRE_PRESSED) != 0)
 		{
-			System.out.println("Selecting");
+			running = false;
 			this.select();
 		}
 
