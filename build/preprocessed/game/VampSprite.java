@@ -17,19 +17,15 @@ public class VampSprite
 
 	private static final int[] // frame animation sequences
 			idle       = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3},
-			walk       = {19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35},
-			run        = {38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56},
-			jump       = {57, 58, 59, 60, 61, 62, 63},
-			doubleJump = {76, 74, 75, 76, 77},
-			land       = {95, 96, 97, 98, 99, 100, 101, 102};
+			walk       = {9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26},
+			jump       = {27, 28, 29, 30, 31, 32, 33},
+			land       = {36, 37, 38, 39, 40, 41, 42, 43};
 
 	public static final int // sprite states
 			IDLE       = 1,
 			WALK       = 2,
-			RUN        = 3,
-			JUMP       = 4,
-			DOUBLEJUMP = 5,
-			LAND       = 6;
+			JUMP       = 3,
+			LAND       = 4;
 
 	private int state;
 
@@ -91,14 +87,8 @@ public class VampSprite
 			case WALK:
 				sprite.setFrameSequence(walk);
 				break;
-			case RUN:
-				sprite.setFrameSequence(run);
-				break;
 			case JUMP:
 				sprite.setFrameSequence(jump);
-				break;
-			case DOUBLEJUMP:
-				sprite.setFrameSequence(doubleJump);
 				break;
 			case LAND:
 				sprite.setFrameSequence(land);
