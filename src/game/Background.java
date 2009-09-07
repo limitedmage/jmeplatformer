@@ -12,11 +12,15 @@ public class Background
 {
 	private Image image;
 
-	public Background(String path)
+	/**
+	 * Creates new image for background from imagePath
+	 * @param imagePath path of background image
+	 */
+	public Background(String imagePath)
 	{
 		try
 		{
-			image = Image.createImage(path);
+			image = Image.createImage(imagePath);
 		}
 		catch (IOException ex)
 		{
@@ -24,6 +28,10 @@ public class Background
 		}
 	}
 
+	/**
+	 * Paints background image
+	 * @param g
+	 */
 	public void paint(Graphics g)
 	{
 		g.drawImage(image, 0, 0, 0);
