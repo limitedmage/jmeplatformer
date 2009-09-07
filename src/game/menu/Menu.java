@@ -2,6 +2,7 @@ package game.menu;
 
 import game.GameMidlet;
 import java.util.Vector;
+import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
@@ -98,10 +99,18 @@ public class Menu extends GameCanvas implements Runnable
 	 */
 	public void paint(Graphics g)
 	{
+		int y = 0;
+		int x = 0;
+
+
 		int len = choices.size();
+
+		int dy = getHeight() / len;
+
 		for (int i = 0; i < len; i++)
 		{
-			((MenuChoice)choices.elementAt(i)).paint(g, 0, 0, i == selected);
+			((MenuChoice)choices.elementAt(i)).paint(g, 0, y, i == selected);
+			y += dy;
 		}
 	}
 
