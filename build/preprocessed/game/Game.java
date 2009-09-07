@@ -71,12 +71,18 @@ public class Game extends GameCanvas implements Runnable
 	 */
 	public void paint(Graphics g)
 	{
-		super.paint(g);
-		
+
+		// clear screen
+		g.setColor(0x00000000);
+		g.fillRect(0, 0, getWidth(), getHeight());
+
+		// paint background
 		background.paint(g);
 
+		// paint sprite
 		sprite.draw(g);
 
+		// calculate fps
 		calculateFps(g);
 	}
 
