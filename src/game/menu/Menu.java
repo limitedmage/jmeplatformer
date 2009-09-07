@@ -16,6 +16,8 @@ public class Menu extends GameCanvas implements Runnable
 	private int selected;
 	private GameMidlet midlet;
 
+	private boolean menuChanged;
+
 	/**
 	 * Creates a new menu
 	 */
@@ -24,6 +26,8 @@ public class Menu extends GameCanvas implements Runnable
 		super(true);
 
 		this.midlet = midlet;
+
+		menuChanged = false;
 
 		choices = new Vector();
 		selected = 0;
@@ -109,7 +113,7 @@ public class Menu extends GameCanvas implements Runnable
 
 		for (int i = 0; i < len; i++)
 		{
-			((MenuChoice)choices.elementAt(i)).paint(g, 0, y, i == selected);
+			((MenuChoice)choices.elementAt(i)).paint(g, x, y, i == selected);
 			y += dy;
 		}
 	}
@@ -120,18 +124,31 @@ public class Menu extends GameCanvas implements Runnable
 		
 		if ((keys & DOWN_PRESSED) != 0)
 		{
-			this.nextChoice();
+			if (!menuChanged)
+			{
+				this.nextChoice();
+				menuChanged = true;
+			}
 		}
 
-		if ((keys & UP_PRESSED) != 0)
+		else if ((keys & UP_PRESSED) != 0)
 		{
-			this.prevChoice();
+			if (!menuChanged)
+			{
+				this.prevChoice();
+				menuChanged = true;
+			}
 		}
 
-		if ((keys & FIRE_PRESSED) != 0)
+		else if ((keys & FIRE_PRESSED) != 0)
 		{
 			System.out.println("Selecting");
 			this.select();
+		}
+
+		else
+		{
+			menuChanged = false;
 		}
 	}
 }
