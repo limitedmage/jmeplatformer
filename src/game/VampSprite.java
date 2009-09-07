@@ -77,7 +77,7 @@ public class VampSprite
 	}
 
 
-	public void setState(int state)
+	private void setState(int state)
 	{
 		switch (state)
 		{
