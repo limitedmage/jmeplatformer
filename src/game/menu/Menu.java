@@ -78,6 +78,7 @@ public class Menu extends GameCanvas implements Runnable
 	public void select()
 	{
 		((MenuChoice)choices.elementAt(selected)).execute(midlet);
+		this.running = false;
 	}
 
 	public void start()
@@ -155,7 +156,6 @@ public class Menu extends GameCanvas implements Runnable
 
 		else if ((keys & FIRE_PRESSED) != 0)
 		{
-			running = false;
 			this.select();
 		}
 

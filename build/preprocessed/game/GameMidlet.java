@@ -1,5 +1,7 @@
 package game;
 
+import game.menu.Credits;
+import game.menu.CreditsChoice;
 import game.menu.EndGameChoice;
 import game.menu.Menu;
 import game.menu.RunGameChoice;
@@ -13,6 +15,7 @@ public class GameMidlet extends MIDlet
 {
 	private Game game;
 	private Menu menu;
+	private Credits credits;
 
     public void startApp()
 	{
@@ -37,11 +40,23 @@ public class GameMidlet extends MIDlet
 		{
 			menu = new Menu(this);
 			menu.addChoice(new RunGameChoice());
+			menu.addChoice(new CreditsChoice());
 			menu.addChoice(new EndGameChoice());
 		}
 		
 		menu.start();
 		Display.getDisplay(this).setCurrent(menu);
+	}
+
+	public void startCredits()
+	{
+		if (credits == null)
+		{
+			credits = new Credits();
+		}
+
+		credits.start();
+		Display.getDisplay(this).setCurrent(credits);
 	}
 
     public void pauseApp()

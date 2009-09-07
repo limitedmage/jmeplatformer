@@ -40,7 +40,7 @@ public class Game extends GameCanvas implements Runnable
 	public void start()
 	{
 		Thread t = new Thread(this);
-		t.start();		// llama a this.run()
+		t.start();		// calls this.run()
 	}
 
 	/**
