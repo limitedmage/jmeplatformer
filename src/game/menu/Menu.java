@@ -1,6 +1,7 @@
 package game.menu;
 
 import java.util.Vector;
+import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
 /**
@@ -32,6 +33,13 @@ public class Menu extends GameCanvas implements Runnable
 			selected = 0;
 	}
 
+	public void prevChoice()
+	{
+		selected -= 1;
+		if (selected < 0)
+			selected = choices.size();
+	}
+
 	public void select()
 	{
 		((MenuChoice)choices.elementAt(selected)).execute();
@@ -39,5 +47,25 @@ public class Menu extends GameCanvas implements Runnable
 
 	public void run()
 	{
+		while (true)
+		{
+			repaint();
+
+			try
+			{
+				Thread.sleep(50);
+			}
+			catch (InterruptedException e)
+			{}
+		}
+	}
+
+	public void paint(Graphics g)
+	{
+		int len = choices.size();
+		for (int i = 0; i < len; i++)
+		{
+			((MenuChoice)choices.elementAt(i)).paint(g, 0, 0, i == selected);
+		}
 	}
 }

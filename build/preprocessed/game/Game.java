@@ -10,16 +10,13 @@ import javax.microedition.lcdui.game.GameCanvas;
  */
 public class Game extends GameCanvas implements Runnable
 {
-	private int x, y;//comentario
-	private double time;
-    Image temp = null;
 
 	private VampSprite sprite;
-
+	private Background background;
+	
 	private int entries;
 	private long startTime;
 	private int fps;
-
 	private boolean jumping;
 
 	public Game()
@@ -31,13 +28,15 @@ public class Game extends GameCanvas implements Runnable
 
 		sprite = new VampSprite(width, height);
 		jumping = false;
-		
+
+		background = new Background("/fond.jpg");
+
 		entries = 0;
 		startTime = System.currentTimeMillis();
 
 		setFullScreenMode(true);
 	}
-	
+
 	public void start()
 	{
 		Thread t = new Thread(this);
@@ -60,7 +59,8 @@ public class Game extends GameCanvas implements Runnable
 				Thread.sleep(50);
 			}
 			catch (InterruptedException e)
-			{}
+			{
+			}
 		}
 	}
 
@@ -72,15 +72,12 @@ public class Game extends GameCanvas implements Runnable
 	public void paint(Graphics g)
 	{
 		super.paint(g);
-		  Image imgf = createImage("/fond.jpg");
-                  g.drawImage(imgf, 0, 0, 0);
+		
+		background.paint(g);
 
 		sprite.draw(g);
 
 		calculateFps(g);
-
-
-
 	}
 
 	private void update()
@@ -129,15 +126,4 @@ public class Game extends GameCanvas implements Runnable
 		}
 		g.drawString("FPS: " + fps, 0, 0, 0);
 	}
-
-    private Image createImage(String string) {
-        try{
-            temp = Image.createImage(string);
-
-
-        } catch(Exception exc){
-         exc.printStackTrace();
-        }
-        return temp;
-    }
 }
