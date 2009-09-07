@@ -24,11 +24,8 @@ public class GameMidlet extends MIDlet
 
 	public void startGame()
 	{
-
-		if (game == null)
-		{
-			game = new Game();
-		}
+		reset();
+		game = new Game(this);
 
 		game.start();
 		Display.getDisplay(this).setCurrent(game);
@@ -36,13 +33,12 @@ public class GameMidlet extends MIDlet
 
 	public void startMainMenu()
 	{
-		if (menu == null)
-		{
-			menu = new Menu(this);
-			menu.addChoice(new RunGameChoice());
-			menu.addChoice(new CreditsChoice());
-			menu.addChoice(new EndGameChoice());
-		}
+		reset();
+
+		menu = new Menu(this);
+		menu.addChoice(new RunGameChoice());
+		menu.addChoice(new CreditsChoice());
+		menu.addChoice(new EndGameChoice());
 		
 		menu.start();
 		Display.getDisplay(this).setCurrent(menu);
@@ -50,10 +46,9 @@ public class GameMidlet extends MIDlet
 
 	public void startCredits()
 	{
-		if (credits == null)
-		{
-			credits = new Credits();
-		}
+		reset();
+
+		credits = new Credits(this);
 
 		credits.start();
 		Display.getDisplay(this).setCurrent(credits);
@@ -71,5 +66,15 @@ public class GameMidlet extends MIDlet
 	{
 		this.destroyApp(true);
 		this.notifyDestroyed();
+	}
+
+	/**
+	 * Resets GameCanvas objects to null
+	 */
+	private void reset()
+	{
+		game = null;
+		credits = null;
+		menu = null;
 	}
 }
