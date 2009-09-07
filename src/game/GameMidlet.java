@@ -16,15 +16,7 @@ public class GameMidlet extends MIDlet
 
     public void startApp()
 	{
-		menu = new Menu(this);
-		menu.addChoice(new RunGameChoice());
-		menu.addChoice(new EndGameChoice());
-
-		menu.start();
-		Display.getDisplay(this).setCurrent(menu);
-		
-
-		//this.startGame();
+		startMainMenu();
     }
 
 	public void startGame()
@@ -37,6 +29,19 @@ public class GameMidlet extends MIDlet
 
 		game.start();
 		Display.getDisplay(this).setCurrent(game);
+	}
+
+	public void startMainMenu()
+	{
+		if (menu == null)
+		{
+			menu = new Menu(this);
+			menu.addChoice(new RunGameChoice());
+			menu.addChoice(new EndGameChoice());
+		}
+		
+		menu.start();
+		Display.getDisplay(this).setCurrent(menu);
 	}
 
     public void pauseApp()
