@@ -21,7 +21,7 @@ public class Credits extends GameCanvas implements Runnable
 
 		t = new Thread(this);
 
-		text = "Our Game!\n\nProgramming:\nAlex\nCarlos\nJuliana\n\nGráficos:\nLADs del TEC-CEM\n";
+		text = "Our Game!\n\nProgramming:\nAlex\nCarlos\nJuliana\n\nGraphics:\nLADs del TEC-CEM\n";
 
 		this.setFullScreenMode(true);
 	}
@@ -40,7 +40,7 @@ public class Credits extends GameCanvas implements Runnable
 
 			try
 			{
-				Thread.sleep(50);
+				Thread.sleep(100);
 			}
 			catch (InterruptedException e)
 			{}
