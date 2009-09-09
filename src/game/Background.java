@@ -4,10 +4,6 @@ import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-/**
- *
- * @author Juliana Peña <jpenao@gmail.com>
- */
 public class Background
 {
 	private Image image;

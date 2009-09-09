@@ -4,10 +4,6 @@ import game.GameMidlet;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
-/**
- *
- * @author Juliana Peña <jpenao@gmail.com>
- */
 public class Credits extends GameCanvas implements Runnable
 {
 	private String text;

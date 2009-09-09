@@ -5,10 +5,6 @@ import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
-/**
- *
- * @author Juliana Peña <jpenao@gmail.com>
- */
 public class Menu extends GameCanvas implements Runnable
 {
 	private Vector choices;
@@ -128,6 +124,12 @@ public class Menu extends GameCanvas implements Runnable
 		}
 	}
 
+	/**
+	 * Handles menu input
+	 * If Up pressed, selects previous choice
+	 * If Down pressed, selects next choice
+	 * If Fire pressed, executes currently selected choice
+	 */
 	private void update()
 	{
 		int keys = this.getKeyStates();
