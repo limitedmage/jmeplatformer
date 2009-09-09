@@ -84,7 +84,7 @@ public class Game extends GameCanvas implements Runnable
 		background.paint(g);
 
 		// paint sprite
-		sprite.draw(g);
+		sprite.paint(g);
 
 		// calculate fps
 		calculateFps(g);

@@ -4,10 +4,6 @@ import game.GameMidlet;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.midlet.MIDlet;
 
-/**
- *
- * @author Juliana Peña <jpenao@gmail.com>
- */
 public abstract class MenuChoice
 {
 	//private Image image;

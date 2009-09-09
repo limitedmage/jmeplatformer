@@ -8,20 +8,23 @@ import game.menu.RunGameChoice;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.*;
 
-/**
- * @author Juliana Peña <jpenao@gmail.com>
- */
 public class GameMidlet extends MIDlet
 {
 	private Game game;
 	private Menu menu;
 	private Credits credits;
 
+	/**
+	 * Initialize game with main menu
+	 */
     public void startApp()
 	{
 		startMainMenu();
     }
 
+	/**
+	 * Creates new game and displays it
+	 */
 	public void startGame()
 	{
 		reset();
@@ -31,6 +34,9 @@ public class GameMidlet extends MIDlet
 		Display.getDisplay(this).setCurrent(game);
 	}
 
+	/**
+	 * Creates main menu and displays it
+	 */
 	public void startMainMenu()
 	{
 		reset();
@@ -44,6 +50,9 @@ public class GameMidlet extends MIDlet
 		Display.getDisplay(this).setCurrent(menu);
 	}
 
+	/**
+	 * Creates credits screen and displays it
+	 */
 	public void startCredits()
 	{
 		reset();
@@ -62,6 +71,9 @@ public class GameMidlet extends MIDlet
 	{
     }
 
+	/**
+	 * Quits app
+	 */
 	public void terminate()
 	{
 		this.destroyApp(true);
