@@ -110,8 +110,7 @@ public class VampSprite
 	 * Loads the next frame in the sprite
 	 */
 	public void update()
-	{
-
+    {
 		sprite.nextFrame();
 	}
 
