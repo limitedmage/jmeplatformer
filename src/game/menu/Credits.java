@@ -16,22 +16,6 @@ public class Credits extends GameScreen
 		text = "Our Game!\n\nProgramming:\nAlex\nCarlos\nJuliana\n\nGraphics:\nLADs del TEC-CEM\n";
 	}
 
-	public void run()
-	{
-		while (true)
-		{
-			update();
-			repaint();
-
-			try
-			{
-				Thread.sleep(100);
-			}
-			catch (InterruptedException e)
-			{}
-		}
-	}
-
 	protected void update()
 	{
 		// press any key to go back to main menu

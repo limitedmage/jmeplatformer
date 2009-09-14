@@ -30,27 +30,6 @@ public class Game extends GameScreen
 	}
 
 	/**
-	 * Método heredado de Runnable, NO SE DEBE LLAMAR
-	 */
-	public void run()
-	{
-		while (true)
-		{
-			//System.out.println("Dibujando");
-			repaint();
-			update();
-
-			try
-			{
-				Thread.sleep(50);
-			}
-			catch (InterruptedException e)
-			{
-			}
-		}
-	}
-
-	/**
 	 * Método heredado de GameCanvas
 	 * Sólo debe dibujar, no debe contener lógica
 	 * @param g
