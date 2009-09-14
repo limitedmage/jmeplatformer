@@ -30,8 +30,7 @@ public class Game extends GameScreen
 	}
 
 	/**
-	 * Método heredado de GameCanvas
-	 * Sólo debe dibujar, no debe contener lógica
+	 * Paints the game
 	 * @param g
 	 */
 	public void paint(Graphics g)
@@ -51,6 +50,9 @@ public class Game extends GameScreen
 		calculateFps(g);
 	}
 
+    /**
+     * Updates game input and physics
+     */
 	protected void update()
 	{
 		int keys = this.getKeyStates();
@@ -80,12 +82,15 @@ public class Game extends GameScreen
 		{
 			jumping = false;
 		}
-
-
-
+        
 		sprite.update();
 	}
 
+    /**
+     * Calculates the FPS the game is running at
+     * and draws them on the screen
+     * @param g
+     */
 	private void calculateFps(Graphics g)
 	{
 		entries++;
