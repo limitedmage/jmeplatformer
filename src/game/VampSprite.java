@@ -81,7 +81,7 @@ public class VampSprite
 			this.sHeight = sHeight;
 
 			// load image and create sprite
-			img = Image.createImage("/BigVampireSpriteSheet02.png");
+			img = Image.createImage("/img/BigVampireSpriteSheet02.png");
 			sprite = new Sprite(img, fWidth, fHeight);
 			sprite.setPosition(0, sHeight - fHeight);
 			sprite.defineReferencePixel(30, 30);

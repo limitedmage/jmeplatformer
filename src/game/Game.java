@@ -32,7 +32,7 @@ public class Game extends GameCanvas implements Runnable
 		sprite = new VampSprite(width, height);
 		jumping = false;
 
-		background = new Background("/fond.jpg");
+		background = new Background("/img/fond.jpg");
 
 		entries = 0;
 		startTime = System.currentTimeMillis();
