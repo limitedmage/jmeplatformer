@@ -67,26 +67,6 @@ public class Menu extends GameScreen
 	}
 
 	/**
-	 * Runs the menu
-	 */
-	public void run()
-	{
-		while (true)
-		{
-			update();
-			repaint();
-
-			try
-			{
-				Thread.sleep(50);
-			}
-			catch (InterruptedException e)
-			{}
-		}
-	}
-
-
-	/**
 	 * Draws the menu
 	 * @param g
 	 */
