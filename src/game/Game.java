@@ -1,13 +1,8 @@
 package game;
 
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.game.GameCanvas;
 
-/**
- *
- * @author Juliana Peña <jpenao@gmail.com>
- */
-public class Game extends GameCanvas implements Runnable
+public class Game extends GameScreen
 {
 
 	private VampSprite sprite;
@@ -18,16 +13,12 @@ public class Game extends GameCanvas implements Runnable
 	private int fps;
 	private boolean jumping;
 
-	private GameMidlet midlet;
-
 	public Game(GameMidlet midlet)
 	{
-		super(true);
+		super(midlet);
 
 		int width = getWidth();
 		int height = getHeight();
-
-		this.midlet = midlet;
 
 		sprite = new VampSprite(width, height);
 		jumping = false;
@@ -36,15 +27,6 @@ public class Game extends GameCanvas implements Runnable
 
 		entries = 0;
 		startTime = System.currentTimeMillis();
-
-		setFullScreenMode(true);
-
-	}
-
-	public void start()
-	{
-		Thread t = new Thread(this);
-		t.start();		// calls this.run()
 	}
 
 	/**
@@ -90,7 +72,7 @@ public class Game extends GameCanvas implements Runnable
 		calculateFps(g);
 	}
 
-	private void update()
+	protected void update()
 	{
 		int keys = this.getKeyStates();
 

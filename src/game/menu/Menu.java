@@ -1,15 +1,14 @@
 package game.menu;
 
 import game.GameMidlet;
+import game.GameScreen;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.game.GameCanvas;
 
-public class Menu extends GameCanvas implements Runnable
+public class Menu extends GameScreen
 {
 	private Vector choices;
 	private int selected;
-	private GameMidlet midlet;
 
 	private boolean menuChanged;
 
@@ -20,18 +19,12 @@ public class Menu extends GameCanvas implements Runnable
 	 */
 	public Menu(GameMidlet midlet)
 	{
-		super(true);
-
-		this.midlet = midlet;
+		super(midlet);
 
 		menuChanged = false;
 
 		choices = new Vector();
 		selected = 0;
-
-		t = new Thread(this);
-
-		this.setFullScreenMode(true);
 	}
 
 	/**
@@ -71,11 +64,6 @@ public class Menu extends GameCanvas implements Runnable
 	public void select()
 	{
 		((MenuChoice)choices.elementAt(selected)).execute(midlet);
-	}
-
-	public void start()
-	{
-		t.start();		// calls this.run()
 	}
 
 	/**
@@ -130,7 +118,7 @@ public class Menu extends GameCanvas implements Runnable
 	 * If Down pressed, selects next choice
 	 * If Fire pressed, executes currently selected choice
 	 */
-	private void update()
+	protected void update()
 	{
 		int keys = this.getKeyStates();
 		
