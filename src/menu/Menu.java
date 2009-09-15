@@ -1,5 +1,6 @@
-package game.menu;
+package menu;
 
+import menu.choice.MenuChoice;
 import game.GameMidlet;
 import game.GameScreen;
 import java.util.Vector;

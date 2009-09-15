@@ -1,4 +1,4 @@
-package game.menu;
+package menu.choice;
 
 import game.GameMidlet;
 

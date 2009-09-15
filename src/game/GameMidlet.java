@@ -1,17 +1,14 @@
 package game;
 
-import game.menu.Credits;
-import game.menu.CreditsChoice;
-import game.menu.EndGameChoice;
-import game.menu.Menu;
-import game.menu.RunGameChoice;
+import menu.Credits;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.*;
+import menu.MainMenu;
 
 public class GameMidlet extends MIDlet
 {
 	private Game game;
-	private Menu menu;
+	private MainMenu menu;
 	private Credits credits;
 
 	/**
@@ -41,10 +38,7 @@ public class GameMidlet extends MIDlet
 	{
 		reset();
 
-		menu = new Menu(this);
-		menu.addChoice(new RunGameChoice());
-		menu.addChoice(new CreditsChoice());
-		menu.addChoice(new EndGameChoice());
+		menu = new MainMenu(this);
 		
 		menu.start();
 		Display.getDisplay(this).setCurrent(menu);

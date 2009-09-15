@@ -7,12 +7,6 @@ import javax.microedition.lcdui.game.Sprite;
 
 public class VampSprite
 {
-
-	/**
-	 * Image of sprite
-	 */
-	private Image img;
-
 	/**
 	 * Sprite data
 	 */
@@ -81,7 +75,7 @@ public class VampSprite
 			this.sHeight = sHeight;
 
 			// load image and create sprite
-			img = Image.createImage("/img/BigVampireSpriteSheet02.png");
+			Image img = Image.createImage("/img/BigVampireSpriteSheet02.png");
 			sprite = new Sprite(img, fWidth, fHeight);
 			sprite.setPosition(0, sHeight - fHeight);
 			sprite.defineReferencePixel(30, 30);
@@ -174,12 +168,15 @@ public class VampSprite
 
 	/**
 	 * Stops sprite form moving
+     * If sprite is jumping, calls this.jump()
 	 */
 	public void idle()
 	{
+        // if sprite is not jumping, use idle animation
 		if (this.state != IDLE && this.state != JUMP && this.state != LAND)
 			this.setState(IDLE);
 
+        // if sprite is jumping, use jump animation and calculate jump physics
 		if (this.state == JUMP || this.state == LAND)
 			this.jump();
 	}
