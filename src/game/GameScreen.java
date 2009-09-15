@@ -6,8 +6,6 @@ import javax.microedition.lcdui.game.GameCanvas;
 /**
  * GameScreen includes all the methods every screen in the game,
  * from menus to levels, should have
- *
- * @author Juliana Peña <jpenao@gmail.com>
  */
 public abstract class GameScreen extends GameCanvas implements Runnable
 {
@@ -15,6 +13,12 @@ public abstract class GameScreen extends GameCanvas implements Runnable
      * Parent MIDlet
      */
     protected GameMidlet midlet;
+
+
+    /**
+     * Game keeps running while this is true
+     */
+    protected boolean running;
 
     /**
      * Initializes the screen
@@ -27,6 +31,7 @@ public abstract class GameScreen extends GameCanvas implements Runnable
         super(true);
 
         this.midlet = midlet;
+        this.running = true;
 
         setFullScreenMode(true);
     }

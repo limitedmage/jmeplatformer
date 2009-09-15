@@ -1,4 +1,4 @@
-package game.menu;
+package menu.choice;
 
 import game.GameMidlet;
 import javax.microedition.lcdui.Graphics;

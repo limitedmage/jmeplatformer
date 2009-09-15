@@ -1,14 +1,23 @@
-package game.menu;
+package menu;
 
 import game.GameMidlet;
 import game.GameScreen;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * A credits screen aknowledging all contributors
+ */
 public class Credits extends GameScreen
 {
+    /**
+     * Credits text to be shown
+     */
 	private String text;
-	private Thread t;
 
+    /**
+     * Creates a new Credits screen
+     * @param midlet
+     */
 	public Credits(GameMidlet midlet)
 	{
 		super(midlet);
@@ -16,6 +25,10 @@ public class Credits extends GameScreen
 		text = "Our Game!\n\nProgramming:\nAlex\nCarlos\nJuliana\n\nGraphics:\nLADs del TEC-CEM\n";
 	}
 
+    /**
+     * Updates the credits screen
+     * Pressing any key exits back to main menu
+     */
 	protected void update()
 	{
 		// press any key to go back to main menu
@@ -25,6 +38,10 @@ public class Credits extends GameScreen
 		}
 	}
 
+    /**
+     * Paints the game screen
+     * @param g
+     */
 	public void paint(Graphics g)
 	{
 		g.setColor(0x00000000);

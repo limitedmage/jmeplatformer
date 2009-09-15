@@ -2,15 +2,29 @@ package game;
 
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * The actual game!
+ */
 public class Game extends GameScreen
 {
-
+    /**
+     * Temporary main character sprite
+     */
 	private VampSprite sprite;
+
+    /**
+     * Temporary background
+     */
 	private Background background;
-	
+
+    /**
+     * Number of entries,
+     */
 	private int entries;
 	private long startTime;
 	private int fps;
+
+
 	private boolean jumping;
 
 	public Game(GameMidlet midlet)
