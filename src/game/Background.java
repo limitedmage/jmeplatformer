@@ -13,7 +13,7 @@ public class Background
 	private static final short rows = 12, columns = 24;
 	private static final short tileSize = 32;
 	private static final short[][] tileData = {
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+		{3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -35,7 +35,7 @@ public class Background
 	{
 		try
 		{
-			image = Image.createImage("/img/backgrounds/Tiles1.bmp");
+			image = Image.createImage("/img/Tiles1.png");
 			layer = new TiledLayer(columns, rows, image, tileSize, tileSize);
 
 			// fill tile data
@@ -46,9 +46,12 @@ public class Background
 					layer.setCell(col, row, tileData[row][col]);
 				}
 			}
+
+			layer.setPosition(0, 0);
 		}
 		catch (IOException ex)
 		{
+			ex.printStackTrace();
 			//unable to load images, quit game
 			System.out.println(ex.getMessage());
 			//System.exit(-1);
@@ -62,6 +65,7 @@ public class Background
 	 */
 	public void paint(Graphics g)
 	{
+		System.out.println("Painting layer...");
 		layer.paint(g);
 	}
 }
