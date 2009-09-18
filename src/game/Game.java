@@ -37,7 +37,7 @@ public class Game extends GameScreen
 		sprite = new VampSprite(width, height);
 		jumping = false;
 
-		background = new Background("/img/fond.jpg");
+		background = new Background();
 
 		entries = 0;
 		startTime = System.currentTimeMillis();
