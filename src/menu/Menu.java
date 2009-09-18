@@ -8,20 +8,12 @@ import javax.microedition.lcdui.Graphics;
 
 public class Menu extends GameScreen
 {
-    /**
-     * List of choices
-     */
 	private Vector choices;
-
-    /**
-     * ID of selected choice
-     */
 	private int selected;
 
-    /**
-     * Flag to see if menu has changed
-     */
 	private boolean menuChanged;
+
+	private Thread t;
 
 	/**
 	 * Creates a new menu
