@@ -1,6 +1,5 @@
 package main;
 
-import main.GameMidlet;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
@@ -10,11 +9,8 @@ import javax.microedition.lcdui.game.GameCanvas;
  */
 public abstract class GameScreen extends GameCanvas implements Runnable
 {
-    /*
-     * Parent MIDlet
-     */
+    // Parent MIDlet
     protected GameMidlet midlet;
-
 
     /**
      * Game keeps running while this is true
@@ -41,7 +37,7 @@ public abstract class GameScreen extends GameCanvas implements Runnable
      * Starts the execution of the screen
      * by running a new thread
      */
-    public void start()
+    public final void start()
     {
         Thread t = new Thread(this);
         t.start();
@@ -53,7 +49,7 @@ public abstract class GameScreen extends GameCanvas implements Runnable
      * then repaints the screen.
      * Sleeps for 50 ms every cycle.
      */
-    public void run()
+    public final void run()
     {
         while (true)
 		{

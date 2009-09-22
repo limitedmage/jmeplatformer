@@ -1,8 +1,8 @@
 package game;
 
 import main.GameScreen;
-import java.io.IOException;
 import main.GameMidlet;
+import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 
 /**
@@ -62,7 +62,7 @@ public class Game extends GameScreen
 		sprite.paint(g);
 
 		// calculate fps
-		calculateFps(g);
+		this.calculateFps(g);
 	}
 
     /**
@@ -99,12 +99,12 @@ public class Game extends GameScreen
 		}
         
 		sprite.update();
+
 	}
 
     /**
      * Calculates the FPS the game is running at
      * and draws them on the screen
-     * @param g
      */
 	private void calculateFps(Graphics g)
 	{
