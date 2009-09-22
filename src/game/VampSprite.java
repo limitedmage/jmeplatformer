@@ -1,18 +1,17 @@
 package game;
 
 import java.io.IOException;
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
 
-public class VampSprite
+/**
+ * Sprite class that represents a vampire
+ * 
+ * @author Juliana Peña <jpenao@gmail.com>
+ */
+public class VampSprite extends Sprite
 {
-	/**
-	 * Sprite data
-	 */
-	private Sprite sprite;
-
-	/**
+	/*
 	 * Sprite frame animation definitions
 	 */
 	private static final int[] // frame animation sequences
@@ -21,7 +20,7 @@ public class VampSprite
 			jump       = {27, 28, 29, 30, 31, 32, 33},
 			land       = {36, 37, 38, 39, 40, 41, 42, 43};
 
-	/**
+	/*
 	 * Possible sprite states
 	 */
 	private static final short // sprite states
@@ -30,74 +29,53 @@ public class VampSprite
 			JUMP       = 3,
 			LAND       = 4;
 
-	/**
+	/*
 	 * Current state of the sprite
 	 */
 	private short state;
 
-	/**
+	/*
 	 * Width and height of frame
 	 */
 	private static final int // frame size in pixels
 			fWidth  = 60,
 			fHeight = 60;
 
-	/**
+	/*
 	 * Width and height of screen
 	 */
 	private int sWidth, sHeight;
 
-	/**
-	 * Gravity, how fast the sprite falls when jumping
+	/*
+	 * Gravity, how fast the sprite falls when in the air
 	 */
 	private int gravity = 10;
 
-	/**
+	/*
 	 * Horizontal and vertical speed
 	 */
 	private int dx, dy;
 	
-
-
 	/**
 	 * Initialize the sprite, load the image
 	 * Exits game if image cannot be loaded
 	 *
 	 * @param sWidth width of screen
 	 * @param sHeight height of screen
-	 */
-	public VampSprite(int sWidth, int sHeight)
-	{
-		try
-		{
-			// assign parameters to instance variables
-			this.sWidth  = sWidth;
-			this.sHeight = sHeight;
-
-			// load image and create sprite
-			Image img = Image.createImage("/img/BigVampireSpriteSheet02.png");
-			sprite = new Sprite(img, fWidth, fHeight);
-			sprite.setPosition(0, sHeight - fHeight);
-			sprite.defineReferencePixel(30, 30);
-
-			// set initial state to idle
-			this.setState(IDLE);
-		}
-		catch (IOException ex)
-		{
-			// error loading image! quit game
-			System.exit(1);
-		}
-	}
-
-	/**
-	 * Paints the sprite
 	 *
-	 * @param g Graphics to draw on
+	 * @exception IOException when images fail to load
 	 */
-	public void paint(Graphics g)
+	public VampSprite(int sWidth, int sHeight) throws IOException
 	{
-		sprite.paint(g);
+		super(Image.createImage("/img/BigVampireSpriteSheet02.png"), fWidth, fHeight);
+
+		this.sWidth  = sWidth;
+		this.sHeight = sHeight;
+
+		this.setPosition(0, sHeight - fHeight);
+		this.defineReferencePixel(30, 30);
+
+		this.setState(IDLE);
 	}
 
 	/**
@@ -105,7 +83,7 @@ public class VampSprite
 	 */
 	public void update()
     {
-		sprite.nextFrame();
+		this.nextFrame();
 	}
 
 	/**
@@ -118,16 +96,16 @@ public class VampSprite
 		switch (state)
 		{
 			case IDLE:
-				sprite.setFrameSequence(idle);
+				this.setFrameSequence(idle);
 				break;
 			case WALK:
-				sprite.setFrameSequence(walk);
+				this.setFrameSequence(walk);
 				break;
 			case JUMP:
-				sprite.setFrameSequence(jump);
+				this.setFrameSequence(jump);
 				break;
 			case LAND:
-				sprite.setFrameSequence(land);
+				this.setFrameSequence(land);
 				break;
 			default:
 				break;
@@ -144,8 +122,8 @@ public class VampSprite
 		if (this.state != WALK && this.state != JUMP && this.state != LAND)
 			this.setState(WALK);
 
-		sprite.setTransform(Sprite.TRANS_MIRROR);
-		sprite.move(-5, 0);
+		this.setTransform(Sprite.TRANS_MIRROR);
+		this.move(-5, 0);
 
 		if (this.state == JUMP || this.state == LAND)
 			this.jump();
@@ -159,8 +137,8 @@ public class VampSprite
 		if (this.state != WALK && this.state != JUMP && this.state != LAND)
 			this.setState(WALK);
 		
-		sprite.setTransform(Sprite.TRANS_NONE);
-		sprite.move(5, 0);
+		this.setTransform(Sprite.TRANS_NONE);
+		this.move(5, 0);
 
 		if (this.state == JUMP || this.state == LAND)
 			this.jump();
@@ -207,13 +185,13 @@ public class VampSprite
 		}
 
 		// move sprite vertically
-		sprite.move(0, dy);
+		this.move(0, dy);
 
 		// if done going down
-		if (sprite.getY() > sHeight - fHeight)
+		if (this.getY() > sHeight - fHeight)
 		{
 			// reset positon to ground
-			sprite.setPosition(sprite.getX(), sHeight - fHeight);
+			this.setPosition(this.getX(), sHeight - fHeight);
 
 			// change animation to idle
 			this.setState(IDLE);

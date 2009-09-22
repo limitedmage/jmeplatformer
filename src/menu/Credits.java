@@ -1,7 +1,7 @@
 package menu;
 
-import game.GameMidlet;
-import game.GameScreen;
+import main.GameMidlet;
+import main.GameScreen;
 import javax.microedition.lcdui.Graphics;
 
 /**

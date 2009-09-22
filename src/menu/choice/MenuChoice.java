@@ -1,6 +1,6 @@
 package menu.choice;
 
-import game.GameMidlet;
+import main.GameMidlet;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.midlet.MIDlet;
 

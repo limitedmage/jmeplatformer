@@ -1,5 +1,6 @@
-package game;
+package main;
 
+import main.GameMidlet;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
@@ -9,7 +10,7 @@ import javax.microedition.lcdui.game.GameCanvas;
  */
 public abstract class GameScreen extends GameCanvas implements Runnable
 {
-    /**
+    /*
      * Parent MIDlet
      */
     protected GameMidlet midlet;
