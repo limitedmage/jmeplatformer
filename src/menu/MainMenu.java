@@ -1,6 +1,6 @@
 package menu;
 
-import game.GameMidlet;
+import main.GameMidlet;
 import menu.choice.CreditsChoice;
 import menu.choice.EndGameChoice;
 import menu.choice.RunGameChoice;

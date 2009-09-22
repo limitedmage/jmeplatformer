@@ -1,15 +1,12 @@
 package game;
 
 import java.io.IOException;
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
 
-public class Background
+public class Background extends TiledLayer
 {
 
-	private Image image;
-	private TiledLayer layer;
 	private static final short rows = 12, columns = 24;
 	private static final short tileSize = 32;
 	private static final short[][] tileData = {
@@ -27,45 +24,25 @@ public class Background
 		{3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
 
+
 	/**
 	 * Creates new image for background from imagePath
-	 * @param imagePath path of background image
+	 * 
+	 * @exception IOException when images fail to load
 	 */
-	public Background()
+	public Background() throws IOException
 	{
-		try
-		{
-			image = Image.createImage("/img/Tiles1.png");
-			layer = new TiledLayer(columns, rows, image, tileSize, tileSize);
+		super(columns, rows, Image.createImage("/img/backgrounds/Tiles1.png"), tileSize, tileSize);
 
-			// fill tile data
-			for (int row = 0; row < rows; row++)
+		// fill tile data
+		for (int row = 0; row < rows; row++)
+		{
+			for (int col = 0; col < columns; col++)
 			{
-				for (int col = 0; col < columns; col++)
-				{
-					layer.setCell(col, row, tileData[row][col]);
-				}
+				this.setCell(col, row, tileData[row][col]);
 			}
-
-			layer.setPosition(0, 0);
 		}
-		catch (IOException ex)
-		{
-			ex.printStackTrace();
-			//unable to load images, quit game
-			System.out.println(ex.getMessage());
-			//System.exit(-1);
-		}
-	}
 
-	/**
-	 * Paints background image
-	 * @param g
-	 *
-	 */
-	public void paint(Graphics g)
-	{
-		System.out.println("Painting layer...");
-		layer.paint(g);
+		this.setPosition(0, 0);
 	}
 }

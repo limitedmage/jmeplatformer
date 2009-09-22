@@ -1,8 +1,8 @@
 package menu;
 
 import menu.choice.MenuChoice;
-import game.GameMidlet;
-import game.GameScreen;
+import main.GameMidlet;
+import main.GameScreen;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 

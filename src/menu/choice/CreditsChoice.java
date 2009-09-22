@@ -1,6 +1,6 @@
 package menu.choice;
 
-import game.GameMidlet;
+import main.GameMidlet;
 
 public class CreditsChoice extends MenuChoice
 {

@@ -1,7 +1,7 @@
 package menu.choice;
 
 import game.Game;
-import game.GameMidlet;
+import main.GameMidlet;
 
 public class RunGameChoice extends MenuChoice
 {

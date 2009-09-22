@@ -1,5 +1,8 @@
 package game;
 
+import main.GameScreen;
+import java.io.IOException;
+import main.GameMidlet;
 import javax.microedition.lcdui.Graphics;
 
 /**
@@ -7,19 +10,10 @@ import javax.microedition.lcdui.Graphics;
  */
 public class Game extends GameScreen
 {
-    /**
-     * Temporary main character sprite
-     */
 	private VampSprite sprite;
-
-    /**
-     * Temporary background
-     */
 	private Background background;
 
-    /**
-     * Number of entries,
-     */
+    // variables for fps calculation
 	private int entries;
 	private long startTime;
 	private int fps;
@@ -34,10 +28,17 @@ public class Game extends GameScreen
 		int width = getWidth();
 		int height = getHeight();
 
-		sprite = new VampSprite(width, height);
-		jumping = false;
+		try
+		{
+			sprite = new VampSprite(width, height);
+			background = new Background();
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
 
-		background = new Background();
+		jumping = false;
 
 		entries = 0;
 		startTime = System.currentTimeMillis();

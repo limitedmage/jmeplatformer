@@ -1,10 +1,14 @@
-package game;
+package main;
 
+import game.*;
 import menu.Credits;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.*;
 import menu.MainMenu;
 
+/**
+ * Main MIDlet class that manages which GameCanvas is shown.
+ */
 public class GameMidlet extends MIDlet
 {
 	private Game game;
