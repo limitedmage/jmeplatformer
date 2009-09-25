@@ -7,7 +7,7 @@ import javax.microedition.lcdui.game.GameCanvas;
  * GameScreen includes all the methods every screen in the game,
  * from menus to levels, should have
  */
-public abstract class GameScreen extends GameCanvas implements Runnable
+public abstract class GameScreen extends GameCanvas implements Runnable, Updateable
 {
     // Parent MIDlet
     protected GameMidlet midlet;
@@ -77,5 +77,5 @@ public abstract class GameScreen extends GameCanvas implements Runnable
      * Method that should update all game physics, input, etc
      * Should handle all game logic.
      */
-    protected abstract void update();
+    public abstract void update();
 }

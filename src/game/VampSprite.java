@@ -6,10 +6,8 @@ import javax.microedition.lcdui.game.Sprite;
 
 /**
  * Sprite class that represents a vampire
- * 
- * @author Juliana Peña <jpenao@gmail.com>
  */
-public class VampSprite extends Sprite
+public class VampSprite extends GameSprite
 {
 	/*
 	 * Sprite frame animation definitions
@@ -35,18 +33,6 @@ public class VampSprite extends Sprite
 	private short state;
 
 	/*
-	 * Width and height of frame
-	 */
-	private static final int // frame size in pixels
-			fWidth  = 60,
-			fHeight = 60;
-
-	/*
-	 * Width and height of screen
-	 */
-	private int sWidth, sHeight;
-
-	/*
 	 * Gravity, how fast the sprite falls when in the air
 	 */
 	private int gravity = 10;
@@ -67,10 +53,7 @@ public class VampSprite extends Sprite
 	 */
 	public VampSprite(int sWidth, int sHeight) throws IOException
 	{
-		super(Image.createImage("/img/BigVampireSpriteSheet02.png"), fWidth, fHeight);
-
-		this.sWidth  = sWidth;
-		this.sHeight = sHeight;
+		super("/img/characters/BigVampireSpriteSheet02.png", sWidth, sHeight, 60, 60);
 
 		this.setPosition(0, sHeight - fHeight);
 		this.defineReferencePixel(30, 30);

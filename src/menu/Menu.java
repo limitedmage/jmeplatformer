@@ -13,8 +13,6 @@ public class Menu extends GameScreen
 
 	private boolean menuChanged;
 
-	private Thread t;
-
 	/**
 	 * Creates a new menu
 	 */
@@ -99,7 +97,7 @@ public class Menu extends GameScreen
 	 * If Down pressed, selects next choice
 	 * If Fire pressed, executes currently selected choice
 	 */
-	protected void update()
+	public void update()
 	{
 		int keys = this.getKeyStates();
 		
