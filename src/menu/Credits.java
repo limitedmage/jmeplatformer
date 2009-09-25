@@ -29,7 +29,7 @@ public class Credits extends GameScreen
      * Updates the credits screen
      * Pressing any key exits back to main menu
      */
-	protected void update()
+	public void update()
 	{
 		// press any key to go back to main menu
 		if ((getKeyStates()) != 0)

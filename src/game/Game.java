@@ -52,7 +52,7 @@ public class Game extends GameScreen
 	{
 
 		// clear screen
-		g.setColor(0x00000000);
+		g.setColor(0);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		// paint background
@@ -68,7 +68,7 @@ public class Game extends GameScreen
     /**
      * Updates game input and physics
      */
-	protected void update()
+	public void update()
 	{
 		int keys = this.getKeyStates();
 
