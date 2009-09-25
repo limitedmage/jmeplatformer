@@ -1,5 +1,6 @@
 package game;
 
+import game.sprites.CharacterSprite;
 import main.GameScreen;
 import main.GameMidlet;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import javax.microedition.lcdui.Graphics;
  */
 public class Game extends GameScreen
 {
-	private VampSprite sprite;
+	private CharacterSprite sprite;
 	private Background background;
 
     // variables for fps calculation
@@ -30,7 +31,7 @@ public class Game extends GameScreen
 
 		try
 		{
-			sprite = new VampSprite(width, height);
+			sprite = new CharacterSprite(width, height);
 			background = new Background();
 		}
 		catch (IOException ex)
