@@ -1,5 +1,6 @@
 package game;
 
+import game.sprites.CharacterSprite;
 import java.io.IOException;
 import javax.microedition.lcdui.game.LayerManager;
 
@@ -20,7 +21,7 @@ public class GameManager extends LayerManager
 
 		try
 		{
-			append(new VampSprite(sWidth, sHeight));
+			append(new CharacterSprite(sWidth, sHeight));
 			append(new Background());
 		}
 		catch (IOException ex)

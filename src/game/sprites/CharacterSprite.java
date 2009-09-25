@@ -1,5 +1,6 @@
-package game;
+package game.sprites;
 
+import game.*;
 import java.io.IOException;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
@@ -7,7 +8,7 @@ import javax.microedition.lcdui.game.Sprite;
 /**
  * Sprite class that represents a vampire
  */
-public class VampSprite extends GameSprite
+public class CharacterSprite extends GameSprite
 {
 	/*
 	 * Sprite frame animation definitions
@@ -51,7 +52,7 @@ public class VampSprite extends GameSprite
 	 *
 	 * @exception IOException when images fail to load
 	 */
-	public VampSprite(int sWidth, int sHeight) throws IOException
+	public CharacterSprite(int sWidth, int sHeight) throws IOException
 	{
 		super("/img/characters/BigVampireSpriteSheet02.png", sWidth, sHeight, 60, 60);
 
