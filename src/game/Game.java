@@ -11,7 +11,7 @@ import javax.microedition.lcdui.Graphics;
  */
 public class Game extends GameScreen
 {
-	private CharacterSprite sprite;
+	private CharacterSprite mainChar;
 	private Background background;
 
     // variables for fps calculation
@@ -19,30 +19,35 @@ public class Game extends GameScreen
 	private long startTime;
 	private int fps;
 
-
 	private boolean jumping;
+
+	private int hWidth, hHeight; // half of screen width and height, used to calculate scrolling.
+
+	private final int walkSpeed;
 
 	public Game(GameMidlet midlet)
 	{
 		super(midlet);
 
-		int width = getWidth();
-		int height = getHeight();
-
 		try
 		{
-			sprite = new CharacterSprite(width, height);
-			background = new Background();
+			this.mainChar = new CharacterSprite(getWidth(), getHeight());
+			this.background = new Background();
 		}
 		catch (IOException ex)
 		{
 			ex.printStackTrace();
 		}
 
-		jumping = false;
+		this.hWidth = getWidth() / 2;
+		this.hHeight = getHeight() / 2;
 
-		entries = 0;
-		startTime = System.currentTimeMillis();
+		this.jumping = false;
+		
+		this.walkSpeed = 5;
+
+		this.entries = 0;
+		this.startTime = System.currentTimeMillis();
 	}
 
 	/**
@@ -56,11 +61,8 @@ public class Game extends GameScreen
 		g.setColor(0);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		// paint background
-		background.paint(g);
-
-		// paint sprite
-		sprite.paint(g);
+		this.background.paint(g);
+		this.mainChar.paint(g);
 
 		// calculate fps
 		this.calculateFps(g);
@@ -75,31 +77,31 @@ public class Game extends GameScreen
 
 		if ((keys & LEFT_PRESSED) != 0)
 		{
-			sprite.walkLeft();
+			this.moveLeft();
 		}
 		else if ((keys & RIGHT_PRESSED) != 0)
 		{
-			sprite.walkRight();
+			this.moveRight();
 		}
 		else
 		{
-			sprite.idle();
+			this.mainChar.idle();
 		}
 
 		if ((keys & UP_PRESSED) != 0)
 		{
-			if (!jumping)
+			if (!this.jumping)
 			{
-				sprite.jump();
-				jumping = true;
+				this.mainChar.jump();
+				this.jumping = true;
 			}
 		}
 		else
 		{
-			jumping = false;
+			this.jumping = false;
 		}
-        
-		sprite.update();
+
+		this.mainChar.update();
 
 	}
 
@@ -109,13 +111,45 @@ public class Game extends GameScreen
      */
 	private void calculateFps(Graphics g)
 	{
-		entries++;
-		if (startTime + 1000 <= System.currentTimeMillis())
+		this.entries++;
+		if (this.startTime + 1000 <= System.currentTimeMillis())
 		{
-			fps = entries;
-			entries = 0;
-			startTime = System.currentTimeMillis();
+			this.fps = this.entries;
+			this.entries = 0;
+			this.startTime = System.currentTimeMillis();
 		}
-		g.drawString("FPS: " + fps, 0, 0, 0);
+		g.setColor(0xffffff);
+		g.drawString("FPS: " + this.fps, 0, 0, 0);
+	}
+
+	private void moveLeft()
+	{
+		this.mainChar.walkLeft();
+
+		scroll(-this.walkSpeed);
+	}
+
+	private void moveRight()
+	{
+		this.mainChar.walkRight();
+
+		scroll(this.walkSpeed);
+	}
+
+	private void scroll(int speed)
+	{
+		if (this.mainChar.getX() - this.background.getX() < this.hWidth)
+		{
+			this.mainChar.move(speed, 0);
+		}
+		else if (this.mainChar.getX() - this.background.getX() > this.background.getWidth() - this.hWidth)
+		{
+			this.mainChar.move(speed, 0);
+		}
+		else
+		{
+			this.mainChar.setPosition(this.hWidth, this.mainChar.getY());
+			this.background.move(-speed, 0);
+		}
 	}
 }

@@ -1,8 +1,6 @@
 package game.sprites;
 
-import game.*;
 import java.io.IOException;
-import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
 
 /**
@@ -45,7 +43,6 @@ public class CharacterSprite extends GameSprite
 	
 	/**
 	 * Initialize the sprite, load the image
-	 * Exits game if image cannot be loaded
 	 *
 	 * @param sWidth width of screen
 	 * @param sHeight height of screen
@@ -107,7 +104,7 @@ public class CharacterSprite extends GameSprite
 			this.setState(WALK);
 
 		this.setTransform(Sprite.TRANS_MIRROR);
-		this.move(-5, 0);
+		//this.move(-5, 0);
 
 		if (this.state == JUMP || this.state == LAND)
 			this.jump();
@@ -122,7 +119,7 @@ public class CharacterSprite extends GameSprite
 			this.setState(WALK);
 		
 		this.setTransform(Sprite.TRANS_NONE);
-		this.move(5, 0);
+		//this.move(5, 0);
 
 		if (this.state == JUMP || this.state == LAND)
 			this.jump();
