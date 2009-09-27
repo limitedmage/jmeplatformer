@@ -11,6 +11,7 @@ import javax.microedition.lcdui.Graphics;
  */
 public class Game extends GameScreen
 {
+	// elements of the game
 	private CharacterSprite mainChar;
 	private Background background;
 
@@ -19,10 +20,13 @@ public class Game extends GameScreen
 	private long startTime;
 	private int fps;
 
+	// flag for jumping input handling
 	private boolean jumping;
 
-	private int hWidth, hHeight; // half of screen width and height, used to calculate scrolling.
+	// half of screen width and height, used to calculate scrolling.
+	private int hWidth, hHeight; 
 
+	// speed to move sprite
 	private final int walkSpeed;
 
 	public Game(GameMidlet midlet)
