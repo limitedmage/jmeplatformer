@@ -126,30 +126,41 @@ public class Game extends GameScreen
 	{
 		this.mainChar.walkLeft();
 
-		scroll(-this.walkSpeed);
+		scroll(-this.walkSpeed, 0);
 	}
 
 	private void moveRight()
 	{
 		this.mainChar.walkRight();
 
-		scroll(this.walkSpeed);
+		scroll(this.walkSpeed, 0);
 	}
 
-	private void scroll(int speed)
+	private void scroll(int dx, int dy)
 	{
-		if (this.mainChar.getX() - this.background.getX() < this.hWidth)
+		int spritePos = this.mainChar.getX() - this.background.getX();
+
+		// Scroll horizontally
+		if (spritePos < this.hWidth)
 		{
-			this.mainChar.move(speed, 0);
+			if (mainChar.getX() >= 0 || dx > 0)
+			{
+				this.mainChar.move(dx, 0);
+			}
 		}
-		else if (this.mainChar.getX() - this.background.getX() > this.background.getWidth() - this.hWidth)
+		else if (spritePos > this.background.getWidth() - this.hWidth)
 		{
-			this.mainChar.move(speed, 0);
+			if (spritePos + mainChar.getWidth() <= background.getWidth() || dx < 0)
+			{
+				this.mainChar.move(dx, 0);
+			}
 		}
 		else
 		{
 			this.mainChar.setPosition(this.hWidth, this.mainChar.getY());
-			this.background.move(-speed, 0);
+			this.background.move(-dx, 0);
 		}
+
+		// TODO: Scroll vertically
 	}
 }
