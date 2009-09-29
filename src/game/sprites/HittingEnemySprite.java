@@ -1,14 +1,12 @@
 package game.sprites;
 
 import java.io.IOException;
-import javax.microedition.lcdui.Image;
-
 
 public class HittingEnemySprite extends GameSprite
 {
 	//sprite animation definitions
 	private static final int[]
-			idle = {0, 1, 2, 3},
+			idle = {0, 0, 1, 1, 2, 2, 3, 3},
 			attack = {4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23},
 			stopAttack = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
@@ -21,14 +19,23 @@ public class HittingEnemySprite extends GameSprite
 
 	private int dx, dy;
 
-	public HittingEnemySprite(int sWidth, int sHeight) throws IOException
+	private long startTime;
+
+	public HittingEnemySprite(int sWidth, int sHeight, int posX, int posY) throws IOException
 	{
 		super("/img/characters/icecreamsheet.png", sWidth, sHeight, 60, 60);
 
-		this.setPosition(sWidth - fWidth, 0);
+		this.setPosition(posX, posY);
 		this.defineReferencePixel(30, 30);
 
 		this.setState(IDLE);
+
+		this.startTime = System.currentTimeMillis();
+	}
+
+	public HittingEnemySprite(int sWidth, int sHeight) throws IOException
+	{
+		this(sWidth, sHeight, sWidth - 60, 0);
 	}
 
 	private void setState(short state)
@@ -54,15 +61,32 @@ public class HittingEnemySprite extends GameSprite
 	public void update()
 	{
 		this.nextFrame();
+
+		// attack every 5 sec
+		if (this.startTime + 3000 <= System.currentTimeMillis())
+		{
+			this.attack();
+			this.startTime = System.currentTimeMillis();
+		}
+
+		// if at last frame of attacking, stop attacking
+		if (this.state == ATTACK && this.getFrame() == attack.length - 1)
+		{
+			this.setState(STOP_ATTACK);
+		}
+
+		// if at last frame of stop attacking, idle
+		if (this.state == STOP_ATTACK && this.getFrame() == stopAttack.length - 1)
+		{
+			this.setState(IDLE);
+		}
 	}
 
 	public void attack()
 	{
-		this.setState(ATTACK);
+		if (this.state == IDLE)
+		{
+			this.setState(ATTACK);
+		}
 	}
-
-	
-
-	
-
 }
