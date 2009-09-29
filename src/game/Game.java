@@ -1,6 +1,8 @@
 package game;
 
 import game.sprites.CharacterSprite;
+import game.sprites.GameSpriteGroup;
+import game.sprites.HittingEnemySprite;
 import main.GameScreen;
 import main.GameMidlet;
 import java.io.IOException;
@@ -29,22 +31,36 @@ public class Game extends GameScreen
 	// speed to move sprite
 	private final int walkSpeed;
 
+	// enemies group
+	private GameSpriteGroup enemies;
+
+	/**
+	 * Starts a new game
+	 * @param midlet - Parent MIDlet
+	 */
 	public Game(GameMidlet midlet)
 	{
 		super(midlet);
 
 		try
 		{
-			this.mainChar = new CharacterSprite(getWidth(), getHeight());
+			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight());
 			this.background = new Background();
+
+			// initialize enemies
+			this.enemies = new GameSpriteGroup();
+			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight()));
+			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight(), 20, 30));
+			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight(), 60, 30));
+			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight(), 80, 80));
 		}
 		catch (IOException ex)
 		{
 			ex.printStackTrace();
 		}
 
-		this.hWidth = getWidth() / 2;
-		this.hHeight = getHeight() / 2;
+		this.hWidth = this.getWidth() / 2;
+		this.hHeight = this.getHeight() / 2;
 
 		this.jumping = false;
 		
@@ -60,13 +76,13 @@ public class Game extends GameScreen
 	 */
 	public void paint(Graphics g)
 	{
-
 		// clear screen
 		g.setColor(0);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		this.background.paint(g);
 		this.mainChar.paint(g);
+		this.enemies.paint(g);
 
 		// calculate fps
 		this.calculateFps(g);
@@ -107,6 +123,8 @@ public class Game extends GameScreen
 
 		this.mainChar.update();
 
+		this.enemies.update();
+
 	}
 
     /**
@@ -126,6 +144,9 @@ public class Game extends GameScreen
 		g.drawString("FPS: " + this.fps, 0, 0, 0);
 	}
 
+	/**
+	 * Moves game screen to the left
+	 */
 	private void moveLeft()
 	{
 		this.mainChar.walkLeft();
@@ -133,6 +154,9 @@ public class Game extends GameScreen
 		scroll(-this.walkSpeed, 0);
 	}
 
+	/**
+	 * Moves game screen to the right
+	 */
 	private void moveRight()
 	{
 		this.mainChar.walkRight();
@@ -140,8 +164,14 @@ public class Game extends GameScreen
 		scroll(this.walkSpeed, 0);
 	}
 
+	/**
+	 * Scrolls the game screen relative to the character
+	 * @param dx - horizontal speed
+	 * @param dy - vertical speed
+	 */
 	private void scroll(int dx, int dy)
 	{
+		// get sprite horizontal position relative to the background
 		int spritePos = this.mainChar.getX() - this.background.getX();
 
 		// Scroll horizontally
@@ -154,7 +184,7 @@ public class Game extends GameScreen
 		}
 		else if (spritePos > this.background.getWidth() - this.hWidth)
 		{
-			if (spritePos + mainChar.getWidth() <= background.getWidth() || dx < 0)
+			if (spritePos + this.mainChar.getWidth() <= this.background.getWidth() || dx < 0)
 			{
 				this.mainChar.move(dx, 0);
 			}
@@ -163,6 +193,7 @@ public class Game extends GameScreen
 		{
 			this.mainChar.setPosition(this.hWidth, this.mainChar.getY());
 			this.background.move(-dx, 0);
+			this.enemies.move(-dx, 0);
 		}
 
 		// TODO: Scroll vertically
