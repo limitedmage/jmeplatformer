@@ -1,5 +1,7 @@
 package main;
 
+import javax.microedition.lcdui.Graphics;
+
 public interface Updateable
 {
 	/**

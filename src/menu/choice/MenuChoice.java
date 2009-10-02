@@ -2,7 +2,6 @@ package menu.choice;
 
 import main.GameMidlet;
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.midlet.MIDlet;
 
 public abstract class MenuChoice
 {
