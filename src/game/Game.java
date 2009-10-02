@@ -42,6 +42,8 @@ public class Game extends GameScreen
 	{
 		super(midlet);
 
+		int sWidth = this.getWidth(), sHeight = this.getHeight();
+
 		try
 		{
 			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight());
@@ -49,10 +51,13 @@ public class Game extends GameScreen
 
 			// initialize enemies
 			this.enemies = new GameSpriteGroup();
-			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight()));
-			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight(), 20, 30));
-			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight(), 60, 30));
-			this.enemies.add(new HittingEnemySprite(this.getWidth(), this.getHeight(), 80, 80));
+			this.enemies.add(new HittingEnemySprite(sWidth, sHeight));
+			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 20, 30));
+			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 60, 30));
+			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 80, 80));
+			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 200, 60));
+			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 300, 60));
+			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 600, 80));
 		}
 		catch (IOException ex)
 		{

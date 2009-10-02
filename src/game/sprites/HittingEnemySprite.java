@@ -85,9 +85,10 @@ public class HittingEnemySprite extends GameSprite
 	 */
 	public void update()
 	{
+		// loads next frame in sequence
 		this.nextFrame();
 
-		// attack every 5 sec
+		// if 5 seconds have passed since last attack, attack
 		if (this.startTime + 5000 <= System.currentTimeMillis())
 		{
 			this.attack();
