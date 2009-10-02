@@ -10,17 +10,26 @@ public class HittingEnemySprite extends GameSprite
 			attack = {4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23},
 			stopAttack = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
+	// sprite states
 	private static final short
 			IDLE = 1,
 			ATTACK = 2,
 			STOP_ATTACK = 3;
 
+	// current state
 	private short state;
 
-	private int dx, dy;
-
+	// time for attack timing
 	private long startTime;
 
+	/**
+	 * Creates a new enemy
+	 * @param sWidth - Screen width
+	 * @param sHeight - Screen height
+	 * @param posX - X position of the enemy
+	 * @param posY - Y position of the enemy
+	 * @throws IOException
+	 */
 	public HittingEnemySprite(int sWidth, int sHeight, int posX, int posY) throws IOException
 	{
 		super("/img/characters/icecreamsheet.png", sWidth, sHeight, 60, 60);
@@ -33,11 +42,21 @@ public class HittingEnemySprite extends GameSprite
 		this.startTime = System.currentTimeMillis();
 	}
 
+	/**
+	 * Creates a new enemy in the top right corner
+	 * @param sWidth - Screen width
+	 * @param sHeight - Screen height
+	 * @throws IOException - If enemy image data could not be loaded
+	 */
 	public HittingEnemySprite(int sWidth, int sHeight) throws IOException
 	{
 		this(sWidth, sHeight, sWidth - 60, 0);
 	}
 
+	/**
+	 * Changes the state of the sprite
+	 * @param state
+	 */
 	private void setState(short state)
 	{
 		switch (state)
@@ -58,12 +77,18 @@ public class HittingEnemySprite extends GameSprite
 		this.state = state;
 	}
 
+	/**
+	 * Updates the enemy
+	 * Loads next frame
+	 * Attacks every 5 seconds
+	 * Updates state
+	 */
 	public void update()
 	{
 		this.nextFrame();
 
 		// attack every 5 sec
-		if (this.startTime + 3000 <= System.currentTimeMillis())
+		if (this.startTime + 5000 <= System.currentTimeMillis())
 		{
 			this.attack();
 			this.startTime = System.currentTimeMillis();
@@ -82,6 +107,10 @@ public class HittingEnemySprite extends GameSprite
 		}
 	}
 
+	/**
+	 * Makes the enemy attack if it is idle
+	 * If enemy is not idle, does nothing
+	 */
 	public void attack()
 	{
 		if (this.state == IDLE)
