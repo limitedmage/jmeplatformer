@@ -15,6 +15,7 @@ public class Game extends GameScreen
 {
 	// elements of the game
 	private CharacterSprite mainChar;
+	private Foreground foreground;
 	private Background background;
 
     // variables for fps calculation
@@ -47,6 +48,7 @@ public class Game extends GameScreen
 		try
 		{
 			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight());
+			this.foreground = new Foreground();
 			this.background = new Background();
 
 			// initialize enemies
@@ -86,6 +88,7 @@ public class Game extends GameScreen
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 		this.background.paint(g);
+		this.foreground.paint(g);
 		this.mainChar.paint(g);
 		this.enemies.paint(g);
 
@@ -177,7 +180,7 @@ public class Game extends GameScreen
 	private void scroll(int dx, int dy)
 	{
 		// get sprite horizontal position relative to the background
-		int spritePos = this.mainChar.getX() - this.background.getX();
+		int spritePos = this.mainChar.getX() - this.foreground.getX();
 
 		// Scroll horizontally
 		if (spritePos < this.hWidth)
@@ -187,9 +190,9 @@ public class Game extends GameScreen
 				this.mainChar.move(dx, 0);
 			}
 		}
-		else if (spritePos > this.background.getWidth() - this.hWidth)
+		else if (spritePos > this.foreground.getWidth() - this.hWidth)
 		{
-			if (spritePos + this.mainChar.getWidth() <= this.background.getWidth() || dx < 0)
+			if (spritePos + this.mainChar.getWidth() <= this.foreground.getWidth() || dx < 0)
 			{
 				this.mainChar.move(dx, 0);
 			}
@@ -197,6 +200,7 @@ public class Game extends GameScreen
 		else
 		{
 			this.mainChar.setPosition(this.hWidth, this.mainChar.getY());
+			this.foreground.move(-dx, 0);
 			this.background.move(-dx, 0);
 			this.enemies.move(-dx, 0);
 		}
