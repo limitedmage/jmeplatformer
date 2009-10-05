@@ -74,7 +74,7 @@ public abstract class GameScreen extends GameCanvas implements Runnable, Updatea
 	public final void stop()
 	{
 		this.running = false;
-		if (this.thread != null && this.thread.isAlive())
+		if (this.thread != null)
 		{
 			this.thread.interrupt();
 		}
