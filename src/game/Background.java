@@ -33,8 +33,4 @@ public class Background implements Paintable
 	{
 		g.drawImage(this.image, this.x, this.y, 0);
 	}
-
-
-
-
 }

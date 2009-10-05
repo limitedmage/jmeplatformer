@@ -3,17 +3,24 @@ package main;
 import game.*;
 import menu.Credits;
 import javax.microedition.lcdui.Display;
-import javax.microedition.midlet.*;
+import javax.microedition.midlet.MIDlet;
 import menu.MainMenu;
 
 /**
- * Main MIDlet class that manages which GameCanvas is shown.
+ * Main MIDlet class that manages which GameScreen is shown and executed
  */
 public class GameMidlet extends MIDlet
 {
 	private Game game;
 	private MainMenu menu;
 	private Credits credits;
+
+	public GameMidlet()
+	{
+		this.game = new Game(this);
+		this.menu = new MainMenu(this);
+		this.credits = new Credits(this);
+	}
 
 	/**
 	 * Initialize game with main menu
@@ -29,9 +36,8 @@ public class GameMidlet extends MIDlet
 	public void startGame()
 	{
 		reset();
-		game = new Game(this);
-
-		game.start();
+		
+		this.game.start();
 		Display.getDisplay(this).setCurrent(game);
 	}
 
@@ -41,10 +47,8 @@ public class GameMidlet extends MIDlet
 	public void startMainMenu()
 	{
 		reset();
-
-		menu = new MainMenu(this);
 		
-		menu.start();
+		this.menu.start();
 		Display.getDisplay(this).setCurrent(menu);
 	}
 
@@ -55,9 +59,7 @@ public class GameMidlet extends MIDlet
 	{
 		reset();
 
-		credits = new Credits(this);
-
-		credits.start();
+		this.credits.start();
 		Display.getDisplay(this).setCurrent(credits);
 	}
 
@@ -83,8 +85,8 @@ public class GameMidlet extends MIDlet
 	 */
 	private void reset()
 	{
-		game = null;
-		credits = null;
-		menu = null;
+		this.game.stop();
+		this.credits.stop();
+		this.menu.stop();
 	}
 }
