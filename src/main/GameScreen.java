@@ -5,17 +5,20 @@ import javax.microedition.lcdui.game.GameCanvas;
 
 /**
  * GameScreen includes all the methods every screen in the game,
- * from menus to levels, should have
+ * from menus to levels, should have.
+ *
+ * Includes methods for painting, updating, and managing the GameScreen thread.
  */
 public abstract class GameScreen extends GameCanvas implements Runnable, Updateable
 {
     // Parent MIDlet
     protected GameMidlet midlet;
 
-    /**
-     * Game keeps running while this is true
-     */
+    // Game keeps running while this is true
     protected boolean running;
+
+	// Thread that runs the screen
+	protected Thread thread;
 
     /**
      * Initializes the screen
@@ -39,8 +42,9 @@ public abstract class GameScreen extends GameCanvas implements Runnable, Updatea
      */
     public final void start()
     {
-        Thread t = new Thread(this);
-        t.start();
+		this.running = true;
+        this.thread = new Thread(this);
+        this.thread.start();
     }
 
     /**
@@ -51,7 +55,7 @@ public abstract class GameScreen extends GameCanvas implements Runnable, Updatea
      */
     public final void run()
     {
-        while (true)
+        while (running)
 		{
 			update();
             repaint();
@@ -62,9 +66,19 @@ public abstract class GameScreen extends GameCanvas implements Runnable, Updatea
 			}
 			catch (InterruptedException e)
 			{
+				return;
 			}
-		}
+		}		
     }
+
+	public final void stop()
+	{
+		this.running = false;
+		if (this.thread != null && this.thread.isAlive())
+		{
+			this.thread.interrupt();
+		}
+	}
 
     /**
      * Method that should draw the screen.
