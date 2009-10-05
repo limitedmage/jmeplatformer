@@ -15,6 +15,9 @@ public class GameMidlet extends MIDlet
 	private MainMenu menu;
 	private Credits credits;
 
+	/**
+	 * Creates all the GameScreen objects
+	 */
 	public GameMidlet()
 	{
 		this.game = new Game(this);

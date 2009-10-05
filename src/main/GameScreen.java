@@ -38,7 +38,7 @@ public abstract class GameScreen extends GameCanvas implements Runnable, Updatea
 
     /**
      * Starts the execution of the screen
-     * by running a new thread
+     * by creating a new thread
      */
     public final void start()
     {
@@ -71,9 +71,13 @@ public abstract class GameScreen extends GameCanvas implements Runnable, Updatea
 		}		
     }
 
+	/**
+	 * Stops the excecution of the game screen.
+	 */
 	public final void stop()
 	{
 		this.running = false;
+		
 		if (this.thread != null)
 		{
 			this.thread.interrupt();
