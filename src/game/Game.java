@@ -103,6 +103,12 @@ public class Game extends GameScreen
 	{
 		int keys = this.getKeyStates();
 
+		// pausing?
+		if ((keys & GAME_A_PRESSED) != 0)
+		{
+			this.midlet.pauseGame();
+		}
+
 		if ((keys & LEFT_PRESSED) != 0)
 		{
 			this.moveLeft();
