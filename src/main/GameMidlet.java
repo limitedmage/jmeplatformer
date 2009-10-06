@@ -76,33 +76,38 @@ public class GameMidlet extends MIDlet
 
 	public void pauseGame()
 	{
-		if (game == null)
+		if (game != null)
 		{
-			throw new NullPointerException();
+			this.game.stop();
+
+			this.pauseMenu = new PauseMenu(this);
+			this.pauseMenu.start();
+			Display.getDisplay(this).setCurrent(pauseMenu);
 		}
-
-		this.game.stop();
-
-		this.pauseMenu = new PauseMenu(this);
-		this.pauseMenu.start();
-		Display.getDisplay(this).setCurrent(pauseMenu);
+		else
+		{
+			throw new GameDoesNotExistException();
+		}
 	}
 
 	public void resumeGame()
 	{
-		if (pauseMenu == null)
+		if (game != null)
 		{
-			this.pauseMenu.stop();
-			this.pauseMenu = null;
-		}
+			// destroy pause menu
+			if (pauseMenu == null)
+			{
+				this.pauseMenu = null;
+			}
 
-		if (game == null)
+			// restart game
+			this.game.start();
+			Display.getDisplay(this).setCurrent(game);
+		}
+		else
 		{
-			throw new NullPointerException();
+			throw new GameDoesNotExistException();
 		}
-
-		this.game.start();
-		Display.getDisplay(this).setCurrent(game);
 	}
 
     public void pauseApp()
@@ -127,16 +132,9 @@ public class GameMidlet extends MIDlet
 	 */
 	private void reset()
 	{
-		//this.game.stop();
 		this.game = null;
-
-		//this.mainMenu.stop();
 		this.mainMenu = null;
-
-		//this.credits.stop();
 		this.credits = null;
-
-		//this.pauseMenu.stop();
 		this.pauseMenu = null;
 	}
 }
