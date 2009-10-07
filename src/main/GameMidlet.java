@@ -74,6 +74,12 @@ public class GameMidlet extends MIDlet
 		Display.getDisplay(this).setCurrent(credits);
 	}
 
+	/**
+	 * Stops game excecution (does not destroy game) and
+	 * shows pause menu.
+	 *
+	 * @throws GameDoesNotExistException if there is no game to pause.
+	 */
 	public void pauseGame()
 	{
 		if (game != null)
@@ -90,6 +96,11 @@ public class GameMidlet extends MIDlet
 		}
 	}
 
+	/**
+	 * Resumes game excecution and destroys pause menu.
+	 *
+	 * @throws GameDoesNotExistException if there is no game to resume.
+	 */
 	public void resumeGame()
 	{
 		if (game != null)
