@@ -12,10 +12,10 @@ public class CharacterSprite extends GameSprite
 	 * Sprite frame animation definitions
 	 */
 	private static final int[] // frame animation sequences
-			idle       = {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3},
-			walk       = {9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 22, 23, 24, 25, 26},
-			jump       = {27, 28, 29, 30, 31, 32, 33},
-			land       = {36, 37, 38, 39, 40, 41, 42, 43};
+			idle       = {0},
+			walk       = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8},
+			jump       = {9},
+			attack	   = {10, 11};
 
 	/*
 	 * Possible sprite states
@@ -24,7 +24,7 @@ public class CharacterSprite extends GameSprite
 			IDLE       = 1,
 			WALK       = 2,
 			JUMP       = 3,
-			LAND       = 4;
+			ATTACK     = 4;
 
 	/*
 	 * Current state of the sprite
@@ -51,10 +51,10 @@ public class CharacterSprite extends GameSprite
 	 */
 	public CharacterSprite(int sWidth, int sHeight) throws IOException
 	{
-		super("/img/characters/BigVampireSpriteSheet02.png", sWidth, sHeight, 60, 60);
+		super("/img/characters/CharSprite.png", sWidth, sHeight, 45, 45);
 
 		this.setPosition(0, sHeight - fHeight);
-		this.defineReferencePixel(30, 30);
+		this.defineReferencePixel(22, 22);
 
 		this.setState(IDLE);
 	}
@@ -85,8 +85,8 @@ public class CharacterSprite extends GameSprite
 			case JUMP:
 				this.setFrameSequence(jump);
 				break;
-			case LAND:
-				this.setFrameSequence(land);
+			case ATTACK:
+				this.setFrameSequence(attack);
 				break;
 			default:
 				break;
@@ -100,13 +100,13 @@ public class CharacterSprite extends GameSprite
 	 */
 	public void walkLeft()
 	{
-		if (this.state != WALK && this.state != JUMP && this.state != LAND)
+		if (this.state != WALK && this.state != JUMP)
 			this.setState(WALK);
 
 		this.setTransform(Sprite.TRANS_MIRROR);
 		//this.move(-5, 0);
 
-		if (this.state == JUMP || this.state == LAND)
+		if (this.state == JUMP)
 			this.jump();
 	}
 
@@ -115,13 +115,13 @@ public class CharacterSprite extends GameSprite
 	 */
 	public void walkRight()
 	{
-		if (this.state != WALK && this.state != JUMP && this.state != LAND)
+		if (this.state != WALK && this.state != JUMP)
 			this.setState(WALK);
 		
 		this.setTransform(Sprite.TRANS_NONE);
 		//this.move(5, 0);
 
-		if (this.state == JUMP || this.state == LAND)
+		if (this.state == JUMP)
 			this.jump();
 	}
 
@@ -132,11 +132,11 @@ public class CharacterSprite extends GameSprite
 	public void idle()
 	{
         // if sprite is not jumping, use idle animation
-		if (this.state != IDLE && this.state != JUMP && this.state != LAND)
+		if (this.state != IDLE && this.state != JUMP)
 			this.setState(IDLE);
 
         // if sprite is jumping, use jump animation and calculate jump physics
-		if (this.state == JUMP || this.state == LAND)
+		if (this.state == JUMP)
 			this.jump();
 	}
 
@@ -146,7 +146,7 @@ public class CharacterSprite extends GameSprite
 	public void jump()
 	{
 		// if first jumping
-		if (this.state != JUMP && this.state != LAND)
+		if (this.state != JUMP)
 		{
 			// change animation to jump
 			this.setState(JUMP);
@@ -157,13 +157,6 @@ public class CharacterSprite extends GameSprite
 
 		// calculate gravity physics
 		dy += gravity;
-
-		// if done going up
-		if (dy > 0 && this.state != LAND)
-		{
-			// change animation to landing
-			this.setState(LAND);
-		}
 
 		// move sprite vertically
 		this.move(0, dy);
