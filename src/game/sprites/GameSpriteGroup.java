@@ -2,13 +2,14 @@ package game.sprites;
 
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
+import main.Paintable;
 import main.Updateable;
 
 /**
  * A class that represents a group of sprites that are
  * updated and drawn together *
  */
-public class GameSpriteGroup implements Updateable
+public class GameSpriteGroup implements Updateable, Paintable
 {
 	// the vector where the sprites are stored
 	private Vector spriteVec;
