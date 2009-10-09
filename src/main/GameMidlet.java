@@ -1,7 +1,6 @@
 package main;
 
 import game.*;
-import javax.microedition.io.PushRegistry;
 import menu.Credits;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
