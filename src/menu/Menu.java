@@ -6,6 +6,9 @@ import main.GameScreen;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 
+/**
+ * Describes a Menu as a list of MenuChoice
+ */
 public class Menu extends GameScreen
 {
 	private Vector choices;
