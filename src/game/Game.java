@@ -1,8 +1,10 @@
 package game;
 
+import game.sprites.Bullet;
 import game.sprites.CharacterSprite;
 import game.sprites.GameSpriteGroup;
 import game.sprites.HittingEnemySprite;
+import game.sprites.ShootingEnemySprite;
 import main.GameScreen;
 import main.GameMidlet;
 import java.io.IOException;
@@ -35,6 +37,9 @@ public class Game extends GameScreen
 	// enemies group
 	private GameSpriteGroup enemies;
 
+	// bullets group
+	private GameSpriteGroup bullets;
+
 	/**
 	 * Starts a new game
 	 * @param midlet - Parent MIDlet
@@ -53,13 +58,17 @@ public class Game extends GameScreen
 
 			// initialize enemies
 			this.enemies = new GameSpriteGroup();
-			this.enemies.add(new HittingEnemySprite(sWidth, sHeight));
+			//this.enemies.add(new HittingEnemySprite(sWidth, sHeight));
 			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 20, 30));
 			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 60, 30));
 			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 80, 80));
 			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 200, 60));
 			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 300, 60));
 			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 600, 80));
+
+			this.bullets = new GameSpriteGroup();
+
+			this.enemies.add(new ShootingEnemySprite(sWidth, sHeight, bullets));
 		}
 		catch (IOException ex)
 		{
@@ -87,10 +96,12 @@ public class Game extends GameScreen
 		g.setColor(0);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
+		// draw all game objects
 		this.background.paint(g);
 		this.foreground.paint(g);
 		this.mainChar.paint(g);
 		this.enemies.paint(g);
+		this.bullets.paint(g);
 
 		// calculate fps
 		this.calculateFps(g);
@@ -138,6 +149,7 @@ public class Game extends GameScreen
 		this.mainChar.update();
 
 		this.enemies.update();
+		this.bullets.update();
 
 	}
 
