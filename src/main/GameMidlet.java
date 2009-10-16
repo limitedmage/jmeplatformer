@@ -1,6 +1,6 @@
 package main;
 
-import game.*;
+import game.Game;
 import menu.Credits;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
@@ -12,29 +12,37 @@ import menu.PauseMenu;
  */
 public class GameMidlet extends MIDlet
 {
+	// game screen objects
 	private Game game;
 	private MainMenu mainMenu;
 	private Credits credits;
 	private PauseMenu pauseMenu;
 
+	// scores store
+	private HighScoreStore scores;
+
 	/**
-	 * Creates all the GameScreen objects
+	 * Initializes all objects to null
 	 */
 	public GameMidlet()
 	{
-		/*this.game = new Game(this);
-		this.mainMenu = new MainMenu(this);
-		this.credits = new Credits(this);
-		this.pauseMenu = new PauseMenu(this);
-		 */
+		this.reset();
 	}
 
 	/**
-	 * Initialize game with main menu
+	 * If game does not exist, initialize game with main menu
+	 * If game exists, show pause menu
 	 */
     public void startApp()
 	{
-		startMainMenu();
+		if (game == null)
+		{
+			this.startMainMenu();
+		}
+		else
+		{
+			this.pauseGame();
+		}
     }
 
 	/**
@@ -96,7 +104,7 @@ public class GameMidlet extends MIDlet
 	}
 
 	/**
-	 * Resumes game excecution and destroys pause menu.
+	 * Resumes game from pause and destroys pause menu.
 	 *
 	 * @throws GameDoesNotExistException if there is no game to resume.
 	 */
