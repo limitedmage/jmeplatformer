@@ -1,6 +1,6 @@
 package menu;
 
-import main.GameMidlet;
+import main.MainMidlet;
 import menu.choice.CreditsChoice;
 import menu.choice.EndGameChoice;
 import menu.choice.RunGameChoice;
@@ -12,7 +12,7 @@ import menu.choice.RunGameChoice;
 public class MainMenu extends Menu
 {
 
-    public MainMenu(GameMidlet midlet)
+    public MainMenu(MainMidlet midlet)
     {
         super(midlet);
         this.addChoice(new RunGameChoice());

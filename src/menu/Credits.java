@@ -1,13 +1,13 @@
 package menu;
 
-import main.GameMidlet;
-import main.GameScreen;
+import main.MainMidlet;
+import main.Screen;
 import javax.microedition.lcdui.Graphics;
 
 /**
  * A credits screen aknowledging all contributors
  */
-public class Credits extends GameScreen
+public class Credits extends Screen
 {
     /**
      * Credits text to be shown
@@ -18,7 +18,7 @@ public class Credits extends GameScreen
      * Creates a new Credits screen
      * @param midlet
      */
-	public Credits(GameMidlet midlet)
+	public Credits(MainMidlet midlet)
 	{
 		super(midlet);
 

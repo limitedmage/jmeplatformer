@@ -1,6 +1,6 @@
 package menu.choice;
 
-import main.GameMidlet;
+import main.MainMidlet;
 
 public class ContinueGameChoice extends MenuChoice
 {
@@ -10,7 +10,7 @@ public class ContinueGameChoice extends MenuChoice
 		super("Continue");
 	}
 
-	public void execute(GameMidlet midlet)
+	public void execute(MainMidlet midlet)
 	{
 		midlet.resumeGame();
 	}
