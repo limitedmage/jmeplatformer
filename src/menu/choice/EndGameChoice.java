@@ -1,6 +1,6 @@
 package menu.choice;
 
-import main.GameMidlet;
+import main.MainMidlet;
 
 public class EndGameChoice extends MenuChoice
 {
@@ -9,7 +9,7 @@ public class EndGameChoice extends MenuChoice
 		super("Exit game");
 	}
 
-	public void execute(GameMidlet midlet)
+	public void execute(MainMidlet midlet)
 	{
 		midlet.terminate();
 	}

@@ -1,6 +1,6 @@
 package menu;
 
-import main.GameMidlet;
+import main.MainMidlet;
 import menu.choice.BackToMainMenuChoice;
 import menu.choice.ContinueGameChoice;
 
@@ -14,7 +14,7 @@ public class PauseMenu extends Menu
 	 * Creates new PauseMenu
 	 * @param midlet - Parent MIDlet
 	 */
-	public PauseMenu(GameMidlet midlet)
+	public PauseMenu(MainMidlet midlet)
 	{
 		super(midlet);
 		

@@ -1,15 +1,15 @@
 package menu;
 
 import menu.choice.MenuChoice;
-import main.GameMidlet;
-import main.GameScreen;
+import main.MainMidlet;
+import main.Screen;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
 
 /**
  * Describes a Menu as a list of MenuChoice
  */
-public class Menu extends GameScreen
+public class Menu extends Screen
 {
 	private Vector choices;
 	private int selected;
@@ -19,7 +19,7 @@ public class Menu extends GameScreen
 	/**
 	 * Creates a new menu
 	 */
-	public Menu(GameMidlet midlet)
+	public Menu(MainMidlet midlet)
 	{
 		super(midlet);
 

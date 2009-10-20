@@ -1,6 +1,6 @@
 package menu.choice;
 
-import main.GameMidlet;
+import main.MainMidlet;
 
 public class CreditsChoice extends MenuChoice
 {
@@ -11,7 +11,7 @@ public class CreditsChoice extends MenuChoice
 	}
 
 
-	public void execute(GameMidlet midlet)
+	public void execute(MainMidlet midlet)
 	{
 		midlet.startCredits();
 	}

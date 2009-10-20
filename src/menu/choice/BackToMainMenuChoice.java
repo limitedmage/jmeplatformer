@@ -1,6 +1,6 @@
 package menu.choice;
 
-import main.GameMidlet;
+import main.MainMidlet;
 
 /**
  * A menu choice to return to main menu.
@@ -21,7 +21,7 @@ public class BackToMainMenuChoice extends MenuChoice
 	 *
 	 * @param midlet - GameMidlet that loads the main menu
 	 */
-	public void execute(GameMidlet midlet)
+	public void execute(MainMidlet midlet)
 	{
 		midlet.startMainMenu();
 	}

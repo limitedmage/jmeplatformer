@@ -1,6 +1,6 @@
 package menu.choice;
 
-import main.GameMidlet;
+import main.MainMidlet;
 
 public class RunGameChoice extends MenuChoice
 {
@@ -9,7 +9,7 @@ public class RunGameChoice extends MenuChoice
 		super("Start game");
 	}
 
-	public void execute(GameMidlet midlet)
+	public void execute(MainMidlet midlet)
 	{
 		midlet.startGame();
 	}

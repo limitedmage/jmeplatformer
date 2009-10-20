@@ -5,15 +5,15 @@ import game.sprites.CharacterSprite;
 import game.sprites.GameSpriteGroup;
 import game.sprites.HittingEnemySprite;
 import game.sprites.ShootingEnemySprite;
-import main.GameScreen;
-import main.GameMidlet;
+import main.Screen;
+import main.MainMidlet;
 import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 
 /**
  * The actual game!
  */
-public class Game extends GameScreen
+public class Game extends Screen
 {
 	// elements of the game
 	private CharacterSprite mainChar;
@@ -44,7 +44,7 @@ public class Game extends GameScreen
 	 * Starts a new game
 	 * @param midlet - Parent MIDlet
 	 */
-	public Game(GameMidlet midlet)
+	public Game(MainMidlet midlet)
 	{
 		super(midlet);
 
