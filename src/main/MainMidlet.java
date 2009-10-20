@@ -20,7 +20,7 @@ public class MainMidlet extends MIDlet
 	private PauseMenu pauseMenu;
 
 	// scores store
-	private HighScoreStore scores;
+	private HighScoreStore scoresStore;
 
 	/**
 	 * Initializes all objects to null
@@ -28,6 +28,9 @@ public class MainMidlet extends MIDlet
 	public MainMidlet()
 	{
 		this.reset();
+
+		// load scores
+		this.scoresStore = new HighScoreStore();
 	}
 
 	/**
@@ -135,6 +138,7 @@ public class MainMidlet extends MIDlet
 
     public void destroyApp(boolean unconditional)
 	{
+		this.scoresStore.close();
     }
 
 	/**
