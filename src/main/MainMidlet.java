@@ -150,7 +150,7 @@ public class MainMidlet extends MIDlet
 		this.notifyDestroyed();
 	}
 
-	/**
+	/*
 	 * Resets GameCanvas objects to null
 	 */
 	private void reset()
@@ -159,5 +159,10 @@ public class MainMidlet extends MIDlet
 		this.mainMenu = null;
 		this.credits = null;
 		this.pauseMenu = null;
+	}
+
+	public HighScoreStore getScores()
+	{
+		return this.scoresStore;
 	}
 }
