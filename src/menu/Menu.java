@@ -74,23 +74,24 @@ public class Menu extends Screen
 	 */
 	public void paint(Graphics g)
 	{
-		// clear screen
-
-		g.setColor(0x00000000);
-		g.fillRect(0, 0, getWidth(), getHeight());
-
-		int y = 0;
-		int x = 0;
-
-
 		int len = choices.size();
 
-		int dy = getHeight() / len;
-
-		for (int i = 0; i < len; i++)
+		if (len > 0)
 		{
-			((MenuChoice)choices.elementAt(i)).paint(g, x, y, i == selected);
-			y += dy;
+			// clear screen
+			g.setColor(0x00000000);
+			g.fillRect(0, 0, getWidth(), getHeight());
+
+			int y = 0;
+			int x = 0;
+			
+			int dy = getHeight() / len;
+
+			for (int i = 0; i < len; i++)
+			{
+				((MenuChoice)choices.elementAt(i)).paint(g, x, y, i == selected);
+				y += dy;
+			}
 		}
 	}
 
