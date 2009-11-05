@@ -25,6 +25,9 @@ public class HighScoreStore
 	private static final int POINTS_SIZE = 4;
 	private static final int TOTAL_SIZE = NAME_SIZE + POINTS_SIZE;
 
+	/**
+	 * Opens a record store and loads its data
+	 */
 	public HighScoreStore()
 	{
 		scores = new Vector();
@@ -59,7 +62,6 @@ public class HighScoreStore
 		{
 			score = (Score)scores.elementAt(i);
 
-			// for now, just add to the record
 			byte[] record = new byte[TOTAL_SIZE];
 			
 			HighScoreStore.packName(score, record);
@@ -77,16 +79,28 @@ public class HighScoreStore
 
 	}
 
+	/**
+	 * Loads the record store data
+	 */
 	public void load()
 	{
 		this.fillVector();		
 	}
 
+	/**
+	 * Return the number of scores stored
+	 * @return Number of scores stored
+	 */
 	public int size()
 	{
 		return this.scores.size();
 	}
 
+	/**
+	 * Return the score at the specified index
+	 * @param index - The index to search for
+	 * @return A string representing the high score stored at that index
+	 */
 	public String elementAt(int index)
 	{
 		return this.scores.elementAt(index).toString();
@@ -111,10 +125,16 @@ public class HighScoreStore
 		}
 	}
 
+	/**
+	 * Adds a high score
+	 * @param name
+	 * @param points
+	 */
 	public void add(String name, int points)
 	{
 		this.scores.addElement(new Score(name, points));
 		this.sortAndTrim();
+		this.save();
 	}
 
 	/**
@@ -136,6 +156,9 @@ public class HighScoreStore
 		}
 	}
 
+	/*
+	 * Loads the record store content into the vector
+	 */
 	private void fillVector()
 	{
         try
@@ -160,12 +183,22 @@ public class HighScoreStore
 
 	}
 
+	/*
+	 * Unpacks the name from the record bytes
+	 * @param recordBytes
+	 * @return
+	 */
 	private static String unpackName(byte[] recordBytes)
 	{
 		String s = new String(recordBytes, 0, NAME_SIZE);
         return s.substring(0, s.indexOf(0));
 	}
 
+	/*
+	 * Unpacks the points from the record bytes
+	 * @param recordBytes
+	 * @return
+	 */
 	private static int unpackPoints(byte[] recordBytes)
 	{
 		int points = 0;
@@ -188,6 +221,11 @@ public class HighScoreStore
         return points;
 	}
 
+	/*
+	 * Packs the name into bytes
+	 * @param score
+	 * @param record
+	 */
 	private static void packName(Score score, byte[] record)
 	{
 		int len = score.name.length();
@@ -198,6 +236,11 @@ public class HighScoreStore
 		}
 	}
 
+	/*
+	 * Packs the points into bytes
+	 * @param score
+	 * @param record
+	 */
 	private static void packPoints(Score score, byte[] record)
 	{
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream(POINTS_SIZE);
@@ -253,6 +296,10 @@ public class HighScoreStore
 		}
 	}
 
+	/*
+	 * Class that represents a score
+	 * with name and points
+	 */
 	private class Score
 	{
 		public String name;
