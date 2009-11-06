@@ -1,5 +1,7 @@
 package game.sprites;
 
+import game.Foreground;
+import game.Game;
 import java.io.IOException;
 import javax.microedition.lcdui.game.Sprite;
 
@@ -8,37 +10,36 @@ import javax.microedition.lcdui.game.Sprite;
  */
 public class CharacterSprite extends GameSprite
 {
-	/*
-	 * Sprite frame animation definitions
-	 */
+	// Foreground for collision detection
+	private Foreground foreground;
+
+	// parent game
+	private Game game;
+
+	// Sprite frame animation definitions
 	private static final int[] // frame animation sequences
 			idle       = {0},
 			walk       = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8},
 			jump       = {9},
 			attack	   = {10, 11};
 
-	/*
-	 * Possible sprite states
-	 */
+	// Possible sprite states
 	private static final short // sprite states
 			IDLE       = 1,
 			WALK       = 2,
 			JUMP       = 3,
 			ATTACK     = 4;
 
-	/*
-	 * Current state of the sprite
-	 */
+	// Current state of the sprite
 	private short state;
 
-	/*
-	 * Gravity, how fast the sprite falls when in the air
-	 */
-	private int gravity = 10;
+	// Gravity, how fast the sprite falls when in the air
+	private static final int gravity = 5;
 
-	/*
-	 * Horizontal and vertical speed
-	 */
+	// Initial jumping speed
+	private static final int jumpSpeed = -30;
+
+	// Horizontal and vertical speed
 	private int dx, dy;
 	
 	/**
@@ -49,14 +50,23 @@ public class CharacterSprite extends GameSprite
 	 *
 	 * @exception IOException when images fail to load
 	 */
-	public CharacterSprite(int sWidth, int sHeight) throws IOException
+	public CharacterSprite(int sWidth, int sHeight, Game game, Foreground foreground) throws IOException
 	{
 		super("/img/characters/CharSprite.png", sWidth, sHeight, 45, 45);
 
-		this.setPosition(0, sHeight - fHeight);
+		// start at an arbitrary position
+		this.setPosition(20, 20);
+
+		// define reference pixel as center of sprite
 		this.defineReferencePixel(22, 22);
 
+		// define collision rectangle as character's feet
+		this.defineCollisionRectangle(9, 40, 23, 5);
+
 		this.setState(IDLE);
+
+		this.foreground = foreground;
+		this.game = game;
 	}
 
 	/**
@@ -104,10 +114,18 @@ public class CharacterSprite extends GameSprite
 			this.setState(WALK);
 
 		this.setTransform(Sprite.TRANS_MIRROR);
-		//this.move(-5, 0);
 
 		if (this.state == JUMP)
+		{
 			this.jump();
+			return;
+		}
+
+		if (!this.onPlatform())
+		{
+			this.dy = 0;
+			this.fall();
+		}
 	}
 
 	/**
@@ -119,10 +137,18 @@ public class CharacterSprite extends GameSprite
 			this.setState(WALK);
 		
 		this.setTransform(Sprite.TRANS_NONE);
-		//this.move(5, 0);
 
 		if (this.state == JUMP)
+		{
 			this.jump();
+			return;
+		}
+
+		if (!this.onPlatform())
+		{
+			this.dy = 0;
+			this.fall();
+		}
 	}
 
 	/**
@@ -137,7 +163,35 @@ public class CharacterSprite extends GameSprite
 
         // if sprite is jumping, use jump animation and calculate jump physics
 		if (this.state == JUMP)
+		{
 			this.jump();
+			return;
+		}
+
+		if (!this.onPlatform())
+		{
+			this.dy = 0;
+			this.fall();
+		}
+
+	}
+
+	public boolean onPlatform()
+	{
+		boolean belowForeground = this.getY() > foreground.getY() + foreground.getHeight() - fHeight;
+
+
+		boolean before = this.collidesWith(foreground, false);
+
+		// move one pixel down
+		this.move(0, 1);
+
+		boolean on = this.collidesWith(foreground, false);
+
+		//restore position
+		this.move(0, -1);
+
+		return (!before && on) || belowForeground;
 	}
 
 	/**
@@ -152,25 +206,47 @@ public class CharacterSprite extends GameSprite
 			this.setState(JUMP);
 
 			// negative vertical velocity for moving up
-			dy = -50;
+			dy = jumpSpeed;
+		}
+
+		this.fall();
+	}
+	
+	public void fall()
+	{
+		// if first jumping
+		if (this.state != JUMP)
+		{
+			// change animation to jump
+			this.setState(JUMP);
 		}
 
 		// calculate gravity physics
 		dy += gravity;
-
-		// move sprite vertically
-		this.move(0, dy);
-
-		// if done going down
-		if (this.getY() > sHeight - fHeight)
+		System.out.println(dy);
+		
+		if (dy > 0)
 		{
-			// reset positon to ground
-			this.setPosition(this.getX(), sHeight - fHeight);
-
-			// change animation to idle
-			this.setState(IDLE);
+			// if moving down, check if collided with platform by falling pixel by pixel
+			for (int pixels = 0; pixels < dy; pixels++)
+			{
+				game.verticalScroll(1);
+				if (this.onPlatform())
+				{
+					this.dy = 0;
+					this.setState(IDLE);
+					break;
+				}
+			}
 		}
+		else if (dy < 0)
+		{
+			// if moving up, just move sprite vertically
+			for (int pixels = 0; pixels < -dy; pixels++)
+			{
+				game.verticalScroll(-1);
+			}
+		}
+
 	}
-
-
 }
