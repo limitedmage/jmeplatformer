@@ -1,13 +1,20 @@
 package game;
 
+import game.sprites.EndMarker;
 import game.sprites.Bullet;
 import game.sprites.CharacterSprite;
 import game.sprites.GameSpriteGroup;
 import game.sprites.HittingEnemySprite;
 import game.sprites.ShootingEnemySprite;
+import javax.microedition.lcdui.Command;
+import javax.microedition.lcdui.Displayable;
 import main.Screen;
 import main.MainMidlet;
 import java.io.IOException;
+import javax.microedition.lcdui.Alert;
+import javax.microedition.lcdui.AlertType;
+import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Graphics;
 
 /**
@@ -19,6 +26,7 @@ public class Game extends Screen
 	private CharacterSprite mainChar;
 	private Foreground foreground;
 	private Background background;
+	private EndMarker endMarker;
 
     // variables for fps calculation
 	private int entries;
@@ -54,6 +62,7 @@ public class Game extends Screen
 		{
 			this.foreground = new Foreground(this.getWidth(), this.getHeight());
 			this.background = new Background();
+			this.endMarker = new EndMarker(sWidth, sHeight);
 
 			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight(), this, this.foreground);
 
@@ -70,6 +79,7 @@ public class Game extends Screen
 			this.bullets = new GameSpriteGroup();
 
 			this.enemies.add(new ShootingEnemySprite(sWidth, sHeight, bullets));
+
 		}
 		catch (IOException ex)
 		{
@@ -100,6 +110,7 @@ public class Game extends Screen
 		// draw all game objects
 		this.background.paint(g);
 		this.foreground.paint(g);
+		this.endMarker.paint(g);
 		this.mainChar.paint(g);
 		this.enemies.paint(g);
 		this.bullets.paint(g);
@@ -147,6 +158,8 @@ public class Game extends Screen
 		{
 			this.jumping = false;
 		}
+
+		this.checkWon();
 
 		this.mainChar.update();
 		this.enemies.update();
@@ -233,6 +246,7 @@ public class Game extends Screen
 			this.foreground.move(-dx, 0);
 			this.background.move(-dx, 0);
 			this.enemies.move(-dx, 0);
+			this.endMarker.move(-dx, 0);
 		}
 	}
 
@@ -261,6 +275,31 @@ public class Game extends Screen
 			this.foreground.move(0, -dy);
 			this.background.move(0, -dy);
 			this.enemies.move(0, -dy);
+			this.endMarker.move(0, -dy);
+		}
+	}
+
+	public void checkWon()
+	{
+		if (this.mainChar.collidesWith(this.endMarker, false))
+		{
+			midlet.getScores().add("Ak", 200);
+			Alert a = new Alert("Ganaste!!", "High Score!", null, AlertType.ALARM);
+			a.setTimeout(Alert.FOREVER);
+			a.setCommandListener(new GameWonAlertCommandListener());
+			Display.getDisplay(midlet).setCurrent(a, this);
+			
+		}
+	}
+
+	class GameWonAlertCommandListener implements CommandListener
+	{
+		public void commandAction(Command c, Displayable d)
+		{
+			if (c.getCommandType() == Command.OK)
+			{
+				Game.this.midlet.startMainMenu();
+			}
 		}
 	}
 }
