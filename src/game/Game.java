@@ -52,9 +52,10 @@ public class Game extends Screen
 
 		try
 		{
-			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight());
 			this.foreground = new Foreground();
 			this.background = new Background();
+
+			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight(), this, this.foreground);
 
 			// initialize enemies
 			this.enemies = new GameSpriteGroup();
@@ -120,6 +121,7 @@ public class Game extends Screen
 			this.midlet.pauseGame();
 		}
 
+		
 		if ((keys & LEFT_PRESSED) != 0)
 		{
 			this.moveLeft();
@@ -147,7 +149,6 @@ public class Game extends Screen
 		}
 
 		this.mainChar.update();
-
 		this.enemies.update();
 		this.bullets.update();
 
@@ -177,7 +178,7 @@ public class Game extends Screen
 	{
 		this.mainChar.walkLeft();
 
-		scroll(-this.walkSpeed, 0);
+		horizontalScroll(-this.walkSpeed);
 	}
 
 	/**
@@ -187,7 +188,7 @@ public class Game extends Screen
 	{
 		this.mainChar.walkRight();
 
-		scroll(this.walkSpeed, 0);
+		horizontalScroll(this.walkSpeed);
 	}
 
 	/**
@@ -195,22 +196,33 @@ public class Game extends Screen
 	 * @param dx - horizontal speed
 	 * @param dy - vertical speed
 	 */
-	private void scroll(int dx, int dy)
+	public void scroll(int dx, int dy)
 	{
-		// get sprite horizontal position relative to the background
-		int spritePos = this.mainChar.getX() - this.foreground.getX();
+		horizontalScroll(dx);
+		verticalScroll(dy);
+	}
+	
+	public void horizontalScroll(int dx)
+	{
+		/** Horizontal Scroll **/
 
-		// Scroll horizontally
-		if (spritePos < this.hWidth)
+		// get sprite horizontal position relative to the background
+		int spritePosX = this.mainChar.getX() - this.foreground.getX();
+
+		// if at first half of screen
+		if (spritePosX < this.hWidth)
 		{
+			// if going right
 			if (mainChar.getX() >= 0 || dx > 0)
 			{
 				this.mainChar.move(dx, 0);
 			}
 		}
-		else if (spritePos > this.foreground.getWidth() - this.hWidth)
+		// if at last half of screen
+		else if (spritePosX > this.foreground.getWidth() - this.hWidth)
 		{
-			if (spritePos + this.mainChar.getWidth() <= this.foreground.getWidth() || dx < 0)
+			// if going left
+			if (spritePosX + this.mainChar.getWidth() <= this.foreground.getWidth() || dx < 0)
 			{
 				this.mainChar.move(dx, 0);
 			}
@@ -222,7 +234,33 @@ public class Game extends Screen
 			this.background.move(-dx, 0);
 			this.enemies.move(-dx, 0);
 		}
+	}
 
-		// TODO: Scroll vertically
+	public void verticalScroll(int dy)
+	{
+		/** Vertical Scroll **/
+		// get sprite horizontal position relative to the background
+		int spritePosY = this.mainChar.getY() - this.foreground.getY();
+		if (spritePosY < this.hHeight)
+		{
+			if (spritePosY >= 0 || dy > 0)
+			{
+				this.mainChar.move(0, dy);
+			}
+		}
+		else if (spritePosY > this.foreground.getHeight() - this.hHeight)
+		{
+			if (spritePosY + this.mainChar.getHeight() <= this.foreground.getHeight() || dy < 0)
+			{
+				this.mainChar.move(0, dy);
+			}
+		}
+		else
+		{
+			this.mainChar.setPosition(this.mainChar.getX(), this.hHeight);
+			this.foreground.move(0, -dy);
+			this.background.move(0, -dy);
+			this.enemies.move(0, -dy);
+		}
 	}
 }
