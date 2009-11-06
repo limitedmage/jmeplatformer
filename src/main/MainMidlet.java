@@ -2,6 +2,7 @@ package main;
 
 import highscores.HighScoreStore;
 import game.Game;
+import highscores.HighScoreScreen;
 import menu.Credits;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
@@ -9,15 +10,20 @@ import menu.MainMenu;
 import menu.PauseMenu;
 
 /**
- * Main MIDlet class that manages which GameScreen is shown and executed
+ * Main MIDlet class that manages which Screen is shown and executed
  */
 public class MainMidlet extends MIDlet
 {
-	// game screen objects
+	// screen objects
 	private Game game;
 	private MainMenu mainMenu;
 	private Credits credits;
 	private PauseMenu pauseMenu;
+	private HighScoreScreen highScores;
+	private SplashScreen splash;
+
+	// screen stored when game interrupted
+	private Screen interruptedScreen;
 
 	// scores store
 	private HighScoreStore scoresStore;
@@ -34,18 +40,24 @@ public class MainMidlet extends MIDlet
 	}
 
 	/**
-	 * If game does not exist, initialize game with main menu
-	 * If game exists, show pause menu
+	 * Initialized game
+	 * If game exists, pause game and show pause menu.
+	 * Else, if there is a screen stored when interrupted, show that screen.
+	 * Else, show the main menu.
 	 */
     public void startApp()
 	{
-		if (game == null)
+		if (this.game != null)
 		{
-			this.startMainMenu();
+			this.pauseGame();
+		}
+		else if (this.interruptedScreen != null)
+		{
+			Display.getDisplay(this).setCurrent(this.interruptedScreen);
 		}
 		else
 		{
-			this.pauseGame();
+			this.startSplash();
 		}
     }
 
@@ -58,7 +70,7 @@ public class MainMidlet extends MIDlet
 
 		this.game = new Game(this);
 		this.game.start();
-		Display.getDisplay(this).setCurrent(game);
+		Display.getDisplay(this).setCurrent(this.game);
 	}
 
 	/**
@@ -70,7 +82,19 @@ public class MainMidlet extends MIDlet
 
 		this.mainMenu = new MainMenu(this);
 		this.mainMenu.start();
-		Display.getDisplay(this).setCurrent(mainMenu);
+		Display.getDisplay(this).setCurrent(this.mainMenu);
+	}
+
+	/**
+	 * Creates and displays the splash screen
+	 */
+	public void startSplash()
+	{
+		this.reset();
+
+		this.splash = new SplashScreen(this);
+		this.splash.start();
+		Display.getDisplay(this).setCurrent(this.splash);
 	}
 
 	/**
@@ -82,7 +106,16 @@ public class MainMidlet extends MIDlet
 
 		this.credits = new Credits(this);
 		this.credits.start();
-		Display.getDisplay(this).setCurrent(credits);
+		Display.getDisplay(this).setCurrent(this.credits);
+	}
+
+	public void startHighScores()
+	{
+		this.reset();
+
+		this.highScores = new HighScoreScreen(this);
+		this.highScores.start();
+		Display.getDisplay(this).setCurrent(this.highScores);
 	}
 
 	/**
@@ -99,7 +132,7 @@ public class MainMidlet extends MIDlet
 
 			this.pauseMenu = new PauseMenu(this);
 			this.pauseMenu.start();
-			Display.getDisplay(this).setCurrent(pauseMenu);
+			Display.getDisplay(this).setCurrent(this.pauseMenu);
 		}
 		else
 		{
@@ -134,6 +167,7 @@ public class MainMidlet extends MIDlet
 
     public void pauseApp()
 	{
+		this.interruptedScreen = (Screen)Display.getDisplay(this).getCurrent();
     }
 
     public void destroyApp(boolean unconditional)
@@ -151,14 +185,47 @@ public class MainMidlet extends MIDlet
 	}
 
 	/*
-	 * Resets GameCanvas objects to null
+	 * Resets Screen objects to null
 	 */
 	private void reset()
 	{
-		this.game = null;
-		this.mainMenu = null;
-		this.credits = null;
-		this.pauseMenu = null;
+		if (this.game != null)
+		{
+			this.game.stop();
+			this.game = null;
+		}
+
+		if (this.mainMenu != null)
+		{
+			this.mainMenu.stop();
+			this.mainMenu = null;
+		}
+		
+		if (this.credits != null)
+		{
+			this.credits.stop();
+			this.credits = null;
+		}
+
+		if (this.pauseMenu != null)
+		{
+			this.pauseMenu.stop();
+			this.pauseMenu = null;
+		}
+
+		if (this.highScores != null)
+		{
+			this.highScores.stop();
+			this.highScores = null;
+		}
+
+		if (this.splash != null)
+		{
+			this.splash.stop();
+			this.splash = null;
+		}
+		
+		this.interruptedScreen = null;
 	}
 
 	public HighScoreStore getScores()
