@@ -15,12 +15,13 @@ import menu.PauseMenu;
 public class MainMidlet extends MIDlet
 {
 	// screen objects
-	private Game game;
-	private MainMenu mainMenu;
-	private Credits credits;
-	private PauseMenu pauseMenu;
-	private HighScoreScreen highScores;
-	private SplashScreen splash;
+	private Screen
+			game,
+			mainMenu,
+			credits,
+			pauseMenu,
+			highScores,
+			splash;
 
 	// screen stored when game interrupted
 	private Screen interruptedScreen;
@@ -29,7 +30,8 @@ public class MainMidlet extends MIDlet
 	private HighScoreStore scoresStore;
 
 	/**
-	 * Initializes all objects to null
+	 * Initializes all screens to null
+	 * and opens the HighScoreStore
 	 */
 	public MainMidlet()
 	{
@@ -109,6 +111,9 @@ public class MainMidlet extends MIDlet
 		Display.getDisplay(this).setCurrent(this.credits);
 	}
 
+	/**
+	 * Creates high scores screen and displays it
+	 */
 	public void startHighScores()
 	{
 		this.reset();
@@ -165,11 +170,20 @@ public class MainMidlet extends MIDlet
 		}
 	}
 
+	/**
+	 * Called when game interrupted by ie. calls
+	 * Stores the interrupted screen for restoring later
+	 */
     public void pauseApp()
 	{
 		this.interruptedScreen = (Screen)Display.getDisplay(this).getCurrent();
     }
 
+	/**
+	 * Called when game exits
+	 * Closes the HighScoreStore
+	 * @param unconditional
+	 */
     public void destroyApp(boolean unconditional)
 	{
 		this.scoresStore.close();
@@ -228,6 +242,10 @@ public class MainMidlet extends MIDlet
 		this.interruptedScreen = null;
 	}
 
+	/**
+	 * Returns the game's HighScoreStore object for managing scores.
+	 * @return the game's HighScoreStore
+	 */
 	public HighScoreStore getScores()
 	{
 		return this.scoresStore;
