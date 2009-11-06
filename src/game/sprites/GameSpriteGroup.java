@@ -7,7 +7,8 @@ import main.Updateable;
 
 /**
  * A class that represents a group of sprites that are
- * updated and drawn together *
+ * updated and drawn together
+ * Internally it is wrapped around a Vector
  */
 public class GameSpriteGroup implements Updateable, Paintable
 {

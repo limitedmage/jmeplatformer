@@ -6,9 +6,6 @@ import javax.microedition.lcdui.game.TiledLayer;
 
 public class Foreground extends TiledLayer
 {
-	// screen width and height
-	private int sWidth, sHeight;
-
 	private static final short rows = 20, columns = 66;
 	private static final short tileSize = 16;
 	private static final short[][] tileData = {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -72,14 +69,12 @@ public class Foreground extends TiledLayer
     2, 2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 5, 7, 7, 7, 7, 8, 0, 0, 1, 3, 0, 0,
     1, 3, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3}};
 
-
-
 	/**
 	 * Creates new image for background from imagePath
 	 * 
 	 * @exception IOException when images fail to load
 	 */
-	public Foreground(int sWidth, int sHeight) throws IOException
+	public Foreground() throws IOException
 	{
 		super(columns, rows, Image.createImage("/img/backgrounds/nivel1_tiles.png"), tileSize, tileSize);
 

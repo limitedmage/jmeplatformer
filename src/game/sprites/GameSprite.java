@@ -10,12 +10,6 @@ import main.Updateable;
  */
 public abstract class GameSprite extends Sprite implements Updateable
 {
-	// screen width and height
-	protected int sWidth, sHeight;
-
-	// frame width and height
-	protected int fWidth, fHeight;
-
 	/**
 	 * Creates a new GameSprite.
 	 * 
@@ -26,12 +20,8 @@ public abstract class GameSprite extends Sprite implements Updateable
 	 * @param fHeight - frame height
 	 * @throws IOException - if image could not be loaded
 	 */
-	public GameSprite(String imgPath, int sWidth, int sHeight, int fWidth, int fHeight) throws IOException
+	public GameSprite(String imgPath, int fWidth, int fHeight) throws IOException
 	{
 		super(Image.createImage(imgPath), fWidth, fHeight);
-		this.sWidth = sWidth;
-		this.sHeight = sHeight;
-		this.fWidth = fWidth;
-		this.fHeight = fHeight;
 	}
 }
