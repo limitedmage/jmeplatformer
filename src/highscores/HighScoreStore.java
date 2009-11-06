@@ -6,6 +6,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Vector;
+import javax.microedition.rms.RecordComparator;
+import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 
@@ -18,6 +20,7 @@ public class HighScoreStore
 {
 	private RecordStore store;
 	private Vector scores;
+	private RecordEnumeration enumerator;
 	
 	private static final int MAX_SCORES = 5;
 
@@ -30,15 +33,16 @@ public class HighScoreStore
 	 */
 	public HighScoreStore()
 	{
-		scores = new Vector();
+		this.scores = new Vector();
 
 		try
 		{
-			store = RecordStore.openRecordStore("MetalVsPopHighScores", true);
+			this.store = RecordStore.openRecordStore("MetalVsPopHighScores", true);
+			this.enumerator = this.store.enumerateRecords(null, null, true);
 		}
 		catch (RecordStoreException ex)
 		{
-			// error opening record store
+			System.out.println("Error opening scores");
 		}
 
 		this.load();
@@ -73,7 +77,7 @@ public class HighScoreStore
 			}
 			catch (RecordStoreException ex)
 			{
-				ex.printStackTrace();
+				System.out.println("Error saving scores");
 			}
 		}
 
@@ -107,22 +111,31 @@ public class HighScoreStore
 	}
 
 	/**
-	 * Clears all records
+	 * Clears all records in the RecordStore (does not delete them from the vector)
 	 */
 	public void clear()
 	{
 		try
 		{
-			int len = store.getNumRecords();
-			for (int i = 0; i < len; i++)
+			this.enumerator.reset();
+			while (this.enumerator.hasNextElement())
 			{
-				store.deleteRecord(i);
+				store.deleteRecord(this.enumerator.nextRecordId());
 			}
 		}
 		catch (RecordStoreException ex)
 		{
 			// error reading record store
 		}
+	}
+
+	/**
+	 * Deletes all records from both the RecordStore and the vector
+	 */
+	public void deleteAll()
+	{
+		this.scores.removeAllElements();
+		this.clear();
 	}
 
 	/**
@@ -152,7 +165,7 @@ public class HighScoreStore
 		}
 		catch (RecordStoreException ex)
 		{
-			// error closing record store
+			System.out.println("Error closing scores");
 		}
 	}
 
@@ -164,12 +177,10 @@ public class HighScoreStore
         try
 		{
             byte[] recordBytes;
-            int recordSize = this.store.getNumRecords();
 
-
-            for (int record = 1; record <= recordSize && record <= MAX_SCORES; record++)
+            while(this.enumerator.hasNextElement())
 			{
-                recordBytes = this.store.getRecord(record);
+                recordBytes = this.enumerator.nextRecord();
 
 				Score score = new Score(unpackName(recordBytes), unpackPoints(recordBytes));
 
@@ -178,7 +189,7 @@ public class HighScoreStore
         }
 		catch (RecordStoreException ex)
 		{
-            System.out.println("Error al abrir el RecordStore");
+            System.out.println("Error al leer el RecordStore");
 		}
 
 	}
@@ -315,9 +326,7 @@ public class HighScoreStore
 			this.name = name;
 			this.points = points;
 		}
-	}
-	
-	
+	}	
 }
 
 
