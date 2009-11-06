@@ -3,7 +3,6 @@ package game.sprites;
 import java.io.IOException;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
-import main.Paintable;
 import main.Updateable;
 
 /**
