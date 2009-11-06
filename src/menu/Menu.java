@@ -83,7 +83,7 @@ public class Menu extends Screen
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			int y = 0;
-			int x = 0;
+			int x = getWidth()/2;
 			
 			int dy = getHeight() / len;
 
