@@ -44,7 +44,7 @@ public abstract class MenuChoice
 			g.setColor(0xffffff);
 		}
 		
-		g.drawString(text, posx, posy, 0);
+		g.drawString(text, posx, posy, Graphics.HCENTER | Graphics.TOP);
 
 	}
 
