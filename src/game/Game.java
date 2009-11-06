@@ -52,7 +52,7 @@ public class Game extends Screen
 
 		try
 		{
-			this.foreground = new Foreground();
+			this.foreground = new Foreground(this.getWidth(), this.getHeight());
 			this.background = new Background();
 
 			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight(), this, this.foreground);
