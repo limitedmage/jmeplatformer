@@ -2,19 +2,17 @@ package game.sprites;
 
 import java.io.IOException;
 
-public class HittingEnemySprite extends GameSprite
+public class HittingEnemySprite extends EnemySprite
 {
 	//sprite animation definitions
 	private static final int[]
-			idle = {0, 0, 1, 1, 2, 2, 3, 3},
-			attack = {4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23},
-			stopAttack = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+			idle = {8},
+			attack = {5, 5, 6, 6, 7, 7, 8, 8};
 
 	// sprite states
 	private static final short
 			IDLE = 1,
-			ATTACK = 2,
-			STOP_ATTACK = 3;
+			ATTACK = 2;
 
 	// current state
 	private short state;
@@ -32,10 +30,7 @@ public class HittingEnemySprite extends GameSprite
 	 */
 	public HittingEnemySprite(int sWidth, int sHeight, int posX, int posY) throws IOException
 	{
-		super("/img/characters/icecreamsheet.png", sWidth, sHeight, 60, 60);
-
-		this.setPosition(posX, posY);
-		this.defineReferencePixel(30, 30);
+		super("/img/characters/Pegador.png", sWidth, sHeight, posX, posY);
 
 		this.setState(IDLE);
 
@@ -67,9 +62,6 @@ public class HittingEnemySprite extends GameSprite
 			case ATTACK:
 				this.setFrameSequence(attack);
 				break;
-			case STOP_ATTACK:
-				this.setFrameSequence(stopAttack);
-				break;
 			default:
 				return;
 		}
@@ -97,12 +89,6 @@ public class HittingEnemySprite extends GameSprite
 
 		// if at last frame of attacking, stop attacking
 		if (this.state == ATTACK && this.getFrame() == attack.length - 1)
-		{
-			this.setState(STOP_ATTACK);
-		}
-
-		// if at last frame of stop attacking, idle
-		if (this.state == STOP_ATTACK && this.getFrame() == stopAttack.length - 1)
 		{
 			this.setState(IDLE);
 		}

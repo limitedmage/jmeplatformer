@@ -2,7 +2,7 @@ package game.sprites;
 
 import java.io.IOException;
 
-public class ShootingEnemySprite extends GameSprite
+public class ShootingEnemySprite extends EnemySprite
 {
 	//sprite animation definitions
 	private static final int[]
@@ -26,16 +26,15 @@ public class ShootingEnemySprite extends GameSprite
 	GameSpriteGroup bullets;
 
 	/**
-	 * Creates a new enemy
-	 * @param sWidth - Screen width
-	 * @param sHeight - Screen height
-	 * @param posX - X position of the enemy
-	 * @param posY - Y position of the enemy
+	 * Creates a new ShootingEnemy
+	 * @param posX
+	 * @param posY
+	 * @param bullets GameSpriteGroup to add bullets to
 	 * @throws IOException
 	 */
-	public ShootingEnemySprite(int sWidth, int sHeight, int posX, int posY, GameSpriteGroup bullets) throws IOException
+	public ShootingEnemySprite(int posX, int posY, GameSpriteGroup bullets) throws IOException
 	{
-		super("/img/characters/icecreamsheet.png", sWidth, sHeight, 60, 60);
+		super("/img/characters/icecreamsheet.png", 60, 60);
 
 		this.setPosition(posX, posY);
 		this.defineReferencePixel(30, 30);
@@ -45,17 +44,6 @@ public class ShootingEnemySprite extends GameSprite
 		this.startTime = System.currentTimeMillis();
 
 		this.bullets = bullets;
-	}
-
-	/**
-	 * Creates a new enemy in the top right corner
-	 * @param sWidth - Screen width
-	 * @param sHeight - Screen height
-	 * @throws IOException - If enemy image data could not be loaded
-	 */
-	public ShootingEnemySprite(int sWidth, int sHeight, GameSpriteGroup bullets) throws IOException
-	{
-		this(sWidth, sHeight, sWidth - 60, 0, bullets);
 	}
 
 	/**
@@ -128,7 +116,7 @@ public class ShootingEnemySprite extends GameSprite
 		
 		try
 		{
-			bullets.add(new Bullet(sWidth, sHeight, false, this.getX(), this.getY()));
+			bullets.add(new EnemyBullet(this.getX(), this.getY(), true));
 		}
 		catch (IOException ex)
 		{

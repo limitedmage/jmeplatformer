@@ -60,25 +60,25 @@ public class Game extends Screen
 
 		try
 		{
-			this.foreground = new Foreground(this.getWidth(), this.getHeight());
+			this.foreground = new Foreground();
 			this.background = new Background();
-			this.endMarker = new EndMarker(sWidth, sHeight);
+			this.endMarker = new EndMarker();
 
-			this.mainChar = new CharacterSprite(this.getWidth(), this.getHeight(), this, this.foreground);
+			this.mainChar = new CharacterSprite(this, this.foreground);
 
 			// initialize enemies
 			this.enemies = new GameSpriteGroup();
 			//this.enemies.add(new HittingEnemySprite(sWidth, sHeight));
-			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 20, 30));
-			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 60, 30));
-			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 80, 80));
-			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 200, 60));
-			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 300, 60));
-			this.enemies.add(new HittingEnemySprite(sWidth, sHeight, 600, 80));
+			this.enemies.add(new HittingEnemySprite(20, 30));
+			this.enemies.add(new HittingEnemySprite(60, 30));
+			this.enemies.add(new HittingEnemySprite(80, 80));
+			this.enemies.add(new HittingEnemySprite(200, 60));
+			this.enemies.add(new HittingEnemySprite(300, 60));
+			this.enemies.add(new HittingEnemySprite(600, 80));
 
 			this.bullets = new GameSpriteGroup();
 
-			this.enemies.add(new ShootingEnemySprite(sWidth, sHeight, bullets));
+			this.enemies.add(new ShootingEnemySprite(200, 100, bullets));
 
 		}
 		catch (IOException ex)

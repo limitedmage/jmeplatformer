@@ -50,9 +50,9 @@ public class CharacterSprite extends GameSprite
 	 *
 	 * @exception IOException when images fail to load
 	 */
-	public CharacterSprite(int sWidth, int sHeight, Game game, Foreground foreground) throws IOException
+	public CharacterSprite(Game game, Foreground foreground) throws IOException
 	{
-		super("/img/characters/CharSprite.png", sWidth, sHeight, 45, 45);
+		super("/img/characters/CharSprite.png", 45, 45);
 
 		// start at an arbitrary position
 		this.setPosition(20, 20);
@@ -178,8 +178,7 @@ public class CharacterSprite extends GameSprite
 
 	public boolean onPlatform()
 	{
-		boolean belowForeground = this.getY() > foreground.getY() + foreground.getHeight() - fHeight;
-
+		boolean belowForeground = this.getY() > foreground.getY() + foreground.getHeight() - this.getHeight();
 
 		boolean before = this.collidesWith(foreground, false);
 
