@@ -11,5 +11,6 @@ public abstract class EnemySprite extends GameSprite
 
 		this.defineReferencePixel(23, 23);
 	}
-	
+
+	public abstract void attack();
 }
