@@ -64,13 +64,18 @@ public class Game extends Screen
 
 		try
 		{
+			// initialize static game objetcs
 			this.foreground = new Foreground();
 			this.background = new Background();
 			this.endMarker = new EndMarker();
 
-			// initialize enemies
+			// initialize bullets group
+			this.bullets = new GameSpriteGroup();
+
+			// initialize enemies group
 			this.enemies = new GameSpriteGroup();
-			//this.enemies.add(new HittingEnemySprite(sWidth, sHeight));
+
+			// initialize enemies
 			this.enemies.add(new HittingEnemySprite(11, 147));
 			this.enemies.add(new HittingEnemySprite(100, 259));
 			this.enemies.add(new HittingEnemySprite(410, 259));
@@ -82,13 +87,11 @@ public class Game extends Screen
 			this.enemies.add(new HittingEnemySprite(550, 52));
 			this.enemies.add(new HittingEnemySprite(300, 35));
 
-			this.bullets = new GameSpriteGroup();
-
-			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
-
 			this.enemies.add(new ShootingEnemySprite(200, 100, this.bullets));
 			this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
 
+			// initialize character
+			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
 		}
 		catch (IOException ex)
 		{
@@ -139,6 +142,7 @@ public class Game extends Screen
 	 */
 	private void paintHud(Graphics g)
 	{
+		g.setColor(0);
 		int life = this.mainChar.getLife();
 		g.drawString("Life: " + life, this.getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
 	}
