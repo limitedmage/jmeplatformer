@@ -21,31 +21,18 @@ public class HittingEnemySprite extends EnemySprite
 	private long startTime;
 
 	/**
-	 * Creates a new enemy
-	 * @param sWidth - Screen width
-	 * @param sHeight - Screen height
+	 * Creates a new hitting enemy
 	 * @param posX - X position of the enemy
 	 * @param posY - Y position of the enemy
 	 * @throws IOException
 	 */
-	public HittingEnemySprite(int sWidth, int sHeight, int posX, int posY) throws IOException
+	public HittingEnemySprite(int posX, int posY) throws IOException
 	{
-		super("/img/characters/Pegador.png", sWidth, sHeight, posX, posY);
+		super("/img/characters/Pegador.png", posX, posY);
 
 		this.setState(IDLE);
 
 		this.startTime = System.currentTimeMillis();
-	}
-
-	/**
-	 * Creates a new enemy in the top right corner
-	 * @param sWidth - Screen width
-	 * @param sHeight - Screen height
-	 * @throws IOException - If enemy image data could not be loaded
-	 */
-	public HittingEnemySprite(int sWidth, int sHeight) throws IOException
-	{
-		this(sWidth, sHeight, sWidth - 60, 0);
 	}
 
 	/**
@@ -72,7 +59,7 @@ public class HittingEnemySprite extends EnemySprite
 	/**
 	 * Updates the enemy
 	 * Loads next frame
-	 * Attacks every 5 seconds
+	 * Attacks every 2 seconds
 	 * Updates state
 	 */
 	public void update()
@@ -80,8 +67,8 @@ public class HittingEnemySprite extends EnemySprite
 		// loads next frame in sequence
 		this.nextFrame();
 
-		// if 5 seconds have passed since last attack, attack
-		if (this.startTime + 5000 <= System.currentTimeMillis())
+		// if 2 seconds have passed since last attack, attack
+		if (this.startTime + 2000 <= System.currentTimeMillis())
 		{
 			this.attack();
 			this.startTime = System.currentTimeMillis();
