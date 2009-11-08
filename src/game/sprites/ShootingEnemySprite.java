@@ -2,6 +2,9 @@ package game.sprites;
 
 import java.io.IOException;
 
+/**
+ * A class for a shooting enemy
+ */
 public class ShootingEnemySprite extends EnemySprite
 {
 	//sprite animation definitions
