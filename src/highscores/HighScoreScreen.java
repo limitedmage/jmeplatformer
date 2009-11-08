@@ -6,6 +6,7 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import main.MainMidlet;
 import main.Screen;
@@ -45,26 +46,35 @@ public class HighScoreScreen extends Screen implements CommandListener
 	 */
 	public void paint(Graphics g)
 	{
+		g.setColor(0x00000000);
+		g.fillRect(0, 0, getWidth(), getHeight());
+
 		int len = this.scores.size();
 
 		if (len > 0)
 		{
+			Font f = g.getFont();
 			g.setColor(0x00000000);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			int x = this.getWidth() / 2;
 			int y = 0;
 
-			int dy = this.getHeight() / len;
+			int dy = f.getHeight();
 
 			g.setColor(0x00ff0000);
 
 			for (int i = 0; i < len; i++)
 			{
 				String score = this.scores.elementAt(i);
-				g.drawString(score, x, y, Graphics.HCENTER | Graphics.TOP);
+				g.drawString((i+1) + ". " + score, x, y, Graphics.HCENTER | Graphics.TOP);
 				y += dy;
 			}
+		}
+		else
+		{
+			g.setColor(0x00ff0000);
+			g.drawString("No high scores yet", this.getWidth() / 2, 0, Graphics.HCENTER | Graphics.TOP);
 		}
 	}
 

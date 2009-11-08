@@ -19,6 +19,7 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Display;
+import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 
 /**
@@ -36,6 +37,8 @@ public class Game extends Screen
 	private int entries;
 	private long startTime;
 	private int fps;
+
+	private int points;
 
 	// flag for jumping input handling
 	private boolean jumping;
@@ -106,6 +109,8 @@ public class Game extends Screen
 		
 		this.walkSpeed = 5;
 
+		this.points = 0;
+
 		this.entries = 0;
 		this.startTime = System.currentTimeMillis();
 	}
@@ -143,8 +148,10 @@ public class Game extends Screen
 	private void paintHud(Graphics g)
 	{
 		g.setColor(0);
-		int life = this.mainChar.getLife();
-		g.drawString("Life: " + life, this.getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
+		Font f = g.getFont();
+		g.drawString("Life: " + this.mainChar.getLife(), this.getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
+		g.drawString("Points: " + this.points, this.getWidth(), f.getHeight(), Graphics.TOP | Graphics.RIGHT);
+
 	}
 
     /**
@@ -269,6 +276,8 @@ public class Game extends Screen
 
 					this.enemies.removeSpriteAt(enemyIdx);
 					enemyIdx--;
+
+					this.points += 100;
 
 					continue;
 				}
@@ -425,7 +434,8 @@ public class Game extends Screen
 	{
 		if (this.mainChar.collidesWith(this.endMarker, false))
 		{
-			midlet.getScores().add("Ak", 200);
+			this.stop();
+			midlet.getScores().add("Name Here", this.points);
 			Alert a = new Alert("Game won!!", "High Score!", null, AlertType.INFO);
 			a.setTimeout(Alert.FOREVER);
 			a.setCommandListener(new CommandListener(){
