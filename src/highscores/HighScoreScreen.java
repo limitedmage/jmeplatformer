@@ -22,6 +22,10 @@ public class HighScoreScreen extends Screen implements CommandListener
 	private HighScoreStore scores;
 
 
+	/**
+	 * Creates a new HighScoreScreen
+	 * @param midlet Parent midlet
+	 */
 	public HighScoreScreen(MainMidlet midlet)
 	{
 		super(midlet);
@@ -35,6 +39,10 @@ public class HighScoreScreen extends Screen implements CommandListener
 	}
 
 
+	/**
+	 * Paints the screen
+	 * @param g
+	 */
 	public void paint(Graphics g)
 	{
 		int len = this.scores.size();
@@ -60,6 +68,9 @@ public class HighScoreScreen extends Screen implements CommandListener
 		}
 	}
 
+	/**
+	 * When any button is pressed, return to menu
+	 */
 	public void update()
 	{
 		// press any key to go back to main menu
@@ -69,6 +80,11 @@ public class HighScoreScreen extends Screen implements CommandListener
 		}
 	}
 
+	/**
+	 * Handles 2 commands: Back and Clear records.
+	 * @param c
+	 * @param d
+	 */
 	public void commandAction(Command c, Displayable d)
 	{
 		switch (c.getCommandType())

@@ -2,13 +2,25 @@ package game.sprites;
 
 import java.io.IOException;
 
+/**
+ * A bullet projectile for the game
+ */
 public class Bullet extends GameSprite
 {
 	private boolean goingRight;
 
 	private static final int SPEED = 10;
 
-	
+	/**
+	 * Creates a new bullet
+	 * @param imgPath Path to the image
+	 * @param fWidth frame width
+	 * @param fHeight frame height
+	 * @param posX x position
+	 * @param posY y position
+	 * @param goingRight true if going right, false if going left
+	 * @throws IOException If sprite could not be created
+	 */
 	public Bullet(String imgPath, int fWidth, int fHeight, int posX, int posY, boolean goingRight) throws IOException
 	{
 			super(imgPath, fWidth, fHeight);
@@ -16,6 +28,9 @@ public class Bullet extends GameSprite
 			this.goingRight = goingRight;
 	}
 
+	/**
+	 * Moves the sprite according to direction and speed
+	 */
 	public void update()
 	{
 		if (this.goingRight)
@@ -28,6 +43,11 @@ public class Bullet extends GameSprite
 		}
 	}
 
+	/**
+	 * Return true if bullet is outside the screen
+	 * @param sWidth Screen width
+	 * @return
+	 */
 	public boolean outsideScreen(int sWidth)
 	{
 		if ((this.getX() >= sWidth) || (this.getX() <= 0))

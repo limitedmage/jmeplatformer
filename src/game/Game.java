@@ -62,8 +62,6 @@ public class Game extends Screen
 	{
 		super(midlet);
 
-		int sWidth = this.getWidth(), sHeight = this.getHeight();
-
 		try
 		{
 			this.foreground = new Foreground();
@@ -135,6 +133,10 @@ public class Game extends Screen
 		this.paintHud(g);
 	}
 
+	/**
+	 * Paints the hud like life, points, etc
+	 * @param g
+	 */
 	private void paintHud(Graphics g)
 	{
 		int life = this.mainChar.getLife();
@@ -209,6 +211,9 @@ public class Game extends Screen
 
 	}
 
+	/**
+	 * Checks if character has been hit by bullets or enemies
+	 */
 	public void checkCharacterDamage()
 	{
 		this.mainChar.defineCollisionRectangle(0, 0, this.mainChar.getWidth(), this.mainChar.getHeight());
@@ -240,6 +245,9 @@ public class Game extends Screen
 		this.mainChar.resetCollisionRectangle();
 	}
 
+	/**
+	 * Checks if enemies have been hit by bullets
+	 */
 	public void checkEnemyDamage()
 	{
 		EnemySprite enemy;
@@ -311,7 +319,11 @@ public class Game extends Screen
 		horizontalScroll(dx);
 		verticalScroll(dy);
 	}
-	
+
+	/**
+	 * Scrolls horizontally
+	 * @param dx Distance to scroll
+	 */
 	public void horizontalScroll(int dx)
 	{
 		/** Horizontal Scroll **/
@@ -348,6 +360,10 @@ public class Game extends Screen
 		}
 	}
 
+	/**
+	 * Scrolls vertically
+	 * @param dy Distance to scroll
+	 */
 	public void verticalScroll(int dy)
 	{
 		/** Vertical Scroll **/
@@ -378,6 +394,9 @@ public class Game extends Screen
 		}
 	}
 
+	/**
+	 * Removes bullets out of the screen range
+	 */
 	private void removeOutOfRangBullet()
 	{
 		int i = 0;
@@ -395,6 +414,9 @@ public class Game extends Screen
 		}
 	}
 
+	/**
+	 * Checks if game has been lost
+	 */
 	public void checkWon()
 	{
 		if (this.mainChar.collidesWith(this.endMarker, false))
@@ -416,6 +438,9 @@ public class Game extends Screen
 		}
 	}
 
+	/**
+	 * Checks if game has been lost
+	 */
 	public void checkLost()
 	{
 		if (this.mainChar.getLife() <= 0)

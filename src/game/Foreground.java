@@ -4,6 +4,9 @@ import java.io.IOException;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
 
+/**
+ * A Foreground for the game
+ */
 public class Foreground extends TiledLayer
 {
 	private static final short rows = 20, columns = 66;
@@ -88,16 +91,5 @@ public class Foreground extends TiledLayer
 		}
 
 		this.setPosition(0, 0);
-	}
-
-	public int getTileAtPixel(int x, int y)
-	{
-		x -= this.getX();
-		y -= this.getY();
-
-		int row = y / this.getCellHeight();
-		int col = x / this.getCellWidth();
-
-		return getCell(col, row);
 	}
 }

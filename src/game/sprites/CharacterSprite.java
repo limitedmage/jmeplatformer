@@ -320,6 +320,9 @@ public class CharacterSprite extends GameSprite
 
 	}
 
+	/**
+	 * Attacks by adding a new CharacterSprite to the bullets group
+	 */
 	public void attack()
 	{
 		if (this.state != ATTACK)
