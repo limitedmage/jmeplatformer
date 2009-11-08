@@ -1,19 +1,23 @@
 package game;
 
-import game.sprites.EndMarker;
 import game.sprites.Bullet;
+import game.sprites.CharacterBullet;
+import game.sprites.EndMarker;
 import game.sprites.CharacterSprite;
+import game.sprites.EnemyBullet;
 import game.sprites.GameSpriteGroup;
+import game.sprites.EnemySprite;
 import game.sprites.HittingEnemySprite;
 import game.sprites.ShootingEnemySprite;
-import javax.microedition.lcdui.Command;
-import javax.microedition.lcdui.Displayable;
 import main.Screen;
 import main.MainMidlet;
+
 import java.io.IOException;
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
+import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
+import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Graphics;
 
@@ -35,6 +39,8 @@ public class Game extends Screen
 
 	// flag for jumping input handling
 	private boolean jumping;
+	// flag for attacking input handling
+	private boolean attacking;
 
 	// half of screen width and height, used to calculate scrolling.
 	private int hWidth, hHeight; 
@@ -64,21 +70,26 @@ public class Game extends Screen
 			this.background = new Background();
 			this.endMarker = new EndMarker();
 
-			this.mainChar = new CharacterSprite(this, this.foreground);
-
 			// initialize enemies
 			this.enemies = new GameSpriteGroup();
 			//this.enemies.add(new HittingEnemySprite(sWidth, sHeight));
-			this.enemies.add(new HittingEnemySprite(20, 30));
-			this.enemies.add(new HittingEnemySprite(60, 30));
-			this.enemies.add(new HittingEnemySprite(80, 80));
-			this.enemies.add(new HittingEnemySprite(200, 60));
-			this.enemies.add(new HittingEnemySprite(300, 60));
-			this.enemies.add(new HittingEnemySprite(600, 80));
+			this.enemies.add(new HittingEnemySprite(11, 147));
+			this.enemies.add(new HittingEnemySprite(100, 259));
+			this.enemies.add(new HittingEnemySprite(410, 259));
+			this.enemies.add(new HittingEnemySprite(650, 243));
+			this.enemies.add(new HittingEnemySprite(350, 179));
+			this.enemies.add(new HittingEnemySprite(920, 259));
+			this.enemies.add(new HittingEnemySprite(850, 131));
+			this.enemies.add(new HittingEnemySprite(899, 67));
+			this.enemies.add(new HittingEnemySprite(550, 52));
+			this.enemies.add(new HittingEnemySprite(300, 35));
 
 			this.bullets = new GameSpriteGroup();
 
-			this.enemies.add(new ShootingEnemySprite(200, 100, bullets));
+			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
+
+			this.enemies.add(new ShootingEnemySprite(200, 100, this.bullets));
+			this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
 
 		}
 		catch (IOException ex)
@@ -90,6 +101,7 @@ public class Game extends Screen
 		this.hHeight = this.getHeight() / 2;
 
 		this.jumping = false;
+		this.attacking = false;
 		
 		this.walkSpeed = 5;
 
@@ -111,12 +123,22 @@ public class Game extends Screen
 		this.background.paint(g);
 		this.foreground.paint(g);
 		this.endMarker.paint(g);
-		this.mainChar.paint(g);
+		
 		this.enemies.paint(g);
 		this.bullets.paint(g);
 
+		this.mainChar.paint(g);
+
 		// calculate fps
 		this.calculateFps(g);
+
+		this.paintHud(g);
+	}
+
+	private void paintHud(Graphics g)
+	{
+		int life = this.mainChar.getLife();
+		g.drawString("Life: " + life, this.getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
 	}
 
     /**
@@ -159,12 +181,87 @@ public class Game extends Screen
 			this.jumping = false;
 		}
 
+		if ((keys & FIRE_PRESSED) != 0)
+		{
+			if (!this.attacking)
+			{
+				this.mainChar.attack();
+				this.attacking = true;
+			}
+		}
+		else
+		{
+			this.attacking = false;
+		}
+
+		this.checkCharacterDamage();
+		this.checkEnemyDamage();
+
 		this.checkWon();
+		this.checkLost();
+		
+		
+		this.removeOutOfRangBullet();
 
 		this.mainChar.update();
 		this.enemies.update();
 		this.bullets.update();
 
+	}
+
+	public void checkCharacterDamage()
+	{
+		this.mainChar.defineCollisionRectangle(0, 0, this.mainChar.getWidth(), this.mainChar.getHeight());
+
+		// collide with enemies
+		EnemySprite enemy;
+		int numEnemies = this.enemies.size();
+		for (int i = 0; i < numEnemies; i++)
+		{
+			enemy = (EnemySprite) this.enemies.getSpriteAt(i);
+			if (this.mainChar.collidesWith(enemy, true))
+			{
+				this.mainChar.reduceLife();
+			}
+		}
+
+		// collide with bullets
+		Bullet bullet;
+		int numBullets = this.bullets.size();
+		for (int i = 0; i < numBullets; i++)
+		{
+			bullet = (Bullet) this.bullets.getSpriteAt(i);
+			if (bullet instanceof EnemyBullet && this.mainChar.collidesWith(bullet, true))
+			{
+				this.mainChar.reduceLife();
+			}
+		}
+
+		this.mainChar.resetCollisionRectangle();
+	}
+
+	public void checkEnemyDamage()
+	{
+		EnemySprite enemy;
+		Bullet bullet;
+		for (int enemyIdx = 0; enemyIdx < this.enemies.size(); enemyIdx++)
+		{
+			enemy = (EnemySprite) this.enemies.getSpriteAt(enemyIdx);
+			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++)
+			{
+				bullet = (Bullet) this.bullets.getSpriteAt(bulletIdx);
+				if (bullet instanceof CharacterBullet && enemy.collidesWith(bullet, true))
+				{
+					this.bullets.removeSpriteAt(bulletIdx);
+					bulletIdx--;
+
+					this.enemies.removeSpriteAt(enemyIdx);
+					enemyIdx--;
+
+					continue;
+				}
+			}
+		}
 	}
 
     /**
@@ -246,6 +343,7 @@ public class Game extends Screen
 			this.foreground.move(-dx, 0);
 			this.background.move(-dx, 0);
 			this.enemies.move(-dx, 0);
+			this.bullets.move(-dx, 0);
 			this.endMarker.move(-dx, 0);
 		}
 	}
@@ -275,7 +373,25 @@ public class Game extends Screen
 			this.foreground.move(0, -dy);
 			this.background.move(0, -dy);
 			this.enemies.move(0, -dy);
+			this.bullets.move(0, -dy);
 			this.endMarker.move(0, -dy);
+		}
+	}
+
+	private void removeOutOfRangBullet()
+	{
+		int i = 0;
+		while (i < this.bullets.size())
+		{
+			Bullet b = (Bullet) this.bullets.getSpriteAt(i);
+			if (b.outsideScreen(this.getWidth()))
+			{
+				this.bullets.removeSpriteAt(i);
+			}
+			else
+			{
+				i++;
+			}
 		}
 	}
 
@@ -284,22 +400,39 @@ public class Game extends Screen
 		if (this.mainChar.collidesWith(this.endMarker, false))
 		{
 			midlet.getScores().add("Ak", 200);
-			Alert a = new Alert("Ganaste!!", "High Score!", null, AlertType.ALARM);
+			Alert a = new Alert("Game won!!", "High Score!", null, AlertType.INFO);
 			a.setTimeout(Alert.FOREVER);
-			a.setCommandListener(new GameWonAlertCommandListener());
+			a.setCommandListener(new CommandListener(){
+				public void commandAction(Command c, Displayable d)
+				{
+					if (c.getCommandType() == Command.OK)
+					{
+						Game.this.midlet.startMainMenu();
+					}
+				}
+			});
+
 			Display.getDisplay(midlet).setCurrent(a, this);
-			
 		}
 	}
 
-	class GameWonAlertCommandListener implements CommandListener
+	public void checkLost()
 	{
-		public void commandAction(Command c, Displayable d)
+		if (this.mainChar.getLife() <= 0)
 		{
-			if (c.getCommandType() == Command.OK)
-			{
-				Game.this.midlet.startMainMenu();
-			}
+			Alert a = new Alert("Game Lost", "", null, AlertType.INFO);
+			a.setTimeout(Alert.FOREVER);
+			a.setCommandListener(new CommandListener(){
+				public void commandAction(Command c, Displayable d)
+				{
+					if (c.getCommandType() == Command.OK)
+					{
+						Game.this.midlet.startMainMenu();
+					}
+				}
+			});
+			Display.getDisplay(midlet).setCurrent(a, this);
+
 		}
 	}
 }
