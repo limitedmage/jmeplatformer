@@ -82,6 +82,4 @@ public class Credits extends Screen implements CommandListener
 				this.midlet.startMainMenu();
 		}
 	}
-
-
 }
