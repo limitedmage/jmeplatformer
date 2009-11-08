@@ -18,9 +18,6 @@ public class ShootingEnemySprite extends EnemySprite
 	// current state
 	private short state;
 
-	// time for attack timing
-	private long startTime;
-
 	// bullets group
 	private GameSpriteGroup bullets;
 
@@ -39,8 +36,6 @@ public class ShootingEnemySprite extends EnemySprite
 		this.defineReferencePixel(30, 30);
 
 		this.setState(ATTACK);
-
-		this.startTime = System.currentTimeMillis();
 
 		this.bullets = bullets;
 	}
