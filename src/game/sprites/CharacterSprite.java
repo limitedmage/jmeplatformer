@@ -17,7 +17,7 @@ public class CharacterSprite extends GameSprite {
 	private Game game;
 
 	// Sprite frame animation definitions
-	private static final int[] // frame animation sequences
+	private static final int[]
 			idle = {0},
 			walk = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8},
 			jump = {9},
@@ -178,7 +178,7 @@ public class CharacterSprite extends GameSprite {
 	 * Makes sprite walk to the left
 	 */
 	public void walkLeft() {
-		this.game.horizontalScroll(-walkSpeed);
+		this.game.horizontalScroll(-CharacterSprite.walkSpeed);
 
 		if (this.state != WALK && this.state != JUMP) {
 			this.setState(WALK);
@@ -202,7 +202,7 @@ public class CharacterSprite extends GameSprite {
 	 * Makes sprite walk to the right
 	 */
 	public void walkRight() {
-		this.game.horizontalScroll(walkSpeed);
+		this.game.horizontalScroll(CharacterSprite.walkSpeed);
 		
 		if (this.state != WALK && this.state != JUMP) {
 			this.setState(WALK);
