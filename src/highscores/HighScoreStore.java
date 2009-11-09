@@ -21,7 +21,7 @@ public class HighScoreStore
 	private Vector scores;
 	private RecordEnumeration enumerator;
 	
-	private static final int MAX_SCORES = 5;
+	public static final int MAX_SCORES = 5;
 
 	private static final int NAME_SIZE = 10;
 	private static final int POINTS_SIZE = 4;
@@ -147,6 +147,18 @@ public class HighScoreStore
 		this.scores.addElement(new Score(name, points));
 		this.sortAndTrim();
 		this.save();
+	}
+
+	/**
+	 * Returns the lowest score
+	 * @return
+	 */
+	public int getLowestScore()
+	{
+		if (this.scores.size() > 0)
+			return ((Score) this.scores.elementAt(this.scores.size() - 1)).points;
+		else
+			return 0;
 	}
 
 	/**
