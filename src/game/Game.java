@@ -44,9 +44,6 @@ public class Game extends Screen {
 	// half of screen width and height, used to calculate scrolling.
 	private int hWidth, hHeight;
 
-	// speed to move sprite
-	private final int walkSpeed;
-
 	// enemies group
 	private GameSpriteGroup enemies;
 
@@ -109,8 +106,6 @@ public class Game extends Screen {
 
 		this.jumping = false;
 		this.attacking = false;
-
-		this.walkSpeed = 5;
 
 		this.points = 0;
 
@@ -187,10 +182,10 @@ public class Game extends Screen {
 		}
 
 		if ((keys & LEFT_PRESSED) != 0) {
-			this.moveLeft();
+			this.mainChar.walkLeft();
 		}
 		else if ((keys & RIGHT_PRESSED) != 0) {
-			this.moveRight();
+			this.mainChar.walkRight();
 		}
 		else {
 			this.mainChar.idle();
@@ -252,6 +247,7 @@ public class Game extends Screen {
 	public void checkEnemyDamage() {
 		EnemySprite enemy;
 		BulletSprite bullet;
+		
 		for (int enemyIdx = 0; enemyIdx < this.enemies.size(); enemyIdx++) {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(enemyIdx);
 			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++) {
@@ -307,24 +303,6 @@ public class Game extends Screen {
 		}
 		g.setColor(0xffffff);
 		g.drawString("FPS: " + this.fps, 0, 0, 0);
-	}
-
-	/**
-	 * Moves game screen to the left
-	 */
-	private void moveLeft() {
-		this.mainChar.walkLeft();
-
-		horizontalScroll(-this.walkSpeed);
-	}
-
-	/**
-	 * Moves game screen to the right
-	 */
-	private void moveRight() {
-		this.mainChar.walkRight();
-
-		horizontalScroll(this.walkSpeed);
 	}
 
 	/**
