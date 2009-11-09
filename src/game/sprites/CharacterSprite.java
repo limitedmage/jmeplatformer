@@ -330,7 +330,7 @@ public class CharacterSprite extends GameSprite
 		
 		try
 		{
-			this.bullets.add(new CharacterBullet(this.getRefPixelX(), this.getRefPixelY(), this.goingRight));
+			this.bullets.add(new CharacterBulletSprite(this.getRefPixelX(), this.getRefPixelY(), this.goingRight));
 		}
 		catch (IOException ex)
 		{

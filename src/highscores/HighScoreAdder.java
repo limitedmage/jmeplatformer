@@ -32,7 +32,6 @@ public class HighScoreAdder extends Form implements CommandListener
 		this.setCommandListener(this);
 	}
 
-
 	public void commandAction(Command c, Displayable d)
 	{
 		switch (c.getCommandType())
@@ -41,6 +40,7 @@ public class HighScoreAdder extends Form implements CommandListener
 				this.midlet.getScores().add(this.name.getString(), points);
 				this.midlet.startHighScores();
 				break;
+				
 			case Command.CANCEL:
 				this.midlet.startMainMenu();
 		}
