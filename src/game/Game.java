@@ -9,6 +9,7 @@ import game.sprites.GameSpriteGroup;
 import game.sprites.EnemySprite;
 import game.sprites.HittingEnemySprite;
 import game.sprites.ShootingEnemySprite;
+import highscores.HighScoreStore;
 import main.Screen;
 import main.MainMidlet;
 
@@ -435,20 +436,50 @@ public class Game extends Screen
 		if (this.mainChar.collidesWith(this.endMarker, false))
 		{
 			this.stop();
-			midlet.getScores().add("Name Here", this.points);
-			Alert a = new Alert("Game won!!", "High Score!", null, AlertType.INFO);
-			a.setTimeout(Alert.FOREVER);
-			a.setCommandListener(new CommandListener(){
-				public void commandAction(Command c, Displayable d)
-				{
-					if (c.getCommandType() == Command.OK)
-					{
-						Game.this.midlet.startMainMenu();
-					}
-				}
-			});
 
-			Display.getDisplay(midlet).setCurrent(a, this);
+			boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore() || this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
+
+			if (scoreCanBeAdded)
+			{
+				Alert a = new Alert("Game won!! High Score!", "Add to high scores?", null, AlertType.INFO);
+
+				a.setTimeout(Alert.FOREVER);
+				a.addCommand(new Command("Yes", Command.OK, 1));
+				a.addCommand(new Command("No", Command.CANCEL, 2));
+				a.setCommandListener(new CommandListener(){
+					public void commandAction(Command c, Displayable d)
+					{
+						if (c.getCommandType() == Command.OK)
+						{
+							Game.this.midlet.getScores().add("Name Here", Game.this.points);
+							Game.this.midlet.startMainMenu();
+						}
+						else if (c.getCommandType() == Command.CANCEL)
+						{
+							Game.this.midlet.startMainMenu();
+						}
+					}
+				});
+
+				Display.getDisplay(midlet).setCurrent(a, this);
+			}
+			else
+			{
+				Alert a = new Alert("Game won!!", "", null, AlertType.INFO);
+
+				a.setTimeout(Alert.FOREVER);
+				a.setCommandListener(new CommandListener(){
+					public void commandAction(Command c, Displayable d)
+					{
+						if (c.getCommandType() == Command.OK)
+						{
+							Game.this.midlet.startMainMenu();
+						}
+					}
+				});
+
+				Display.getDisplay(midlet).setCurrent(a, this);
+			}
 		}
 	}
 
@@ -459,6 +490,7 @@ public class Game extends Screen
 	{
 		if (this.mainChar.getLife() <= 0)
 		{
+			this.stop();
 			Alert a = new Alert("Game Lost", "", null, AlertType.INFO);
 			a.setTimeout(Alert.FOREVER);
 			a.setCommandListener(new CommandListener(){
