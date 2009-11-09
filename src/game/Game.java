@@ -9,6 +9,7 @@ import game.sprites.GameSpriteGroup;
 import game.sprites.EnemySprite;
 import game.sprites.HittingEnemySprite;
 import game.sprites.ShootingEnemySprite;
+import highscores.HighScoreAdder;
 import highscores.HighScoreStore;
 import main.Screen;
 import main.MainMidlet;
@@ -451,8 +452,7 @@ public class Game extends Screen
 					{
 						if (c.getCommandType() == Command.OK)
 						{
-							Game.this.midlet.getScores().add("Name Here", Game.this.points);
-							Game.this.midlet.startMainMenu();
+							Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.points, Game.this.midlet));
 						}
 						else if (c.getCommandType() == Command.CANCEL)
 						{

@@ -16,6 +16,7 @@ public class EndMarker extends GameSprite
 	{
 		super("img/endMarker.png", 45, 45);
 		this.setPosition(1011, 35);
+		//this.setPosition(45, 100);
 	}
 
 	/**

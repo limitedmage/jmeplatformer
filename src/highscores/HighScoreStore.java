@@ -23,7 +23,8 @@ public class HighScoreStore
 	
 	public static final int MAX_SCORES = 5;
 
-	private static final int NAME_SIZE = 10;
+	public static final int NAME_SIZE = 10;
+	
 	private static final int POINTS_SIZE = 4;
 	private static final int TOTAL_SIZE = NAME_SIZE + POINTS_SIZE;
 
