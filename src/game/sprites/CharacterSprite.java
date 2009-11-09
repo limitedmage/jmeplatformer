@@ -46,6 +46,9 @@ public class CharacterSprite extends GameSprite {
 	// Initial jumping speed
 	private static final int jumpSpeed = -30;
 
+	// walking speed
+	private static final int walkSpeed = 5;
+
 	// Horizontal and vertical speed
 	private int dx, dy;
 	
@@ -175,6 +178,8 @@ public class CharacterSprite extends GameSprite {
 	 * Makes sprite walk to the left
 	 */
 	public void walkLeft() {
+		this.game.horizontalScroll(-walkSpeed);
+
 		if (this.state != WALK && this.state != JUMP) {
 			this.setState(WALK);
 		}
@@ -197,6 +202,8 @@ public class CharacterSprite extends GameSprite {
 	 * Makes sprite walk to the right
 	 */
 	public void walkRight() {
+		this.game.horizontalScroll(walkSpeed);
+		
 		if (this.state != WALK && this.state != JUMP) {
 			this.setState(WALK);
 		}
