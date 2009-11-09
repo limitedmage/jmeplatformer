@@ -13,7 +13,6 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Display;
-import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -27,11 +26,6 @@ public class Game extends Screen {
 	private Foreground foreground;
 	private Background background;
 	private EndMarkerSprite endMarker;
-
-	// variables for fps calculation
-	private int entries;
-	private long startTime;
-	private int fps;
 
 	// points in the game
 	private int points;
@@ -115,9 +109,6 @@ public class Game extends Screen {
 		this.attacking = false;
 
 		this.points = 0;
-
-		this.entries = 0;
-		this.startTime = System.currentTimeMillis();
 	}
 
 	/**
@@ -299,21 +290,6 @@ public class Game extends Screen {
 		}
 
 		this.mainChar.resetCollisionRectangle();
-	}
-
-	/**
-	 * Calculates the FPS the game is running at
-	 * and draws them on the screen
-	 */
-	private void calculateFps(Graphics g) {
-		this.entries++;
-		if (this.startTime + 1000 <= System.currentTimeMillis()) {
-			this.fps = this.entries;
-			this.entries = 0;
-			this.startTime = System.currentTimeMillis();
-		}
-		g.setColor(0xffffff);
-		g.drawString("FPS: " + this.fps, 0, 0, 0);
 	}
 
 	/**
