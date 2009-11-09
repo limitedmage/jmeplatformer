@@ -86,7 +86,7 @@ public class ShootingEnemySprite extends EnemySprite
 	{		
 		try
 		{
-			bullets.add(new EnemyBullet(this.getX() + 5, this.getY() + 5, true));
+			bullets.add(new EnemyBulletSprite(this.getX() + 5, this.getY() + 5, true));
 		}
 		catch (IOException ex)
 		{

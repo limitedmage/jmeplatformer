@@ -1,10 +1,10 @@
 package game;
 
-import game.sprites.Bullet;
-import game.sprites.CharacterBullet;
-import game.sprites.EndMarker;
+import game.sprites.BulletSprite;
+import game.sprites.CharacterBulletSprite;
+import game.sprites.EndMarkerSprite;
 import game.sprites.CharacterSprite;
-import game.sprites.EnemyBullet;
+import game.sprites.EnemyBulletSprite;
 import game.sprites.GameSpriteGroup;
 import game.sprites.EnemySprite;
 import game.sprites.HittingEnemySprite;
@@ -33,7 +33,7 @@ public class Game extends Screen
 	private CharacterSprite mainChar;
 	private Foreground foreground;
 	private Background background;
-	private EndMarker endMarker;
+	private EndMarkerSprite endMarker;
 
     // variables for fps calculation
 	private int entries;
@@ -72,7 +72,7 @@ public class Game extends Screen
 			// initialize static game objetcs
 			this.foreground = new Foreground();
 			this.background = new Background();
-			this.endMarker = new EndMarker();
+			this.endMarker = new EndMarkerSprite();
 
 			// initialize bullets group
 			this.bullets = new GameSpriteGroup();
@@ -244,12 +244,12 @@ public class Game extends Screen
 		}
 
 		// collide with bullets
-		Bullet bullet;
+		BulletSprite bullet;
 		int numBullets = this.bullets.size();
 		for (int i = 0; i < numBullets; i++)
 		{
-			bullet = (Bullet) this.bullets.getSpriteAt(i);
-			if (bullet instanceof EnemyBullet && this.mainChar.collidesWith(bullet, true))
+			bullet = (BulletSprite) this.bullets.getSpriteAt(i);
+			if (bullet instanceof EnemyBulletSprite && this.mainChar.collidesWith(bullet, true))
 			{
 				this.mainChar.reduceLife();
 			}
@@ -264,14 +264,14 @@ public class Game extends Screen
 	public void checkEnemyDamage()
 	{
 		EnemySprite enemy;
-		Bullet bullet;
+		BulletSprite bullet;
 		for (int enemyIdx = 0; enemyIdx < this.enemies.size(); enemyIdx++)
 		{
 			enemy = (EnemySprite) this.enemies.getSpriteAt(enemyIdx);
 			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++)
 			{
-				bullet = (Bullet) this.bullets.getSpriteAt(bulletIdx);
-				if (bullet instanceof CharacterBullet && enemy.collidesWith(bullet, true))
+				bullet = (BulletSprite) this.bullets.getSpriteAt(bulletIdx);
+				if (bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true))
 				{
 					this.bullets.removeSpriteAt(bulletIdx);
 					bulletIdx--;
@@ -417,7 +417,7 @@ public class Game extends Screen
 		int i = 0;
 		while (i < this.bullets.size())
 		{
-			Bullet b = (Bullet) this.bullets.getSpriteAt(i);
+			BulletSprite b = (BulletSprite) this.bullets.getSpriteAt(i);
 			if (b.outsideScreen(this.getWidth()))
 			{
 				this.bullets.removeSpriteAt(i);
