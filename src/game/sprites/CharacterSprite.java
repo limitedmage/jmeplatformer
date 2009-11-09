@@ -121,9 +121,18 @@ public class CharacterSprite extends GameSprite
 	 */
 	public void reduceLife()
 	{
+		this.reduceLife(1);
+	}
+
+	/**
+	 * Reduces the character's life by the specified number of points
+	 * @param p
+	 */
+	public void reduceLife(int p)
+	{
 		if (!this.invulnerable)
 		{
-			this.life -= 1;
+			this.life -= p;
 			this.invulnerable = true;
 			this.starInvulnetableTime = System.currentTimeMillis();
 		}
@@ -134,7 +143,16 @@ public class CharacterSprite extends GameSprite
 	 */
 	public void recoverLife()
 	{
-		this.life += 1;
+		this.recoverLife(1);
+	}
+
+	/**
+	 * Restores the character's life by the specified number of points
+	 * @param p
+	 */
+	public void recoverLife(int p)
+	{
+		this.life += p;
 	}
 
 	/**
