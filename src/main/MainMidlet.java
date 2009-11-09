@@ -12,11 +12,10 @@ import menu.PauseMenu;
 /**
  * Main MIDlet class that manages which Screen is shown and executed
  */
-public class MainMidlet extends MIDlet
-{
+public class MainMidlet extends MIDlet {
+
 	// screen objects
-	private Screen
-			game,
+	private Screen game,
 			mainMenu,
 			credits,
 			pauseMenu,
@@ -33,8 +32,7 @@ public class MainMidlet extends MIDlet
 	 * Initializes all screens to null
 	 * and opens the HighScoreStore
 	 */
-	public MainMidlet()
-	{
+	public MainMidlet() {
 		this.reset();
 
 		// load scores
@@ -47,27 +45,22 @@ public class MainMidlet extends MIDlet
 	 * Else, if there is a screen stored when interrupted, show that screen.
 	 * Else, show the main menu.
 	 */
-    public void startApp()
-	{
-		if (this.game != null)
-		{
+	public void startApp() {
+		if (this.game != null) {
 			this.pauseGame();
 		}
-		else if (this.interruptedScreen != null)
-		{
+		else if (this.interruptedScreen != null) {
 			Display.getDisplay(this).setCurrent(this.interruptedScreen);
 		}
-		else
-		{
+		else {
 			this.startSplash();
 		}
-    }
+	}
 
 	/**
 	 * Creates new game and displays it
 	 */
-	public void startGame()
-	{
+	public void startGame() {
 		this.reset();
 
 		this.game = new Game(this);
@@ -78,8 +71,7 @@ public class MainMidlet extends MIDlet
 	/**
 	 * Creates main menu and displays it
 	 */
-	public void startMainMenu()
-	{
+	public void startMainMenu() {
 		this.reset();
 
 		this.mainMenu = new MainMenu(this);
@@ -90,8 +82,7 @@ public class MainMidlet extends MIDlet
 	/**
 	 * Creates and displays the splash screen
 	 */
-	public void startSplash()
-	{
+	public void startSplash() {
 		this.reset();
 
 		this.splash = new SplashScreen(this);
@@ -102,8 +93,7 @@ public class MainMidlet extends MIDlet
 	/**
 	 * Creates credits screen and displays it
 	 */
-	public void startCredits()
-	{
+	public void startCredits() {
 		this.reset();
 
 		this.credits = new Credits(this);
@@ -114,8 +104,7 @@ public class MainMidlet extends MIDlet
 	/**
 	 * Creates high scores screen and displays it
 	 */
-	public void startHighScores()
-	{
+	public void startHighScores() {
 		this.reset();
 
 		this.highScores = new HighScoreScreen(this);
@@ -129,19 +118,16 @@ public class MainMidlet extends MIDlet
 	 *
 	 * @throws GameDoesNotExistException if there is no game to pause.
 	 */
-	public void pauseGame()
-	{
-		if (game != null)
-		{
+	public void pauseGame() {
+		if (game != null) {
 			this.game.stop();
 
 			this.pauseMenu = new PauseMenu(this);
 			this.pauseMenu.start();
 			Display.getDisplay(this).setCurrent(this.pauseMenu);
 		}
-		else
-		{
-			throw new GameDoesNotExistException();
+		else {
+			throw new NullPointerException("Cannor pause a null game");
 		}
 	}
 
@@ -150,13 +136,10 @@ public class MainMidlet extends MIDlet
 	 *
 	 * @throws GameDoesNotExistException if there is no game to resume.
 	 */
-	public void resumeGame()
-	{
-		if (game != null)
-		{
+	public void resumeGame() {
+		if (game != null) {
 			// destroy pause menu
-			if (pauseMenu == null)
-			{
+			if (pauseMenu == null) {
 				this.pauseMenu = null;
 			}
 
@@ -164,9 +147,8 @@ public class MainMidlet extends MIDlet
 			this.game.start();
 			Display.getDisplay(this).setCurrent(game);
 		}
-		else
-		{
-			throw new GameDoesNotExistException();
+		else {
+			throw new NullPointerException("Cannor resume a null game");
 		}
 	}
 
@@ -174,26 +156,23 @@ public class MainMidlet extends MIDlet
 	 * Called when game interrupted by ie. calls
 	 * Stores the interrupted screen for restoring later
 	 */
-    public void pauseApp()
-	{
-		this.interruptedScreen = (Screen)Display.getDisplay(this).getCurrent();
-    }
+	public void pauseApp() {
+		this.interruptedScreen = (Screen) Display.getDisplay(this).getCurrent();
+	}
 
 	/**
 	 * Called when game exits
 	 * Closes the HighScoreStore
 	 * @param unconditional
 	 */
-    public void destroyApp(boolean unconditional)
-	{
+	public void destroyApp(boolean unconditional) {
 		this.scoresStore.close();
-    }
+	}
 
 	/**
 	 * Quits app
 	 */
-	public void terminate()
-	{
+	public void terminate() {
 		this.destroyApp(true);
 		this.notifyDestroyed();
 	}
@@ -201,44 +180,37 @@ public class MainMidlet extends MIDlet
 	/*
 	 * Resets Screen objects to null
 	 */
-	private void reset()
-	{
-		if (this.game != null)
-		{
+	private void reset() {
+		if (this.game != null) {
 			this.game.stop();
 			this.game = null;
 		}
 
-		if (this.mainMenu != null)
-		{
+		if (this.mainMenu != null) {
 			this.mainMenu.stop();
 			this.mainMenu = null;
 		}
-		
-		if (this.credits != null)
-		{
+
+		if (this.credits != null) {
 			this.credits.stop();
 			this.credits = null;
 		}
 
-		if (this.pauseMenu != null)
-		{
+		if (this.pauseMenu != null) {
 			this.pauseMenu.stop();
 			this.pauseMenu = null;
 		}
 
-		if (this.highScores != null)
-		{
+		if (this.highScores != null) {
 			this.highScores.stop();
 			this.highScores = null;
 		}
 
-		if (this.splash != null)
-		{
+		if (this.splash != null) {
 			this.splash.stop();
 			this.splash = null;
 		}
-		
+
 		this.interruptedScreen = null;
 	}
 
@@ -246,8 +218,7 @@ public class MainMidlet extends MIDlet
 	 * Returns the game's HighScoreStore object for managing scores.
 	 * @return the game's HighScoreStore
 	 */
-	public HighScoreStore getScores()
-	{
+	public HighScoreStore getScores() {
 		return this.scoresStore;
 	}
 }

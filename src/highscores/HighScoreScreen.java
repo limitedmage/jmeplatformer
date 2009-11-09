@@ -18,17 +18,15 @@ import main.Screen;
  *
  * Implements CommandListener and allows to clear scores
  */
-public class HighScoreScreen extends Screen implements CommandListener
-{
-	private HighScoreStore scores;
+public class HighScoreScreen extends Screen implements CommandListener {
 
+	private HighScoreStore scores;
 
 	/**
 	 * Creates a new HighScoreScreen
 	 * @param midlet Parent midlet
 	 */
-	public HighScoreScreen(MainMidlet midlet)
-	{
+	public HighScoreScreen(MainMidlet midlet) {
 		super(midlet);
 
 		this.scores = midlet.getScores();
@@ -39,20 +37,17 @@ public class HighScoreScreen extends Screen implements CommandListener
 		this.setCommandListener(this);
 	}
 
-
 	/**
 	 * Paints the screen
 	 * @param g
 	 */
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		g.setColor(0x00000000);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		int len = this.scores.size();
 
-		if (len > 0)
-		{
+		if (len > 0) {
 			Font f = g.getFont();
 			g.setColor(0x00000000);
 			g.fillRect(0, 0, getWidth(), getHeight());
@@ -64,15 +59,13 @@ public class HighScoreScreen extends Screen implements CommandListener
 
 			g.setColor(0x00ff0000);
 
-			for (int i = 0; i < len; i++)
-			{
+			for (int i = 0; i < len; i++) {
 				String score = this.scores.elementAt(i);
-				g.drawString((i+1) + ". " + score, x, y, Graphics.HCENTER | Graphics.TOP);
+				g.drawString((i + 1) + ". " + score, x, y, Graphics.HCENTER | Graphics.TOP);
 				y += dy;
 			}
 		}
-		else
-		{
+		else {
 			g.setColor(0x00ff0000);
 			g.drawString("No high scores yet", this.getWidth() / 2, 0, Graphics.HCENTER | Graphics.TOP);
 		}
@@ -81,11 +74,9 @@ public class HighScoreScreen extends Screen implements CommandListener
 	/**
 	 * When any button is pressed, return to menu
 	 */
-	public void update()
-	{
+	public void update() {
 		// press any key to go back to main menu
-		if ((getKeyStates()) != 0)
-		{
+		if ((getKeyStates()) != 0) {
 			this.midlet.startMainMenu();
 		}
 	}
@@ -95,10 +86,8 @@ public class HighScoreScreen extends Screen implements CommandListener
 	 * @param c
 	 * @param d
 	 */
-	public void commandAction(Command c, Displayable d)
-	{
-		switch (c.getCommandType())
-		{
+	public void commandAction(Command c, Displayable d) {
+		switch (c.getCommandType()) {
 			case Command.BACK:
 				// back to menu
 				this.midlet.startMainMenu();
@@ -110,11 +99,10 @@ public class HighScoreScreen extends Screen implements CommandListener
 				a.setTimeout(Alert.FOREVER);
 				a.addCommand(new Command("Yes", Command.OK, 1));
 				a.addCommand(new Command("No", Command.CANCEL, 2));
-				a.setCommandListener(new CommandListener(){
-					public void commandAction(Command c, Displayable d)
-					{
-						switch (c.getCommandType())
-						{
+				a.setCommandListener(new CommandListener() {
+
+					public void commandAction(Command c, Displayable d) {
+						switch (c.getCommandType()) {
 							case Command.OK:
 								HighScoreScreen.this.scores.deleteAll();
 								HighScoreScreen.this.midlet.startHighScores();
@@ -134,5 +122,4 @@ public class HighScoreScreen extends Screen implements CommandListener
 		}
 
 	}
-
 }

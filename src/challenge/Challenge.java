@@ -7,12 +7,11 @@ import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.TextField;
 import main.MainMidlet;
 
-public class Challenge extends Form implements CommandListener
-{
+public class Challenge extends Form implements CommandListener {
+
 	MainMidlet midlet;
 
-	public Challenge(MainMidlet midlet)
-	{
+	public Challenge(MainMidlet midlet) {
 		super("Retar a un amigo");
 
 		this.midlet = midlet;
@@ -22,10 +21,6 @@ public class Challenge extends Form implements CommandListener
 		Command send = new Command("Enviar", Command.OK, 1);
 	}
 
-	public void commandAction(Command c, Displayable d)
-	{
-
+	public void commandAction(Command c, Displayable d) {
 	}
-
-
 }

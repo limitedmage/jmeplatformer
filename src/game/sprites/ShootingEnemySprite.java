@@ -5,15 +5,13 @@ import java.io.IOException;
 /**
  * A class for a shooting enemy
  */
-public class ShootingEnemySprite extends EnemySprite
-{
+public class ShootingEnemySprite extends EnemySprite {
+
 	//sprite animation definitions
-	private static final int[]
-			attack = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3};
+	private static final int[] attack = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3};
 
 	// sprite states
-	private static final short
-			ATTACK = 2;
+	private static final short ATTACK = 2;
 
 	// current state
 	private short state;
@@ -28,8 +26,7 @@ public class ShootingEnemySprite extends EnemySprite
 	 * @param bullets GameSpriteGroup to add bullets to
 	 * @throws IOException
 	 */
-	public ShootingEnemySprite(int posX, int posY, GameSpriteGroup bullets) throws IOException
-	{
+	public ShootingEnemySprite(int posX, int posY, GameSpriteGroup bullets) throws IOException {
 		super("/img/characters/Lanzador.png", 45, 45);
 
 		this.setPosition(posX, posY);
@@ -44,10 +41,8 @@ public class ShootingEnemySprite extends EnemySprite
 	 * Changes the state of the sprite
 	 * @param state
 	 */
-	private void setState(short state)
-	{
-		switch (state)
-		{
+	private void setState(short state) {
+		switch (state) {
 			case ATTACK:
 				this.setFrameSequence(attack);
 				break;
@@ -64,14 +59,12 @@ public class ShootingEnemySprite extends EnemySprite
 	 * Attacks every 2 seconds
 	 * Updates state
 	 */
-	public void update()
-	{
+	public void update() {
 		// loads next frame in sequence
 		this.nextFrame();
 
 		// if at last frame of attacking, stop attacking
-		if (this.state == ATTACK && this.getFrame() == attack.length - 1)
-		{
+		if (this.state == ATTACK && this.getFrame() == attack.length - 1) {
 			this.attack();
 		}
 	}
@@ -82,14 +75,11 @@ public class ShootingEnemySprite extends EnemySprite
 	 *
 	 * Attacking creates a new bullet that
 	 */
-	public void attack()
-	{		
-		try
-		{
+	public void attack() {
+		try {
 			bullets.add(new EnemyBulletSprite(this.getX() + 5, this.getY() + 5, true));
 		}
-		catch (IOException ex)
-		{
+		catch (IOException ex) {
 		}
 	}
 }

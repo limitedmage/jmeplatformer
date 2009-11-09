@@ -6,11 +6,11 @@ import java.io.IOException;
 import javax.microedition.lcdui.game.Sprite;
 
 /**
- * Sprite class that represents a vampire
+ * Sprite class that represents a main character
  */
-public class CharacterSprite extends GameSprite
-{
-	// Foreground for collision detection
+public class CharacterSprite extends GameSprite {
+
+	// foreground for collision detection
 	private Foreground foreground;
 
 	// parent game
@@ -18,21 +18,21 @@ public class CharacterSprite extends GameSprite
 
 	// Sprite frame animation definitions
 	private static final int[] // frame animation sequences
-			idle       = {0},
-			walk       = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8},
-			jump       = {9},
-			attack	   = {10, 10, 10, 11, 11, 11};
+			idle = {0},
+			walk = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8},
+			jump = {9},
+			attack = {10, 10, 10, 11, 11, 11};
 
 	// Possible sprite states
 	private static final short // sprite states
-			IDLE       = 1,
-			WALK       = 2,
-			JUMP       = 3,
-			ATTACK     = 4;
-
+			IDLE = 1,
+			WALK = 2,
+			JUMP = 3,
+			ATTACK = 4;
+	
+	// life and invulnerability
 	private static final int INIT_LIFE = 6;
 	private int life;
-
 	private static final long INVULNERABLE_TIME = 1000;
 	private long starInvulnetableTime;
 	private boolean invulnerable;
@@ -48,21 +48,21 @@ public class CharacterSprite extends GameSprite
 
 	// Horizontal and vertical speed
 	private int dx, dy;
-
+	
+	// bullets group
 	private GameSpriteGroup bullets;
 
+	// direction for bullet creation
 	private boolean goingRight;
-	
+
 	/**
-	 * Initialize the sprite, load the image
-	 *
-	 * @param sWidth width of screen
-	 * @param sHeight height of screen
-	 *
-	 * @exception IOException when images fail to load
+	 * Initializes a CharacterSprite
+	 * @param game Parent game
+	 * @param foreground Foreground to check collision with
+	 * @param bullets Group to add new bullets to
+	 * @throws IOException If sprite cannot be created
 	 */
-	public CharacterSprite(Game game, Foreground foreground, GameSpriteGroup bullets) throws IOException
-	{
+	public CharacterSprite(Game game, Foreground foreground, GameSpriteGroup bullets) throws IOException {
 		super("/img/characters/CharSprite.png", 45, 45);
 
 		// start at an arbitrary position
@@ -86,14 +86,11 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Loads the next frame in the sprite
 	 */
-	public void update()
-    {
+	public void update() {
 		this.nextFrame();
 
-		if (this.invulnerable)
-		{
-			if (this.starInvulnetableTime + INVULNERABLE_TIME <= System.currentTimeMillis())
-			{
+		if (this.invulnerable) {
+			if (this.starInvulnetableTime + INVULNERABLE_TIME <= System.currentTimeMillis()) {
 				this.invulnerable = false;
 			}
 		}
@@ -102,25 +99,22 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Define collision rectangle as character's feet
 	 */
-	public void resetCollisionRectangle()
-	{
+	public void resetCollisionRectangle() {
 		this.defineCollisionRectangle(9, 40, 23, 5);
 	}
 
 	/**
 	 * Returns character's current life
-	 * @return
+	 * @return The character's current life
 	 */
-	public int getLife()
-	{
+	public int getLife() {
 		return this.life;
 	}
 
 	/**
 	 * Reduces the character's life by 1 point
 	 */
-	public void reduceLife()
-	{
+	public void reduceLife() {
 		this.reduceLife(1);
 	}
 
@@ -128,10 +122,8 @@ public class CharacterSprite extends GameSprite
 	 * Reduces the character's life by the specified number of points
 	 * @param p
 	 */
-	public void reduceLife(int p)
-	{
-		if (!this.invulnerable)
-		{
+	public void reduceLife(int p) {
+		if (!this.invulnerable) {
 			this.life -= p;
 			this.invulnerable = true;
 			this.starInvulnetableTime = System.currentTimeMillis();
@@ -141,8 +133,7 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Restores the character's life by 1 point
 	 */
-	public void recoverLife()
-	{
+	public void recoverLife() {
 		this.recoverLife(1);
 	}
 
@@ -150,8 +141,7 @@ public class CharacterSprite extends GameSprite
 	 * Restores the character's life by the specified number of points
 	 * @param p
 	 */
-	public void recoverLife(int p)
-	{
+	public void recoverLife(int p) {
 		this.life += p;
 	}
 
@@ -160,10 +150,8 @@ public class CharacterSprite extends GameSprite
 	 *
 	 * @param state IDLE, WALK, JUMP or LAND
 	 */
-	private void setState(short state)
-	{
-		switch (state)
-		{
+	private void setState(short state) {
+		switch (state) {
 			case IDLE:
 				this.setFrameSequence(idle);
 				break;
@@ -186,22 +174,20 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Makes sprite walk to the left
 	 */
-	public void walkLeft()
-	{
-		if (this.state != WALK && this.state != JUMP)
+	public void walkLeft() {
+		if (this.state != WALK && this.state != JUMP) {
 			this.setState(WALK);
+		}
 
 		this.setTransform(Sprite.TRANS_MIRROR);
 		this.goingRight = false;
 
-		if (this.state == JUMP)
-		{
+		if (this.state == JUMP) {
 			this.jump();
 			return;
 		}
 
-		if (!this.onPlatform())
-		{
+		if (!this.onPlatform()) {
 			this.dy = 0;
 			this.fall();
 		}
@@ -210,22 +196,20 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Makes sprite walk to the right
 	 */
-	public void walkRight()
-	{
-		if (this.state != WALK && this.state != JUMP)
+	public void walkRight() {
+		if (this.state != WALK && this.state != JUMP) {
 			this.setState(WALK);
-		
+		}
+
 		this.setTransform(Sprite.TRANS_NONE);
 		this.goingRight = true;
 
-		if (this.state == JUMP)
-		{
+		if (this.state == JUMP) {
 			this.jump();
 			return;
 		}
 
-		if (!this.onPlatform())
-		{
+		if (!this.onPlatform()) {
 			this.dy = 0;
 			this.fall();
 		}
@@ -233,38 +217,36 @@ public class CharacterSprite extends GameSprite
 
 	/**
 	 * Stops sprite form moving
-     * If sprite is jumping, calls this.jump()
+	 * If sprite is jumping, calls this.jump()
 	 */
-	public void idle()
-	{
-        // if sprite is not jumping, use idle animation
-		if (this.state != IDLE && this.state != JUMP && this.state != ATTACK)
+	public void idle() {
+		// if sprite is not jumping, use idle animation
+		if (this.state != IDLE && this.state != JUMP && this.state != ATTACK) {
 			this.setState(IDLE);
+		}
 
-        // if sprite is jumping, use jump animation and calculate jump physics
-		if (this.state == JUMP)
-		{
+		// if sprite is jumping, use jump animation and calculate jump physics
+		if (this.state == JUMP) {
 			this.jump();
 			return;
 		}
 
-		if (!this.onPlatform())
-		{
+		if (!this.onPlatform()) {
 			this.dy = 0;
 			this.fall();
 		}
 
-		if (this.state == ATTACK && this.getFrame() == attack.length - 1)
+		if (this.state == ATTACK && this.getFrame() == attack.length - 1) {
 			this.setState(IDLE);
+		}
 
 	}
 
 	/**
 	 * Returns true if character is touching a platform
-	 * @return
+	 * @return true if the character is touching a platform, false otherwise
 	 */
-	public boolean onPlatform()
-	{
+	public boolean onPlatform() {
 		boolean belowForeground = this.getY() > foreground.getY() + foreground.getHeight() - this.getHeight();
 
 		boolean before = this.collidesWith(foreground, false);
@@ -283,11 +265,9 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Makes sprite jump and land
 	 */
-	public void jump()
-	{
+	public void jump() {
 		// if first jumping
-		if (this.state != JUMP)
-		{
+		if (this.state != JUMP) {
 			// change animation to jump
 			this.setState(JUMP);
 
@@ -301,37 +281,30 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Updates character's vertical speed
 	 */
-	public void fall()
-	{
+	public void fall() {
 		// if first jumping
-		if (this.state != JUMP)
-		{
+		if (this.state != JUMP) {
 			// change animation to jump
 			this.setState(JUMP);
 		}
 
 		// calculate gravity physics
 		this.dy += CharacterSprite.gravity;
-		
-		if (this.dy > 0)
-		{
+
+		if (this.dy > 0) {
 			// if moving down, check if collided with platform by falling pixel by pixel
-			for (int pixels = 0; pixels < this.dy; pixels++)
-			{
+			for (int pixels = 0; pixels < this.dy; pixels++) {
 				this.game.verticalScroll(1);
-				if (this.onPlatform())
-				{
+				if (this.onPlatform()) {
 					this.dy = 0;
 					this.setState(IDLE);
 					break;
 				}
 			}
 		}
-		else if (this.dy < 0)
-		{
+		else if (this.dy < 0) {
 			// if moving up, just move sprite vertically
-			for (int pixels = 0; pixels < -this.dy; pixels++)
-			{
+			for (int pixels = 0; pixels < -this.dy; pixels++) {
 				this.game.verticalScroll(-1);
 			}
 		}
@@ -341,17 +314,15 @@ public class CharacterSprite extends GameSprite
 	/**
 	 * Attacks by adding a new CharacterSprite to the bullets group
 	 */
-	public void attack()
-	{
-		if (this.state != ATTACK)
+	public void attack() {
+		if (this.state != ATTACK) {
 			this.setState(ATTACK);
-		
-		try
-		{
+		}
+
+		try {
 			this.bullets.add(new CharacterBulletSprite(this.getRefPixelX(), this.getRefPixelY(), this.goingRight));
 		}
-		catch (IOException ex)
-		{
+		catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}

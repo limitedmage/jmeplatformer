@@ -10,16 +10,15 @@ import main.Updateable;
  * updated and drawn together
  * Internally it is wrapped around a Vector
  */
-public class GameSpriteGroup implements Updateable, Paintable
-{
+public class GameSpriteGroup implements Updateable, Paintable {
+
 	// the vector where the sprites are stored
 	private Vector spriteVec;
 
 	/**
 	 * Create a new GameSpriteGroup with initial capactity 10
 	 */
-	public GameSpriteGroup()
-	{
+	public GameSpriteGroup() {
 		spriteVec = new Vector();
 	}
 
@@ -27,8 +26,7 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * Create a new GameSpriteGroup
 	 * @param capacity - Initial capacity
 	 */
-	public GameSpriteGroup(int capacity)
-	{
+	public GameSpriteGroup(int capacity) {
 		spriteVec = new Vector(capacity);
 	}
 
@@ -36,8 +34,7 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * Adds a GameSprite to the GameSpriteGroup
 	 * @param sprite
 	 */
-	public void add(GameSprite sprite)
-	{
+	public void add(GameSprite sprite) {
 		spriteVec.addElement(sprite);
 	}
 
@@ -46,21 +43,18 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * @param sprite
 	 * @param index
 	 */
-	public void insertAt(GameSprite sprite, int index)
-	{
+	public void insertAt(GameSprite sprite, int index) {
 		spriteVec.insertElementAt(sprite, index);
 	}
 
 	/**
 	 * Updates all the GameSprites in the group
 	 */
-	public void update()
-	{
+	public void update() {
 		int len = this.size();
 
-		for (int i = 0; i < len; i++)
-		{
-			((GameSprite)spriteVec.elementAt(i)).update();
+		for (int i = 0; i < len; i++) {
+			((GameSprite) spriteVec.elementAt(i)).update();
 		}
 	}
 
@@ -68,13 +62,11 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * Paints all the GameSprites in the group
 	 * @param g
 	 */
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		int len = this.size();
 
-		for (int i = 0; i < len; i++)
-		{
-			((GameSprite)spriteVec.elementAt(i)).paint(g);
+		for (int i = 0; i < len; i++) {
+			((GameSprite) spriteVec.elementAt(i)).paint(g);
 		}
 	}
 
@@ -83,13 +75,11 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * @param dx - Horizontal movement
 	 * @param dy - Vertical movement
 	 */
-	public void move(int dx, int dy)
-	{
+	public void move(int dx, int dy) {
 		int len = spriteVec.size();
 
-		for (int i = 0; i < len; i++)
-		{
-			((GameSprite)spriteVec.elementAt(i)).move(dx, dy);
+		for (int i = 0; i < len; i++) {
+			((GameSprite) spriteVec.elementAt(i)).move(dx, dy);
 		}
 	}
 
@@ -97,8 +87,7 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * Removes an enemy from the group at the specified index
 	 * @param index
 	 */
-	public void removeSpriteAt(int index)
-	{
+	public void removeSpriteAt(int index) {
 		spriteVec.removeElementAt(index);
 	}
 
@@ -107,9 +96,8 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * @param index
 	 * @return The GameSprite at the index
 	 */
-	public GameSprite getSpriteAt(int index)
-	{
-		return (GameSprite)spriteVec.elementAt(index);
+	public GameSprite getSpriteAt(int index) {
+		return (GameSprite) spriteVec.elementAt(index);
 	}
 
 	/**
@@ -117,8 +105,7 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * @param sprite
 	 * @return The index of the sprite, or -1 if it is not found
 	 */
-	public int indexOf(GameSprite sprite)
-	{
+	public int indexOf(GameSprite sprite) {
 		return spriteVec.indexOf(sprite);
 	}
 
@@ -126,8 +113,7 @@ public class GameSpriteGroup implements Updateable, Paintable
 	 * Returns the number of sprites in the group
 	 * @return The number of sprites in the group
 	 */
-	public int size()
-	{
+	public int size() {
 		return spriteVec.size();
 	}
 }
