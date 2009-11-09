@@ -8,8 +8,8 @@ import main.Paintable;
 /**
  * A background for the game
  */
-public class Background implements Paintable
-{
+public class Background implements Paintable {
+
 	private Image image;
 	private int x, y;
 
@@ -17,8 +17,7 @@ public class Background implements Paintable
 	 * Creates a new background
 	 * @throws IOException If background could not be created
 	 */
-	public Background() throws IOException
-	{
+	public Background() throws IOException {
 		this.image = Image.createImage("/img/backgrounds/nivel1_fondo.png");
 
 		this.setPosition(0, 0);
@@ -29,8 +28,7 @@ public class Background implements Paintable
 	 * @param x
 	 * @param y
 	 */
-	public void setPosition(int x, int y)
-	{
+	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -40,8 +38,7 @@ public class Background implements Paintable
 	 * @param dx
 	 * @param dy
 	 */
-	public void move(int dx, int dy)
-	{
+	public void move(int dx, int dy) {
 		this.x += dx;
 		this.y += dy;
 	}
@@ -50,8 +47,7 @@ public class Background implements Paintable
 	 * Paints the background
 	 * @param g
 	 */
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		g.drawImage(this.image, this.x, this.y, 0);
 	}
 }

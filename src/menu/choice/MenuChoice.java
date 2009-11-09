@@ -3,48 +3,43 @@ package menu.choice;
 import main.MainMidlet;
 import javax.microedition.lcdui.Graphics;
 
-public abstract class MenuChoice
-{
+public abstract class MenuChoice {
 	//private Image image;
+
 	private String text;
 
 	/**
 	 * Creates a new menu choice
 	 * @param text Text to be shown when menu text is drawn
 	 */
-	public MenuChoice(/*Image image,*/ String text)
-	{
-		//this.image = image;
+	public MenuChoice(String text) {
 		this.text = text;
 	}
 
-	//public Image getImage(){ return this.image; }
-
 	/**
 	 * Return the text of the menu choice
-	 * @return
+	 * @return The menu choice's text
 	 */
-	public String getText(){ return this.text; }
+	public String getText() {
+		return this.text;
+	}
 
 	/**
 	 * Draws the menu choice text
-	 * @param g
-	 * @param posx x position of text
-	 * @param posy y position of text
-	 * @param selected if true, text will be red, else, it will be white.
+	 * @param g Graphics to paint to
+	 * @param posX X position of text
+	 * @param posY Y position of text
+	 * @param selected If true, text will be red, else, it will be white.
 	 */
-	public void paint(Graphics g, int posx, int posy, boolean selected)
-	{
-		if (selected)
-		{
+	public void paint(Graphics g, int posX, int posY, boolean selected) {
+		if (selected) {
 			g.setColor(0xff0000);
 		}
-		else
-		{
+		else {
 			g.setColor(0xffffff);
 		}
-		
-		g.drawString(text, posx, posy, Graphics.HCENTER | Graphics.TOP);
+
+		g.drawString(text, posX, posY, Graphics.HCENTER | Graphics.TOP);
 
 	}
 
@@ -52,5 +47,5 @@ public abstract class MenuChoice
 	 * Abstract method that MenuChoice child classes should override.
 	 * Should implement what the menu choice does when selected.
 	 */
-	public abstract void execute(MainMidlet midlet); // abstract class for menu action
+	public abstract void execute(MainMidlet midlet);
 }

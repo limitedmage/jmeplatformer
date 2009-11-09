@@ -2,17 +2,13 @@ package menu.choice;
 
 import main.MainMidlet;
 
-public class ContinueGameChoice extends MenuChoice
-{
+public class ContinueGameChoice extends MenuChoice {
 
-	public ContinueGameChoice()
-	{
+	public ContinueGameChoice() {
 		super("Continue");
 	}
 
-	public void execute(MainMidlet midlet)
-	{
+	public void execute(MainMidlet midlet) {
 		midlet.resumeGame();
 	}
-
 }

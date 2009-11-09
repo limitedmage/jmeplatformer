@@ -12,10 +12,9 @@ import main.Screen;
 /**
  * MenuChoice for ending game
  */
-public class EndGameChoice extends MenuChoice
-{
-	public EndGameChoice()
-	{
+public class EndGameChoice extends MenuChoice {
+
+	public EndGameChoice() {
 		super("Exit game");
 	}
 
@@ -25,13 +24,12 @@ public class EndGameChoice extends MenuChoice
 	 * If user selects No, main menu is shown
 	 * @param midlet
 	 */
-	public void execute(MainMidlet midlet)
-	{
+	public void execute(MainMidlet midlet) {
 		Alert a = new Alert("Are you sure you want to exit?", null, null, AlertType.CONFIRMATION);
 		a.addCommand(new Command("Yes", Command.OK, 1));
 		a.addCommand(new Command("No", Command.CANCEL, 2));
 		a.setCommandListener(new ExitAlertCommandListener(midlet));
-		Screen oldScreen = (Screen)Display.getDisplay(midlet).getCurrent();
+		Screen oldScreen = (Screen) Display.getDisplay(midlet).getCurrent();
 		Display.getDisplay(midlet).setCurrent(a, oldScreen);
 	}
 
@@ -40,19 +38,16 @@ public class EndGameChoice extends MenuChoice
 	 * If yes, game quits
 	 * If no, main menu is shown
 	 */
-	class ExitAlertCommandListener implements CommandListener
-	{
+	class ExitAlertCommandListener implements CommandListener {
+
 		private MainMidlet midlet;
 
-		public ExitAlertCommandListener(MainMidlet midlet)
-		{
+		public ExitAlertCommandListener(MainMidlet midlet) {
 			this.midlet = midlet;
 		}
 
-		public void commandAction(Command c, Displayable d)
-		{
-			switch (c.getCommandType())
-			{
+		public void commandAction(Command c, Displayable d) {
+			switch (c.getCommandType()) {
 				case Command.OK:
 					this.midlet.terminate();
 					break;
@@ -60,7 +55,6 @@ public class EndGameChoice extends MenuChoice
 					this.midlet.startMainMenu();
 					break;
 			}
-		}	
+		}
 	}
-
 }

@@ -9,18 +9,16 @@ import javax.microedition.lcdui.Graphics;
 /**
  * Describes a Menu as a list of MenuChoice
  */
-public class Menu extends Screen
-{
+public class Menu extends Screen {
+
 	private Vector choices;
 	private int selected;
-
 	private boolean menuChanged;
 
 	/**
 	 * Creates a new menu
 	 */
-	public Menu(MainMidlet midlet)
-	{
+	public Menu(MainMidlet midlet) {
 		super(midlet);
 
 		menuChanged = false;
@@ -33,8 +31,7 @@ public class Menu extends Screen
 	 * Adds a choice to the menu
 	 * @param choice
 	 */
-	public void addChoice(MenuChoice choice)
-	{
+	public void addChoice(MenuChoice choice) {
 		choices.addElement(choice);
 	}
 
@@ -42,54 +39,50 @@ public class Menu extends Screen
 	 * Selects the next choice in the menu
 	 * If at the end of the menu, it will select the first item
 	 */
-	public void nextChoice()
-	{
+	public void nextChoice() {
 		selected += 1;
-		if (selected >= choices.size())
+		if (selected >= choices.size()) {
 			selected = 0;
+		}
 	}
 
 	/**
 	 * Selects the previous choice in the menu
 	 * If at the beginning of the menu, it will select the las item
 	 */
-	public void prevChoice()
-	{
+	public void prevChoice() {
 		selected -= 1;
-		if (selected < 0)
+		if (selected < 0) {
 			selected = choices.size() - 1;
+		}
 	}
 
 	/**
 	 * Excecutes the currently selected menu choice
 	 */
-	public void select()
-	{
-		((MenuChoice)choices.elementAt(selected)).execute(midlet);
+	public void select() {
+		((MenuChoice) choices.elementAt(selected)).execute(midlet);
 	}
 
 	/**
 	 * Draws the menu
 	 * @param g
 	 */
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		int len = choices.size();
 
-		if (len > 0)
-		{
+		if (len > 0) {
 			// clear screen
 			g.setColor(0x00000000);
 			g.fillRect(0, 0, getWidth(), getHeight());
 
 			int y = 0;
 			int x = getWidth() / 2;
-			
+
 			int dy = getHeight() / len;
 
-			for (int i = 0; i < len; i++)
-			{
-				((MenuChoice)choices.elementAt(i)).paint(g, x, y, i == selected);
+			for (int i = 0; i < len; i++) {
+				((MenuChoice) choices.elementAt(i)).paint(g, x, y, i == selected);
 				y += dy;
 			}
 		}
@@ -101,35 +94,25 @@ public class Menu extends Screen
 	 * If Down pressed, selects next choice
 	 * If Fire pressed, executes currently selected choice
 	 */
-	public void update()
-	{
+	public void update() {
 		int keys = this.getKeyStates();
-		
-		if ((keys & DOWN_PRESSED) != 0)
-		{
-			if (!menuChanged)
-			{
+
+		if ((keys & DOWN_PRESSED) != 0) {
+			if (!menuChanged) {
 				this.nextChoice();
 				menuChanged = true;
 			}
 		}
-
-		else if ((keys & UP_PRESSED) != 0)
-		{
-			if (!menuChanged)
-			{
+		else if ((keys & UP_PRESSED) != 0) {
+			if (!menuChanged) {
 				this.prevChoice();
 				menuChanged = true;
 			}
 		}
-
-		else if ((keys & FIRE_PRESSED) != 0)
-		{
+		else if ((keys & FIRE_PRESSED) != 0) {
 			this.select();
 		}
-
-		else
-		{
+		else {
 			menuChanged = false;
 		}
 	}

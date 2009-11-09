@@ -1,14 +1,6 @@
 package game;
 
-import game.sprites.BulletSprite;
-import game.sprites.CharacterBulletSprite;
-import game.sprites.EndMarkerSprite;
-import game.sprites.CharacterSprite;
-import game.sprites.EnemyBulletSprite;
-import game.sprites.GameSpriteGroup;
-import game.sprites.EnemySprite;
-import game.sprites.HittingEnemySprite;
-import game.sprites.ShootingEnemySprite;
+import game.sprites.*;
 import highscores.HighScoreAdder;
 import highscores.HighScoreStore;
 import main.Screen;
@@ -27,28 +19,30 @@ import javax.microedition.lcdui.Graphics;
 /**
  * The actual game!
  */
-public class Game extends Screen
-{
+public class Game extends Screen {
+
 	// elements of the game
 	private CharacterSprite mainChar;
 	private Foreground foreground;
 	private Background background;
 	private EndMarkerSprite endMarker;
 
-    // variables for fps calculation
+	// variables for fps calculation
 	private int entries;
 	private long startTime;
 	private int fps;
 
+	// points in the game
 	private int points;
 
 	// flag for jumping input handling
 	private boolean jumping;
+
 	// flag for attacking input handling
 	private boolean attacking;
 
 	// half of screen width and height, used to calculate scrolling.
-	private int hWidth, hHeight; 
+	private int hWidth, hHeight;
 
 	// speed to move sprite
 	private final int walkSpeed;
@@ -59,16 +53,17 @@ public class Game extends Screen
 	// bullets group
 	private GameSpriteGroup bullets;
 
+	// items group
+	private GameSpriteGroup items;
+
 	/**
 	 * Starts a new game
 	 * @param midlet - Parent MIDlet
 	 */
-	public Game(MainMidlet midlet)
-	{
+	public Game(MainMidlet midlet) {
 		super(midlet);
 
-		try
-		{
+		try {
 			// initialize static game objetcs
 			this.foreground = new Foreground();
 			this.background = new Background();
@@ -95,11 +90,17 @@ public class Game extends Screen
 			this.enemies.add(new ShootingEnemySprite(200, 100, this.bullets));
 			this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
 
+			// initialize items group
+			this.items = new GameSpriteGroup();
+
+			// initialize items
+			this.items.add(new SodaItemSprite(100, 147));
+			this.items.add(new HeartItemSprite(400, 50));
+
 			// initialize character
 			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
 		}
-		catch (IOException ex)
-		{
+		catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
@@ -108,7 +109,7 @@ public class Game extends Screen
 
 		this.jumping = false;
 		this.attacking = false;
-		
+
 		this.walkSpeed = 5;
 
 		this.points = 0;
@@ -121,8 +122,7 @@ public class Game extends Screen
 	 * Paints the game
 	 * @param g
 	 */
-	public void paint(Graphics g)
-	{
+	public void paint(Graphics g) {
 		// clear screen
 		g.setColor(0);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
@@ -131,9 +131,10 @@ public class Game extends Screen
 		this.background.paint(g);
 		this.foreground.paint(g);
 		this.endMarker.paint(g);
-		
+
 		this.enemies.paint(g);
 		this.bullets.paint(g);
+		this.items.paint(g);
 
 		this.mainChar.paint(g);
 
@@ -147,98 +148,87 @@ public class Game extends Screen
 	 * Paints the hud like life, points, etc
 	 * @param g
 	 */
-	private void paintHud(Graphics g)
-	{
+	private void paintHud(Graphics g) {
 		g.setColor(0);
 		Font f = g.getFont();
 		g.drawString("Life: " + this.mainChar.getLife(), this.getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
 		g.drawString("Points: " + this.points, this.getWidth(), f.getHeight(), Graphics.TOP | Graphics.RIGHT);
-
 	}
 
-    /**
-     * Updates game input and physics
-     */
-	public void update()
-	{
-		int keys = this.getKeyStates();
-
-		// pausing?
-		if ((keys & GAME_A_PRESSED) != 0)
-		{
-			this.midlet.pauseGame();
-		}
-
-		
-		if ((keys & LEFT_PRESSED) != 0)
-		{
-			this.moveLeft();
-		}
-		else if ((keys & RIGHT_PRESSED) != 0)
-		{
-			this.moveRight();
-		}
-		else
-		{
-			this.mainChar.idle();
-		}
-
-		if ((keys & UP_PRESSED) != 0)
-		{
-			if (!this.jumping)
-			{
-				this.mainChar.jump();
-				this.jumping = true;
-			}
-		}
-		else
-		{
-			this.jumping = false;
-		}
-
-		if ((keys & FIRE_PRESSED) != 0)
-		{
-			if (!this.attacking)
-			{
-				this.mainChar.attack();
-				this.attacking = true;
-			}
-		}
-		else
-		{
-			this.attacking = false;
-		}
+	/**
+	 * Updates game input and physics
+	 */
+	public void update() {
+		this.handleInput();
 
 		this.checkCharacterDamage();
 		this.checkEnemyDamage();
+		this.checkItems();
 
 		this.checkWon();
 		this.checkLost();
-		
-		
-		this.removeOutOfRangBullet();
+
+		this.removeOutOfRangeBullets();
 
 		this.mainChar.update();
 		this.enemies.update();
 		this.bullets.update();
+	}
 
+	/**
+	 * Handles input for the game
+	 */
+	private void handleInput() {
+		int keys = this.getKeyStates();
+
+		// pausing?
+		if ((keys & GAME_A_PRESSED) != 0) {
+			this.midlet.pauseGame();
+		}
+
+		if ((keys & LEFT_PRESSED) != 0) {
+			this.moveLeft();
+		}
+		else if ((keys & RIGHT_PRESSED) != 0) {
+			this.moveRight();
+		}
+		else {
+			this.mainChar.idle();
+		}
+
+		if ((keys & UP_PRESSED) != 0) {
+			if (!this.jumping) {
+				this.mainChar.jump();
+				this.jumping = true;
+			}
+		}
+		else {
+			this.jumping = false;
+		}
+
+		if ((keys & FIRE_PRESSED) != 0) {
+			if (!this.attacking) {
+				this.mainChar.attack();
+				this.attacking = true;
+			}
+		}
+		else {
+			this.attacking = false;
+		}
 	}
 
 	/**
 	 * Checks if character has been hit by bullets or enemies
 	 */
-	public void checkCharacterDamage()
-	{
+	public void checkCharacterDamage() {
 		this.mainChar.defineCollisionRectangle(0, 0, this.mainChar.getWidth(), this.mainChar.getHeight());
 
 		// collide with enemies
 		EnemySprite enemy;
 		int numEnemies = this.enemies.size();
-		for (int i = 0; i < numEnemies; i++)
-		{
+		for (int i = 0; i < numEnemies; i++) {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(i);
-			if (this.mainChar.collidesWith(enemy, true))
-			{
+			if (this.mainChar.collidesWith(enemy, true)) {
 				this.mainChar.reduceLife();
 			}
 		}
@@ -246,11 +236,9 @@ public class Game extends Screen
 		// collide with bullets
 		BulletSprite bullet;
 		int numBullets = this.bullets.size();
-		for (int i = 0; i < numBullets; i++)
-		{
+		for (int i = 0; i < numBullets; i++) {
 			bullet = (BulletSprite) this.bullets.getSpriteAt(i);
-			if (bullet instanceof EnemyBulletSprite && this.mainChar.collidesWith(bullet, true))
-			{
+			if (bullet instanceof EnemyBulletSprite && this.mainChar.collidesWith(bullet, true)) {
 				this.mainChar.reduceLife();
 			}
 		}
@@ -261,18 +249,14 @@ public class Game extends Screen
 	/**
 	 * Checks if enemies have been hit by bullets
 	 */
-	public void checkEnemyDamage()
-	{
+	public void checkEnemyDamage() {
 		EnemySprite enemy;
 		BulletSprite bullet;
-		for (int enemyIdx = 0; enemyIdx < this.enemies.size(); enemyIdx++)
-		{
+		for (int enemyIdx = 0; enemyIdx < this.enemies.size(); enemyIdx++) {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(enemyIdx);
-			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++)
-			{
+			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++) {
 				bullet = (BulletSprite) this.bullets.getSpriteAt(bulletIdx);
-				if (bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true))
-				{
+				if (bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true)) {
 					this.bullets.removeSpriteAt(bulletIdx);
 					bulletIdx--;
 
@@ -287,15 +271,36 @@ public class Game extends Screen
 		}
 	}
 
-    /**
-     * Calculates the FPS the game is running at
-     * and draws them on the screen
-     */
-	private void calculateFps(Graphics g)
-	{
+	/**
+	 * Checks if character has collided with items
+	 * and uses them if necessary
+	 */
+	public void checkItems() {
+		this.mainChar.defineCollisionRectangle(0, 0, this.mainChar.getWidth(), this.mainChar.getHeight());
+
+		// collide with items
+		ItemSprite item;
+		for (int i = 0; i < this.items.size(); i++) {
+			item = (ItemSprite) this.items.getSpriteAt(i);
+			if (this.mainChar.collidesWith(item, true)) {
+				this.points += item.getPoints();
+				this.mainChar.recoverLife(item.getRecovery());
+
+				this.items.removeSpriteAt(i);
+				i--;
+			}
+		}
+
+		this.mainChar.resetCollisionRectangle();
+	}
+
+	/**
+	 * Calculates the FPS the game is running at
+	 * and draws them on the screen
+	 */
+	private void calculateFps(Graphics g) {
 		this.entries++;
-		if (this.startTime + 1000 <= System.currentTimeMillis())
-		{
+		if (this.startTime + 1000 <= System.currentTimeMillis()) {
 			this.fps = this.entries;
 			this.entries = 0;
 			this.startTime = System.currentTimeMillis();
@@ -307,8 +312,7 @@ public class Game extends Screen
 	/**
 	 * Moves game screen to the left
 	 */
-	private void moveLeft()
-	{
+	private void moveLeft() {
 		this.mainChar.walkLeft();
 
 		horizontalScroll(-this.walkSpeed);
@@ -317,8 +321,7 @@ public class Game extends Screen
 	/**
 	 * Moves game screen to the right
 	 */
-	private void moveRight()
-	{
+	private void moveRight() {
 		this.mainChar.walkRight();
 
 		horizontalScroll(this.walkSpeed);
@@ -329,8 +332,7 @@ public class Game extends Screen
 	 * @param dx - horizontal speed
 	 * @param dy - vertical speed
 	 */
-	public void scroll(int dx, int dy)
-	{
+	public void scroll(int dx, int dy) {
 		horizontalScroll(dx);
 		verticalScroll(dy);
 	}
@@ -339,38 +341,32 @@ public class Game extends Screen
 	 * Scrolls horizontally
 	 * @param dx Distance to scroll
 	 */
-	public void horizontalScroll(int dx)
-	{
+	public void horizontalScroll(int dx) {
 		/** Horizontal Scroll **/
-
 		// get sprite horizontal position relative to the background
 		int spritePosX = this.mainChar.getX() - this.foreground.getX();
 
 		// if at first half of screen
-		if (spritePosX < this.hWidth)
-		{
+		if (spritePosX < this.hWidth) {
 			// if going right
-			if (mainChar.getX() >= 0 || dx > 0)
-			{
+			if (mainChar.getX() >= 0 || dx > 0) {
 				this.mainChar.move(dx, 0);
 			}
 		}
 		// if at last half of screen
-		else if (spritePosX > this.foreground.getWidth() - this.hWidth)
-		{
+		else if (spritePosX > this.foreground.getWidth() - this.hWidth) {
 			// if going left
-			if (spritePosX + this.mainChar.getWidth() <= this.foreground.getWidth() || dx < 0)
-			{
+			if (spritePosX + this.mainChar.getWidth() <= this.foreground.getWidth() || dx < 0) {
 				this.mainChar.move(dx, 0);
 			}
 		}
-		else
-		{
+		else {
 			this.mainChar.setPosition(this.hWidth, this.mainChar.getY());
 			this.foreground.move(-dx, 0);
 			this.background.move(-dx, 0);
 			this.enemies.move(-dx, 0);
 			this.bullets.move(-dx, 0);
+			this.items.move(-dx, 0);
 			this.endMarker.move(-dx, 0);
 		}
 	}
@@ -379,31 +375,26 @@ public class Game extends Screen
 	 * Scrolls vertically
 	 * @param dy Distance to scroll
 	 */
-	public void verticalScroll(int dy)
-	{
+	public void verticalScroll(int dy) {
 		/** Vertical Scroll **/
 		// get sprite horizontal position relative to the background
 		int spritePosY = this.mainChar.getY() - this.foreground.getY();
-		if (spritePosY < this.hHeight)
-		{
-			if (spritePosY >= 0 || dy > 0)
-			{
+		if (spritePosY < this.hHeight) {
+			if (spritePosY >= 0 || dy > 0) {
 				this.mainChar.move(0, dy);
 			}
 		}
-		else if (spritePosY > this.foreground.getHeight() - this.hHeight)
-		{
-			if (spritePosY + this.mainChar.getHeight() <= this.foreground.getHeight() || dy < 0)
-			{
+		else if (spritePosY > this.foreground.getHeight() - this.hHeight) {
+			if (spritePosY + this.mainChar.getHeight() <= this.foreground.getHeight() || dy < 0) {
 				this.mainChar.move(0, dy);
 			}
 		}
-		else
-		{
+		else {
 			this.mainChar.setPosition(this.mainChar.getX(), this.hHeight);
 			this.foreground.move(0, -dy);
 			this.background.move(0, -dy);
 			this.enemies.move(0, -dy);
+			this.items.move(0, -dy);
 			this.bullets.move(0, -dy);
 			this.endMarker.move(0, -dy);
 		}
@@ -412,18 +403,14 @@ public class Game extends Screen
 	/**
 	 * Removes bullets out of the screen range
 	 */
-	private void removeOutOfRangBullet()
-	{
+	private void removeOutOfRangeBullets() {
 		int i = 0;
-		while (i < this.bullets.size())
-		{
+		while (i < this.bullets.size()) {
 			BulletSprite b = (BulletSprite) this.bullets.getSpriteAt(i);
-			if (b.outsideScreen(this.getWidth()))
-			{
+			if (b.outsideScreen(this.getWidth())) {
 				this.bullets.removeSpriteAt(i);
 			}
-			else
-			{
+			else {
 				i++;
 			}
 		}
@@ -432,30 +419,25 @@ public class Game extends Screen
 	/**
 	 * Checks if game has been lost
 	 */
-	public void checkWon()
-	{
-		if (this.mainChar.collidesWith(this.endMarker, false))
-		{
+	public void checkWon() {
+		if (this.mainChar.collidesWith(this.endMarker, false)) {
 			this.stop();
 
 			boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore() || this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
 
-			if (scoreCanBeAdded)
-			{
+			if (scoreCanBeAdded) {
 				Alert a = new Alert("Game won!! High Score!", "Add to high scores?", null, AlertType.INFO);
 
 				a.setTimeout(Alert.FOREVER);
 				a.addCommand(new Command("Yes", Command.OK, 1));
 				a.addCommand(new Command("No", Command.CANCEL, 2));
-				a.setCommandListener(new CommandListener(){
-					public void commandAction(Command c, Displayable d)
-					{
-						if (c.getCommandType() == Command.OK)
-						{
+				a.setCommandListener(new CommandListener() {
+
+					public void commandAction(Command c, Displayable d) {
+						if (c.getCommandType() == Command.OK) {
 							Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.points, Game.this.midlet));
 						}
-						else if (c.getCommandType() == Command.CANCEL)
-						{
+						else if (c.getCommandType() == Command.CANCEL) {
 							Game.this.midlet.startMainMenu();
 						}
 					}
@@ -463,16 +445,14 @@ public class Game extends Screen
 
 				Display.getDisplay(midlet).setCurrent(a, this);
 			}
-			else
-			{
+			else {
 				Alert a = new Alert("Game won!!", "", null, AlertType.INFO);
 
 				a.setTimeout(Alert.FOREVER);
-				a.setCommandListener(new CommandListener(){
-					public void commandAction(Command c, Displayable d)
-					{
-						if (c.getCommandType() == Command.OK)
-						{
+				a.setCommandListener(new CommandListener() {
+
+					public void commandAction(Command c, Displayable d) {
+						if (c.getCommandType() == Command.OK) {
 							Game.this.midlet.startMainMenu();
 						}
 					}
@@ -486,24 +466,20 @@ public class Game extends Screen
 	/**
 	 * Checks if game has been lost
 	 */
-	public void checkLost()
-	{
-		if (this.mainChar.getLife() <= 0)
-		{
+	public void checkLost() {
+		if (this.mainChar.getLife() <= 0) {
 			this.stop();
 			Alert a = new Alert("Game Lost", "", null, AlertType.INFO);
 			a.setTimeout(Alert.FOREVER);
-			a.setCommandListener(new CommandListener(){
-				public void commandAction(Command c, Displayable d)
-				{
-					if (c.getCommandType() == Command.OK)
-					{
+			a.setCommandListener(new CommandListener() {
+
+				public void commandAction(Command c, Displayable d) {
+					if (c.getCommandType() == Command.OK) {
 						Game.this.midlet.startMainMenu();
 					}
 				}
 			});
 			Display.getDisplay(midlet).setCurrent(a, this);
-
 		}
 	}
 }

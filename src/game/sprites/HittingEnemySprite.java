@@ -5,16 +5,14 @@ import java.io.IOException;
 /**
  * Class for the hitting enemy
  */
-public class HittingEnemySprite extends EnemySprite
-{
+public class HittingEnemySprite extends EnemySprite {
+
 	//sprite animation definitions
-	private static final int[]
-			idle = {8},
+	private static final int[] idle = {8},
 			attack = {5, 5, 6, 6, 7, 7, 8, 8};
 
 	// sprite states
-	private static final short
-			IDLE = 1,
+	private static final short IDLE = 1,
 			ATTACK = 2;
 
 	// current state
@@ -29,8 +27,7 @@ public class HittingEnemySprite extends EnemySprite
 	 * @param posY - Y position of the enemy
 	 * @throws IOException
 	 */
-	public HittingEnemySprite(int posX, int posY) throws IOException
-	{
+	public HittingEnemySprite(int posX, int posY) throws IOException {
 		super("/img/characters/Pegador.png", posX, posY);
 
 		this.setState(IDLE);
@@ -42,10 +39,8 @@ public class HittingEnemySprite extends EnemySprite
 	 * Changes the state of the sprite
 	 * @param state
 	 */
-	private void setState(short state)
-	{
-		switch (state)
-		{
+	private void setState(short state) {
+		switch (state) {
 			case IDLE:
 				this.setFrameSequence(idle);
 				break;
@@ -65,21 +60,18 @@ public class HittingEnemySprite extends EnemySprite
 	 * Attacks every 2 seconds
 	 * Updates state
 	 */
-	public void update()
-	{
+	public void update() {
 		// loads next frame in sequence
 		this.nextFrame();
 
 		// if 2 seconds have passed since last attack, attack
-		if (this.startTime + 2000 <= System.currentTimeMillis())
-		{
+		if (this.startTime + 2000 <= System.currentTimeMillis()) {
 			this.attack();
 			this.startTime = System.currentTimeMillis();
 		}
 
 		// if at last frame of attacking, stop attacking
-		if (this.state == ATTACK && this.getFrame() == attack.length - 1)
-		{
+		if (this.state == ATTACK && this.getFrame() == attack.length - 1) {
 			this.setState(IDLE);
 		}
 	}
@@ -88,10 +80,8 @@ public class HittingEnemySprite extends EnemySprite
 	 * Makes the enemy attack if it is idle
 	 * If enemy is not idle, does nothing
 	 */
-	public void attack()
-	{
-		if (this.state == IDLE)
-		{
+	public void attack() {
+		if (this.state == IDLE) {
 			this.setState(ATTACK);
 		}
 	}
