@@ -278,14 +278,14 @@ public class Game extends Screen {
 
 		// collide with items
 		ItemSprite item;
-		for (int i = 0; i < this.items.size(); i++) {
-			item = (ItemSprite) this.items.getSpriteAt(i);
+		for (int itemIdx = 0; itemIdx < this.items.size(); itemIdx++) {
+			item = (ItemSprite) this.items.getSpriteAt(itemIdx);
 			if (this.mainChar.collidesWith(item, true)) {
 				this.points += item.getPoints();
 				this.mainChar.recoverLife(item.getRecovery());
 
-				this.items.removeSpriteAt(i);
-				i--;
+				this.items.removeSpriteAt(itemIdx);
+				itemIdx--;
 			}
 		}
 
@@ -307,26 +307,30 @@ public class Game extends Screen {
 	 * @param dx Distance to scroll
 	 */
 	public void horizontalScroll(int dx) {
-		/** Horizontal Scroll **/
 		// get sprite horizontal position relative to the background
 		int spritePosX = this.mainChar.getX() - this.foreground.getX();
 
-		// if at first half of screen
 		if (spritePosX < this.hWidth) {
-			// if going right
+			// if at first half screen
 			if (mainChar.getX() >= 0 || dx > 0) {
+				// if going right
+				// move the character
 				this.mainChar.move(dx, 0);
 			}
 		}
-		// if at last half of screen
 		else if (spritePosX > this.foreground.getWidth() - this.hWidth) {
-			// if going left
+			// if at last half screen
 			if (spritePosX + this.mainChar.getWidth() <= this.foreground.getWidth() || dx < 0) {
+				// if going left
+				// move the character
 				this.mainChar.move(dx, 0);
 			}
 		}
 		else {
+			// if in a center screen, just keep the character in the middle
 			this.mainChar.setPosition(this.hWidth, this.mainChar.getY());
+
+			// and move objects
 			this.foreground.move(-dx, 0);
 			this.background.move(-dx, 0);
 			this.enemies.move(-dx, 0);
@@ -341,21 +345,40 @@ public class Game extends Screen {
 	 * @param dy Distance to scroll
 	 */
 	public void verticalScroll(int dy) {
-		/** Vertical Scroll **/
-		// get sprite horizontal position relative to the background
+		// get sprite vertical position relative to the foreground
 		int spritePosY = this.mainChar.getY() - this.foreground.getY();
+
 		if (spritePosY < this.hHeight) {
+			// if at first half screen
+
+			// since character can go above foreground, this test is unnecesary
+			/*
 			if (spritePosY >= 0 || dy > 0) {
 				this.mainChar.move(0, dy);
 			}
+			*/
+
+			// move the character
+			this.mainChar.move(0, dy);
 		}
 		else if (spritePosY > this.foreground.getHeight() - this.hHeight) {
+			// if at last half screen
+
+			// since character can go bellow foreground, this test is unnecesary
+			/*
 			if (spritePosY + this.mainChar.getHeight() <= this.foreground.getHeight() || dy < 0) {
 				this.mainChar.move(0, dy);
 			}
+			*/
+
+			// move the caracter
+			this.mainChar.move(0, dy);
 		}
 		else {
+			// if in a center screen, just keep the character in the midle
 			this.mainChar.setPosition(this.mainChar.getX(), this.hHeight);
+
+			// and move objects
 			this.foreground.move(0, -dy);
 			this.background.move(0, -dy);
 			this.enemies.move(0, -dy);
@@ -430,9 +453,15 @@ public class Game extends Screen {
 
 	/**
 	 * Checks if game has been lost
+	 * Game is lost when either
+	 * a. Character's life is less than or equal to 0
+	 * b. Character is bellow the height of the foreground
 	 */
 	public void checkLost() {
-		if (this.mainChar.getLife() <= 0) {
+		boolean lifeOver = this.mainChar.getLife() <= 0;
+		boolean bellowForeground = this.mainChar.getY() > this.getHeight();
+
+		if (lifeOver || bellowForeground) {
 			this.stop();
 			Alert a = new Alert("Game Lost", "", null, AlertType.INFO);
 			a.setTimeout(Alert.FOREVER);

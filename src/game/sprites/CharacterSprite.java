@@ -93,7 +93,7 @@ public class CharacterSprite extends GameSprite {
 		this.nextFrame();
 
 		if (this.invulnerable) {
-			if (this.starInvulnetableTime + INVULNERABLE_TIME <= System.currentTimeMillis()) {
+			if (this.starInvulnetableTime + CharacterSprite.INVULNERABLE_TIME <= System.currentTimeMillis()) {
 				this.invulnerable = false;
 			}
 		}
@@ -254,8 +254,6 @@ public class CharacterSprite extends GameSprite {
 	 * @return true if the character is touching a platform, false otherwise
 	 */
 	public boolean onPlatform() {
-		boolean belowForeground = this.getY() > foreground.getY() + foreground.getHeight() - this.getHeight();
-
 		boolean before = this.collidesWith(foreground, false);
 
 		// move one pixel down
@@ -266,7 +264,8 @@ public class CharacterSprite extends GameSprite {
 		//restore position
 		this.move(0, -1);
 
-		return (!before && on) || belowForeground;
+		// return true when character is not touching the foreground before and is now.
+		return !before && on;
 	}
 
 	/**
