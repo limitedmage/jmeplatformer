@@ -15,6 +15,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
 /**
  * The actual game!
@@ -34,6 +35,9 @@ public class Game extends Screen {
 
 	// points in the game
 	private int points;
+
+	// image for showing life
+	private Image lifeImg;
 
 	// flag for jumping input handling
 	private boolean jumping;
@@ -96,6 +100,9 @@ public class Game extends Screen {
 
 			// initialize character
 			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
+
+			// initialize life image
+			this.lifeImg = Image.createImage("/img/items/Corazon.png");
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
@@ -134,7 +141,7 @@ public class Game extends Screen {
 		this.mainChar.paint(g);
 
 		// calculate fps
-		this.calculateFps(g);
+		// this.calculateFps(g);
 
 		this.paintHud(g);
 	}
@@ -145,9 +152,13 @@ public class Game extends Screen {
 	 */
 	private void paintHud(Graphics g) {
 		g.setColor(0);
-		Font f = g.getFont();
-		g.drawString("Life: " + this.mainChar.getLife(), this.getWidth(), 0, Graphics.TOP | Graphics.RIGHT);
-		g.drawString("Points: " + this.points, this.getWidth(), f.getHeight(), Graphics.TOP | Graphics.RIGHT);
+		
+		g.drawString(this.points + "", 0, 0, Graphics.TOP | Graphics.LEFT);
+
+		int life = this.mainChar.getLife();
+		for (int i = 0; i < life; i++) {
+			g.drawImage(this.lifeImg, this.getWidth() - (this.lifeImg.getWidth() * i), 0, Graphics.TOP | Graphics.RIGHT);
+		}
 	}
 
 	/**
