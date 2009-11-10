@@ -5,7 +5,7 @@ import main.MainMidlet;
 public class CreditsChoice extends MenuChoice {
 
 	public CreditsChoice() {
-		super("Credits");
+		super("Credits", "/img/menu/choices/credits.png", "/img/menu/choices/credits-selected.png");
 	}
 
 	public void execute(MainMidlet midlet) {

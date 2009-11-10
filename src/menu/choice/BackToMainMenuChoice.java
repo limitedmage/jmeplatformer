@@ -11,7 +11,7 @@ public class BackToMainMenuChoice extends MenuChoice {
 	 * Creates new choice.
 	 */
 	public BackToMainMenuChoice() {
-		super("Back to main menu");
+		super("Back to main menu", "/img/menu/choices/backtomenu.png", "img/menu/choices/backtomenu-selected.png");
 	}
 
 	/**

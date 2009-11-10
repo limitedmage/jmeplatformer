@@ -1,19 +1,30 @@
 package menu.choice;
 
+import java.io.IOException;
 import main.MainMidlet;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
 public abstract class MenuChoice {
 	//private Image image;
 
 	private String text;
 
+	private Image normalImage, selectedImage;
+
 	/**
 	 * Creates a new menu choice
 	 * @param text Text to be shown when menu text is drawn
 	 */
-	public MenuChoice(String text) {
+	public MenuChoice(String text, String normalImagePath, String selectedImagePath) {
 		this.text = text;
+		try {
+			this.normalImage = Image.createImage(normalImagePath);
+			this.selectedImage = Image.createImage(selectedImagePath);
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	/**
@@ -33,14 +44,11 @@ public abstract class MenuChoice {
 	 */
 	public void paint(Graphics g, int posX, int posY, boolean selected) {
 		if (selected) {
-			g.setColor(0xff0000);
+			g.drawImage(this.normalImage, posX, posY, Graphics.HCENTER | Graphics.TOP);
 		}
 		else {
-			g.setColor(0xffffff);
+			g.drawImage(this.selectedImage, posX, posY, Graphics.HCENTER | Graphics.TOP);
 		}
-
-		g.drawString(text, posX, posY, Graphics.HCENTER | Graphics.TOP);
-
 	}
 
 	/**
