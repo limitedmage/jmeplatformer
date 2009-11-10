@@ -30,6 +30,9 @@ public class Game extends Screen {
 	// points in the game
 	private int points;
 
+	// start time
+	private long startTime;
+
 	// image for showing life
 	private Image lifeImg;
 
@@ -109,6 +112,8 @@ public class Game extends Screen {
 		this.attacking = false;
 
 		this.points = 0;
+
+		this.startTime = System.currentTimeMillis();
 	}
 
 	/**
@@ -405,22 +410,42 @@ public class Game extends Screen {
 	}
 
 	/**
-	 * Checks if game has been lost
+	 * Checks if game has been lost and acts accordingly.
+	 * Game is won when character touches end marker
+	 * If game has been won and there is space in the high scores,
+	 * as the user if he wants to add the score.
+	 * Otherwise, just show the regular message.
 	 */
 	public void checkWon() {
 		if (this.mainChar.collidesWith(this.endMarker, false)) {
+			// if character has touched end marker
+
+			// stop the game
 			this.stop();
 
+			// calculate score with time and life bonus
+			int timeBonus = (1000 - (int) (System.currentTimeMillis() - this.startTime) / 1000);
+			int lifeBonus = this.mainChar.getLife() * 100;
+			int totalPoints = this.points + timeBonus + lifeBonus;
+			StringBuffer wonMessage = new StringBuffer();
+			wonMessage.append("Points: " + this.points + "\n");
+			wonMessage.append("Time Bonus: " + timeBonus + "\n");
+			wonMessage.append("Life Bonus: " + lifeBonus + "\n");
+			wonMessage.append("Total: " + totalPoints);
+			this.points += timeBonus + lifeBonus;
+
+			// can the score be added to high scores?
 			boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore() || this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
 
 			if (scoreCanBeAdded) {
-				Alert a = new Alert("Game won!! High Score!", "Add to high scores?", null, AlertType.INFO);
+				// if yes, ask to user if he wants to add them
+				wonMessage.append("\nHigh Score!! Register?");
+				Alert a = new Alert("Game won!!", wonMessage.toString(), null, AlertType.INFO);
 
 				a.setTimeout(Alert.FOREVER);
 				a.addCommand(new Command("Yes", Command.OK, 1));
 				a.addCommand(new Command("No", Command.CANCEL, 2));
 				a.setCommandListener(new CommandListener() {
-
 					public void commandAction(Command c, Displayable d) {
 						if (c.getCommandType() == Command.OK) {
 							Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.points, Game.this.midlet));
@@ -430,29 +455,27 @@ public class Game extends Screen {
 						}
 					}
 				});
-
 				Display.getDisplay(midlet).setCurrent(a, this);
 			}
 			else {
-				Alert a = new Alert("Game won!!", "", null, AlertType.INFO);
-
+				// else, just display the won message
+				Alert a = new Alert("Game won!!", wonMessage.toString(), null, AlertType.INFO);
 				a.setTimeout(Alert.FOREVER);
+				a.addCommand(new Command("Back", Command.OK, 1));
 				a.setCommandListener(new CommandListener() {
-
 					public void commandAction(Command c, Displayable d) {
 						if (c.getCommandType() == Command.OK) {
 							Game.this.midlet.startMainMenu();
 						}
 					}
 				});
-
 				Display.getDisplay(midlet).setCurrent(a, this);
 			}
 		}
 	}
 
 	/**
-	 * Checks if game has been lost
+	 * Checks if game has been lost and acts accordingly.
 	 * Game is lost when either
 	 * a. Character's life is less than or equal to 0
 	 * b. Character is bellow the height of the foreground
@@ -465,8 +488,8 @@ public class Game extends Screen {
 			this.stop();
 			Alert a = new Alert("Game Lost", "", null, AlertType.INFO);
 			a.setTimeout(Alert.FOREVER);
+			a.addCommand(new Command("Back", Command.OK, 1));
 			a.setCommandListener(new CommandListener() {
-
 				public void commandAction(Command c, Displayable d) {
 					if (c.getCommandType() == Command.OK) {
 						Game.this.midlet.startMainMenu();
