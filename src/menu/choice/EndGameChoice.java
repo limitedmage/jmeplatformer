@@ -15,7 +15,7 @@ import main.Screen;
 public class EndGameChoice extends MenuChoice {
 
 	public EndGameChoice() {
-		super("Exit game");
+		super("Exit game", "/img/menu/choices/exit.png", "/img/menu/choices/exit-selected.png");
 	}
 
 	/**
