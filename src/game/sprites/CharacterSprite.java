@@ -98,15 +98,25 @@ public class CharacterSprite extends GameSprite {
 	}
 
 	/**
-	 * Loads the next frame in the sprite
+	 * Loads the next frame in the sprite.
+	 * If sprite is invincible and invincibility time is over,
+	 * remove incincibility.
+	 * If sprite in invincible, toggle visibility to emulate blinking
+	 *
 	 */
 	public void update() {
 		this.nextFrame();
 
 		if (this.invulnerable) {
+			this.setVisible(!this.isVisible());
+
 			if (this.startInvulnetableTime + CharacterSprite.INVULNERABLE_TIME <= System.currentTimeMillis()) {
 				this.invulnerable = false;
+				this.setVisible(true);
 			}
+		}
+		else {
+			this.setVisible(true);
 		}
 	}
 
@@ -236,9 +246,11 @@ public class CharacterSprite extends GameSprite {
 	/**
 	 * Stops sprite form moving
 	 * If sprite is jumping, calls this.jump()
+	 * If sprite is not touching a platform, calls this.fall()
+	 * If sprite is attacking and attack animation is over, sets animation to idle
 	 */
 	public void idle() {
-		// if sprite is not jumping, use idle animation
+		// if sprite is not jumping or attacking, use idle animation
 		if (this.state != IDLE && this.state != JUMP && this.state != ATTACK) {
 			this.setState(IDLE);
 		}
@@ -249,11 +261,13 @@ public class CharacterSprite extends GameSprite {
 			return;
 		}
 
+		// If sprite is not touching a platform, calls this.fall()
 		if (!this.onPlatform()) {
 			this.dy = 0;
 			this.fall();
 		}
 
+		// If sprite is attacking and attack animation is over, sets animation to idle
 		if (this.state == ATTACK && this.getFrame() == attack.length - 1) {
 			this.setState(IDLE);
 		}
@@ -265,15 +279,26 @@ public class CharacterSprite extends GameSprite {
 	 * @return true if the character is touching a platform, false otherwise
 	 */
 	public boolean onPlatform() {
+		// store old visibility state
+		boolean wasVisible = this.isVisible();
+
+		// set visibility to true so collisions work
+		this.setVisible(true);
+
+		// check collision one pixel before
 		boolean before = this.collidesWith(foreground, false);
 
 		// move one pixel down
 		this.move(0, 1);
 
+		// check collision one pixel after
 		boolean on = this.collidesWith(foreground, false);
 
 		//restore position
 		this.move(0, -1);
+
+		// restore old visibility state
+		this.setVisible(wasVisible);
 
 		// return true when character is not touching the foreground before and is now.
 		return !before && on;
@@ -325,7 +350,6 @@ public class CharacterSprite extends GameSprite {
 				this.game.verticalScroll(-1);
 			}
 		}
-
 	}
 
 	/**
