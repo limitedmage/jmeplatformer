@@ -31,10 +31,20 @@ public class CharacterSprite extends GameSprite {
 			ATTACK = 4;
 	
 	// life and invulnerability
+
+	// initial life
 	private static final int INIT_LIFE = 6;
+	
+	// current life
 	private int life;
+
+	// time to stay invulnerable
 	private static final long INVULNERABLE_TIME = 1000;
-	private long starInvulnetableTime;
+
+	// time when invulnerability started
+	private long startInvulnetableTime;
+
+	// current invulnerability state
 	private boolean invulnerable;
 
 	// Current state of the sprite
@@ -84,6 +94,7 @@ public class CharacterSprite extends GameSprite {
 
 		this.life = INIT_LIFE;
 		this.goingRight = true;
+		this.invulnerable = false;
 	}
 
 	/**
@@ -93,7 +104,7 @@ public class CharacterSprite extends GameSprite {
 		this.nextFrame();
 
 		if (this.invulnerable) {
-			if (this.starInvulnetableTime + CharacterSprite.INVULNERABLE_TIME <= System.currentTimeMillis()) {
+			if (this.startInvulnetableTime + CharacterSprite.INVULNERABLE_TIME <= System.currentTimeMillis()) {
 				this.invulnerable = false;
 			}
 		}
@@ -129,7 +140,7 @@ public class CharacterSprite extends GameSprite {
 		if (!this.invulnerable) {
 			this.life -= p;
 			this.invulnerable = true;
-			this.starInvulnetableTime = System.currentTimeMillis();
+			this.startInvulnetableTime = System.currentTimeMillis();
 		}
 	}
 
