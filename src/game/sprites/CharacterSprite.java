@@ -1,6 +1,6 @@
 package game.sprites;
 
-import game.Foreground;
+import game.maps.Foreground;
 import game.Game;
 import java.io.IOException;
 import javax.microedition.lcdui.game.Sprite;
