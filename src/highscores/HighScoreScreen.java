@@ -1,5 +1,6 @@
 package highscores;
 
+import java.io.IOException;
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Command;
@@ -8,6 +9,7 @@ import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 import main.MainMidlet;
 import main.Screen;
 
@@ -21,6 +23,7 @@ import main.Screen;
 public class HighScoreScreen extends Screen implements CommandListener {
 
 	private HighScoreStore scores;
+	private Image title;
 
 	/**
 	 * Creates a new HighScoreScreen
@@ -31,6 +34,14 @@ public class HighScoreScreen extends Screen implements CommandListener {
 
 		this.scores = midlet.getScores();
 		this.setFullScreenMode(false);
+
+		try {
+			this.title = Image.createImage("/img/menu/titles/scores.png");
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+
 
 		this.addCommand(new Command("Back", Command.BACK, 1));
 		this.addCommand(new Command("Clear Scores", Command.SCREEN, 2));
@@ -45,15 +56,15 @@ public class HighScoreScreen extends Screen implements CommandListener {
 		g.setColor(0x00000000);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
+		int x = this.getWidth() / 2;
+		int y = this.title.getHeight() * 2;
+
+		g.drawImage(this.title, x, 0, Graphics.HCENTER | Graphics.TOP);
+
 		int len = this.scores.size();
 
 		if (len > 0) {
 			Font f = g.getFont();
-			g.setColor(0x00000000);
-			g.fillRect(0, 0, getWidth(), getHeight());
-
-			int x = this.getWidth() / 2;
-			int y = 0;
 
 			int dy = f.getHeight();
 
@@ -67,7 +78,7 @@ public class HighScoreScreen extends Screen implements CommandListener {
 		}
 		else {
 			g.setColor(0x00ff0000);
-			g.drawString("No high scores yet", this.getWidth() / 2, 0, Graphics.HCENTER | Graphics.TOP);
+			g.drawString("No high scores yet", x, y, Graphics.HCENTER | Graphics.TOP);
 		}
 	}
 

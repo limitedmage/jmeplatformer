@@ -6,8 +6,6 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
 public abstract class MenuChoice {
-	//private Image image;
-
 	private String text;
 
 	private Image normalImage, selectedImage;

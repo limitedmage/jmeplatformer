@@ -1,15 +1,19 @@
 package menu;
 
+import java.io.IOException;
 import menu.choice.MenuChoice;
 import main.MainMidlet;
 import main.Screen;
 import java.util.Vector;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 
 /**
  * Describes a Menu as a list of MenuChoice
  */
 public class Menu extends Screen {
+
+	private Image title;
 
 	private Vector choices;
 	private int selected;
@@ -18,13 +22,20 @@ public class Menu extends Screen {
 	/**
 	 * Creates a new menu
 	 */
-	public Menu(MainMidlet midlet) {
+	public Menu(MainMidlet midlet, String titleImagePath) {
 		super(midlet);
 
 		menuChanged = false;
 
 		choices = new Vector();
 		selected = 0;
+
+		try {
+			this.title = Image.createImage(titleImagePath);
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	/**
@@ -69,17 +80,20 @@ public class Menu extends Screen {
 	 * @param g
 	 */
 	public void paint(Graphics g) {
-		int len = choices.size();
+		// clear screen
+		g.setColor(0x00000000);
+		g.fillRect(0, 0, getWidth(), getHeight());
+
+		int x = this.getWidth() / 2;
+
+		g.drawImage(this.title, x, 0, Graphics.HCENTER | Graphics.TOP);
+
+		int len = this.choices.size();
 
 		if (len > 0) {
-			// clear screen
-			g.setColor(0x00000000);
-			g.fillRect(0, 0, getWidth(), getHeight());
-
-			int y = 0;
-			int x = getWidth() / 2;
-
-			int dy = getHeight() / len;
+			int y = this.title.getHeight() * 2;
+			
+			int dy = (this.getHeight() - y) / len;
 
 			for (int i = 0; i < len; i++) {
 				((MenuChoice) choices.elementAt(i)).paint(g, x, y, i == selected);
