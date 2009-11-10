@@ -1,5 +1,7 @@
 package game;
 
+import game.maps.Foreground;
+import game.maps.Background;
 import game.sprites.*;
 import highscores.HighScoreAdder;
 import highscores.HighScoreStore;
