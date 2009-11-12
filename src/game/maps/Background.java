@@ -15,11 +15,10 @@ public class Background implements Paintable {
 
 	/**
 	 * Creates a new background
-	 * @throws IOException If background could not be created
+	 * @throws IOException If background image could not be loaded
 	 */
 	public Background() throws IOException {
 		this.image = Image.createImage("/img/backgrounds/nivel1_fondo.png");
-
 		this.setPosition(0, 0);
 	}
 
@@ -41,6 +40,38 @@ public class Background implements Paintable {
 	public void move(int dx, int dy) {
 		this.x += dx;
 		this.y += dy;
+	}
+
+	/**
+	 * Return horizontal position of the background
+	 * @return x position
+	 */
+	public int getX() {
+		return this.x;
+	}
+
+	/**
+	 * Return vertical position of the background
+	 * @return y position
+	 */
+	public int getY() {
+		return this.y;
+	}
+
+	/**
+	 * Return width of the background
+	 * @return width
+	 */
+	public int getWidth() {
+		return this.image.getWidth();
+	}
+
+	/**
+	 * Return height of the background
+	 * @return height
+	 */
+	public int getHeight() {
+		return this.image.getHeight();
 	}
 
 	/**
