@@ -32,7 +32,7 @@ public class GameSpriteGroup implements Updateable, Paintable {
 
 	/**
 	 * Adds a GameSprite to the GameSpriteGroup
-	 * @param sprite
+	 * @param sprite GameSprite to add
 	 */
 	public void add(GameSprite sprite) {
 		spriteVec.addElement(sprite);
@@ -40,8 +40,8 @@ public class GameSpriteGroup implements Updateable, Paintable {
 
 	/**
 	 * Adds a GameSprite to the GameSpriteGroup in the specified index
-	 * @param sprite
-	 * @param index
+	 * @param sprite GameSprite to add
+	 * @param index Index to add the sprite to
 	 */
 	public void insertAt(GameSprite sprite, int index) {
 		spriteVec.insertElementAt(sprite, index);
@@ -60,7 +60,7 @@ public class GameSpriteGroup implements Updateable, Paintable {
 
 	/**
 	 * Paints all the GameSprites in the group
-	 * @param g
+	 * @param g Graphics to paint with
 	 */
 	public void paint(Graphics g) {
 		int len = this.size();
@@ -72,8 +72,8 @@ public class GameSpriteGroup implements Updateable, Paintable {
 
 	/**
 	 * Moves all the GameSprites in the group
-	 * @param dx - Horizontal movement
-	 * @param dy - Vertical movement
+	 * @param dx Horizontal movement
+	 * @param dy Vertical movement
 	 */
 	public void move(int dx, int dy) {
 		int len = spriteVec.size();
@@ -85,15 +85,22 @@ public class GameSpriteGroup implements Updateable, Paintable {
 
 	/**
 	 * Removes an enemy from the group at the specified index
-	 * @param index
+	 * @param index Index of the sprite to remove
 	 */
 	public void removeSpriteAt(int index) {
 		spriteVec.removeElementAt(index);
 	}
 
 	/**
+	 * Removes all sprites in the group
+	 */
+	public void removeAllSprites() {
+		spriteVec.removeAllElements();
+	}
+
+	/**
 	 * Returns the GameSprite at the specified inde
-	 * @param index
+	 * @param index Index of the sprite to retrieve
 	 * @return The GameSprite at the index
 	 */
 	public GameSprite getSpriteAt(int index) {
@@ -102,7 +109,7 @@ public class GameSpriteGroup implements Updateable, Paintable {
 
 	/**
 	 * Returns the index of a given sprite
-	 * @param sprite
+	 * @param sprite GameSpriteSprite to search for
 	 * @return The index of the sprite, or -1 if it is not found
 	 */
 	public int indexOf(GameSprite sprite) {

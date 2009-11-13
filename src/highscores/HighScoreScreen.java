@@ -64,12 +64,11 @@ public class HighScoreScreen extends Screen implements CommandListener {
 		int len = this.scores.size();
 
 		if (len > 0) {
+			// if there are high scores, show them
 			Font f = g.getFont();
-
 			int dy = f.getHeight();
-
-			g.setColor(0x00ff0000);
-
+			g.setColor(0x00ffffff); // white
+			
 			for (int i = 0; i < len; i++) {
 				String score = this.scores.elementAt(i);
 				g.drawString((i + 1) + ". " + score, x, y, Graphics.HCENTER | Graphics.TOP);
@@ -77,7 +76,8 @@ public class HighScoreScreen extends Screen implements CommandListener {
 			}
 		}
 		else {
-			g.setColor(0x00ff0000);
+			// else, say that there are none
+			g.setColor(0x00ffffff); // white
 			g.drawString("No high scores yet", x, y, Graphics.HCENTER | Graphics.TOP);
 		}
 	}
@@ -94,8 +94,8 @@ public class HighScoreScreen extends Screen implements CommandListener {
 
 	/**
 	 * Handles 2 commands: Back and Clear records.
-	 * @param c
-	 * @param d
+	 * @param c Command called
+	 * @param d Displayable from the command
 	 */
 	public void commandAction(Command c, Displayable d) {
 		switch (c.getCommandType()) {

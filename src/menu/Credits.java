@@ -71,7 +71,7 @@ public class Credits extends Screen implements CommandListener {
 			Font f = g.getFont();
 
 			int dy = getHeight() / len;
-			g.setColor(0x00ff0000);
+			g.setColor(0x00ffffff);
 			for (int i = 0; i < len; i++) {
 				g.drawString(this.text[i], x, y, Graphics.HCENTER | Graphics.TOP);
 				y += f.getHeight();

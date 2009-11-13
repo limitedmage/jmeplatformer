@@ -29,6 +29,12 @@ public class Game extends Screen {
 	private Background background;
 	private EndMarkerSprite endMarker;
 
+	// game sprite groups for game objects
+	private GameSpriteGroup
+			enemies,
+			bullets,
+			items;
+
 	// points in the game
 	private int points;
 
@@ -46,15 +52,6 @@ public class Game extends Screen {
 
 	// half of screen width and height, used to calculate scrolling.
 	private int hWidth, hHeight;
-
-	// enemies group
-	private GameSpriteGroup enemies;
-
-	// bullets group
-	private GameSpriteGroup bullets;
-
-	// items group
-	private GameSpriteGroup items;
 
 	/**
 	 * Starts a new game
@@ -212,6 +209,7 @@ public class Game extends Screen {
 
 		if ((keys & FIRE_PRESSED) != 0) {
 			if (!this.attacking) {
+				this.midlet.getMusic().playShootTone();
 				this.mainChar.attack();
 				this.attacking = true;
 			}
@@ -234,6 +232,7 @@ public class Game extends Screen {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(i);
 			if (this.mainChar.collidesWith(enemy, true)) {
 				this.mainChar.reduceLife();
+				this.midlet.getMusic().playHitTone();
 			}
 		}
 
@@ -244,6 +243,7 @@ public class Game extends Screen {
 			bullet = (BulletSprite) this.bullets.getSpriteAt(i);
 			if (bullet instanceof EnemyBulletSprite && this.mainChar.collidesWith(bullet, true)) {
 				this.mainChar.reduceLife();
+				this.midlet.getMusic().playHitTone();
 			}
 		}
 
@@ -262,6 +262,8 @@ public class Game extends Screen {
 			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++) {
 				bullet = (BulletSprite) this.bullets.getSpriteAt(bulletIdx);
 				if (bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true)) {
+					this.midlet.getMusic().playHitTone();
+
 					this.bullets.removeSpriteAt(bulletIdx);
 					bulletIdx--;
 
@@ -281,21 +283,30 @@ public class Game extends Screen {
 	 * and uses them if necessary
 	 */
 	public void checkItems() {
+		// set collision rectangle to character's rectangle
 		this.mainChar.defineCollisionRectangle(0, 0, this.mainChar.getWidth(), this.mainChar.getHeight());
 
 		// collide with items
 		ItemSprite item;
 		for (int itemIdx = 0; itemIdx < this.items.size(); itemIdx++) {
+			// for every item in the group
 			item = (ItemSprite) this.items.getSpriteAt(itemIdx);
 			if (this.mainChar.collidesWith(item, true)) {
+				// if character collides with the item
+				this.midlet.getMusic().playItemTone();
+
+				// add points
 				this.points += item.getPoints();
+				// recover life
 				this.mainChar.recoverLife(item.getRecovery());
 
+				// delete item from group
 				this.items.removeSpriteAt(itemIdx);
 				itemIdx--;
 			}
 		}
 
+		// reset collision rectangle to default
 		this.mainChar.resetCollisionRectangle();
 	}
 
@@ -426,8 +437,8 @@ public class Game extends Screen {
 			this.stop();
 
 			// calculate score with time and life bonus
-			int timeBonus = (1000 - (int) (System.currentTimeMillis() - this.startTime) / 1000);
-			int lifeBonus = this.mainChar.getLife() * 100;
+			int timeBonus = 1000 - ((int) (System.currentTimeMillis() - this.startTime) / 1000); // reduce 1 point for every second
+			int lifeBonus = this.mainChar.getLife() * 100; // 100 points per life left
 			int totalPoints = this.points + timeBonus + lifeBonus;
 			StringBuffer wonMessage = new StringBuffer();
 			wonMessage.append("Points: " + this.points + "\n");
@@ -437,7 +448,12 @@ public class Game extends Screen {
 			this.points += timeBonus + lifeBonus;
 
 			// can the score be added to high scores?
-			boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore() || this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
+			// score can be added when this game's points are higher than the points
+			// of the lowest ranked game in the store,
+			// or if there are less than the maximum number of points in
+			// the store
+			boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore()
+					|| this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
 
 			if (scoreCanBeAdded) {
 				// if yes, ask to user if he wants to add them

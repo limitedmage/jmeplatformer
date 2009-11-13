@@ -7,7 +7,12 @@ import menu.choice.HighScoresChoice;
 import menu.choice.RunGameChoice;
 
 /**
- * Class for the main menu
+ * Class for the main menu.
+ * Has 4 menu choices:
+ * <li>RunGameChoice</li>
+ * <li>HighScoresChoice</li>
+ * <li>CreditsChoice</li>
+ * <li>EndGameChoice</li>
  */
 public class MainMenu extends Menu {
 
