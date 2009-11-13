@@ -10,10 +10,12 @@ import javax.microedition.lcdui.Image;
 public class SplashScreen extends Screen {
 
 	// splash image
-	private Image img;
+	private Image imgMvp;
+	private Image imgTec;
 
 	// for timing
 	private long startTime;
+	private static final long DURATION = 2000; // 2 seconds
 
 	/**
 	 * Create a new splash screen
@@ -25,7 +27,8 @@ public class SplashScreen extends Screen {
 		this.startTime = System.currentTimeMillis();
 
 		try {
-			this.img = Image.createImage("/img/logo.png");
+			this.imgMvp = Image.createImage("/img/logo-mvp.png");
+			this.imgTec = Image.createImage("/img/logo-tec.png");
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
@@ -37,8 +40,8 @@ public class SplashScreen extends Screen {
 	 * Calls MainMidlet.startMainMenu() when done
 	 */
 	public void update() {
-		// if 2 seconds have passed, show the menu
-		if (this.startTime + 2000 <= System.currentTimeMillis()) {
+		// if splash duration has passed, show the menu
+		if (this.startTime + DURATION <= System.currentTimeMillis()) {
 			this.midlet.startMainMenu();
 		}
 	}
@@ -48,9 +51,19 @@ public class SplashScreen extends Screen {
 	 * @param g
 	 */
 	public void paint(Graphics g) {
-		g.setColor(0);
-		g.fillRect(0, 0, this.getWidth(), this.getHeight());
+		if (this.startTime + DURATION / 2 >= System.currentTimeMillis()) {
+			// during first half of the splash, show Tec logo
+			g.setColor(0x00ffffff);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
-		g.drawImage(this.img, this.getWidth() / 2, this.getHeight() / 2, Graphics.HCENTER | Graphics.VCENTER);
+			g.drawImage(this.imgTec, this.getWidth() / 2, this.getHeight() / 2, Graphics.HCENTER | Graphics.VCENTER);
+		}
+		else {
+			// during second half of the splash, show Game logo
+			g.setColor(0);
+			g.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+			g.drawImage(this.imgMvp, this.getWidth() / 2, this.getHeight() / 2, Graphics.HCENTER | Graphics.VCENTER);
+		}
 	}
 }
