@@ -12,7 +12,7 @@ public class EndMarkerSprite extends GameSprite {
 	 * @throws IOException if sprite could not be created
 	 */
 	public EndMarkerSprite() throws IOException {
-		super("img/endMarker.png", 45, 45);
+		super("/img/endMarker.png", 45, 45);
 		this.setPosition(1011, 35);
 		//this.setPosition(45, 100);
 	}

@@ -15,7 +15,7 @@ public class PauseMenu extends Menu {
 	 * @param midlet - Parent MIDlet
 	 */
 	public PauseMenu(MainMidlet midlet) {
-		super(midlet, "/img/menu/titles/pause.jpg");
+		super(midlet, "/img/menu/titles/pause.png");
 
 		this.addChoice(new ContinueGameChoice());
 		this.addChoice(new BackToMainMenuChoice());
