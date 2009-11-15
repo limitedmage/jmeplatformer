@@ -1,11 +1,15 @@
 package game.sprites;
 
 import java.io.IOException;
+import javax.microedition.lcdui.Image;
 
 /**
  * Class for the CharacterBullet
  */
 public class CharacterBulletSprite extends BulletSprite {
+
+	public static Image img;
+	public static final String imgPath = "/img/bulletCharacter.png";
 
 	/**
 	 * Creates a new CharacterBullet
@@ -14,8 +18,8 @@ public class CharacterBulletSprite extends BulletSprite {
 	 * @param goingRight - true if going right, false if going left
 	 * @throws IOException when sprite cannot be created
 	 */
-	public CharacterBulletSprite(int posX, int posY, boolean goingRight) throws IOException {
-		super("/img/bulletCharacter.png", 6, 6, posX, posY, goingRight);
+	public CharacterBulletSprite(int posX, int posY, boolean goingRight) throws IOException {		
+		super(img, 6, 6, posX, posY, goingRight);
 
 		this.setPosition(posX, posY);
 	}

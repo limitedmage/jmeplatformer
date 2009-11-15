@@ -1,6 +1,7 @@
 package game.sprites;
 
 import java.io.IOException;
+import javax.microedition.lcdui.Image;
 
 /**
  * An abstract class for an enemy sprite.
@@ -8,8 +9,8 @@ import java.io.IOException;
  */
 public abstract class EnemySprite extends GameSprite {
 
-	public EnemySprite(String imgPath, int posX, int posY) throws IOException {
-		super(imgPath, 45, 45);
+	public EnemySprite(Image img, int posX, int posY) throws IOException {
+		super(img, 45, 45);
 		this.setPosition(posX, posY);
 
 		this.defineReferencePixel(23, 23);

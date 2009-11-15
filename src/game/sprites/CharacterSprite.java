@@ -3,12 +3,16 @@ package game.sprites;
 import game.maps.Foreground;
 import game.Game;
 import java.io.IOException;
+import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
 
 /**
  * Sprite class that represents a main character
  */
 public class CharacterSprite extends GameSprite {
+
+	public static Image img;
+	public static final String imgPath = "/img/characters/CharSprite.png";
 
 	// foreground for collision detection
 	private Foreground foreground;
@@ -76,7 +80,7 @@ public class CharacterSprite extends GameSprite {
 	 * @throws IOException If sprite cannot be created
 	 */
 	public CharacterSprite(Game game, Foreground foreground, GameSpriteGroup bullets) throws IOException {
-		super("/img/characters/CharSprite.png", 45, 45);
+		super(img, 45, 45);
 
 		// start at an arbitrary position
 		this.setPosition(45, 147);

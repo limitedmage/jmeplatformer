@@ -61,6 +61,9 @@ public class Game extends Screen {
 		super(midlet);
 
 		try {
+			// initialize all images
+			ImageHelper.initImages();
+
 			// initialize static game objetcs
 			this.foreground = new Foreground();
 			this.background = new Background();
