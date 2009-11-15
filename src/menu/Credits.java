@@ -27,7 +27,19 @@ public class Credits extends Screen implements CommandListener {
 		super(midlet);
 		this.setFullScreenMode(false);
 
-		this.text = new String[]{"Our Game!", "Alex", "Carlos", "Juliana", "", "ITESM CEM", "TC2003", "Fall 2009"};
+		this.text = new String[]{
+			"Alejando Cruz",
+			"alex_onish@hotmail.com",
+			"Carlos Meléndez",
+			"carlosmega106@hotmail.com",
+			"Juliana Peña",
+			"jpenao@gmail.com",
+			"",
+			"ITESM CEM",
+			"TC1006",
+			"http://code.google.com/p",
+			"/jmeplatformer/"
+		};
 
 		this.addCommand(new Command("Back", Command.BACK, 1));
 		this.setCommandListener(this);
