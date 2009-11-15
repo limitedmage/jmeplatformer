@@ -1,11 +1,15 @@
 package game.sprites;
 
 import java.io.IOException;
+import javax.microedition.lcdui.Image;
 
 /**
  * A class for a shooting enemy
  */
 public class ShootingEnemySprite extends EnemySprite {
+
+	public static Image img;
+	public static final String imgPath = "/img/characters/Lanzador.png";
 
 	//sprite animation definitions
 	private static final int[] attack = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3};
@@ -27,7 +31,7 @@ public class ShootingEnemySprite extends EnemySprite {
 	 * @throws IOException
 	 */
 	public ShootingEnemySprite(int posX, int posY, GameSpriteGroup bullets) throws IOException {
-		super("/img/characters/Lanzador.png", 45, 45);
+		super(img, 45, 45);
 
 		this.setPosition(posX, posY);
 		this.defineReferencePixel(30, 30);

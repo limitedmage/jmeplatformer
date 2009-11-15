@@ -18,7 +18,7 @@ public abstract class GameSprite extends Sprite implements Updateable {
 	 * @param fHeight - frame height
 	 * @throws IOException - if image could not be loaded
 	 */
-	public GameSprite(String imgPath, int fWidth, int fHeight) throws IOException {
-		super(Image.createImage(imgPath), fWidth, fHeight);
+	public GameSprite(Image img, int fWidth, int fHeight) throws IOException {
+		super(img, fWidth, fHeight);
 	}
 }

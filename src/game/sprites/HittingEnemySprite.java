@@ -1,11 +1,15 @@
 package game.sprites;
 
 import java.io.IOException;
+import javax.microedition.lcdui.Image;
 
 /**
  * Class for the hitting enemy
  */
 public class HittingEnemySprite extends EnemySprite {
+
+	public static Image img;
+	public static final String imgPath = "/img/characters/Pegador.png";
 
 	//sprite animation definitions
 	private static final int[] idle = {8},
@@ -28,7 +32,7 @@ public class HittingEnemySprite extends EnemySprite {
 	 * @throws IOException
 	 */
 	public HittingEnemySprite(int posX, int posY) throws IOException {
-		super("/img/characters/Pegador.png", posX, posY);
+		super(img, posX, posY);
 
 		this.setState(IDLE);
 

@@ -1,6 +1,7 @@
 package game.sprites;
 
 import java.io.IOException;
+import javax.microedition.lcdui.Image;
 
 /**
  * A bullet projectile for the game
@@ -20,8 +21,8 @@ public class BulletSprite extends GameSprite {
 	 * @param goingRight true if going right, false if going left
 	 * @throws IOException If sprite could not be created
 	 */
-	public BulletSprite(String imgPath, int fWidth, int fHeight, int posX, int posY, boolean goingRight) throws IOException {
-		super(imgPath, fWidth, fHeight);
+	public BulletSprite(Image img, int fWidth, int fHeight, int posX, int posY, boolean goingRight) throws IOException {
+		super(img, fWidth, fHeight);
 		this.setPosition(posX, posY);
 		this.goingRight = goingRight;
 	}
