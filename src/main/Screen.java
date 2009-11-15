@@ -72,7 +72,9 @@ public abstract class Screen extends GameCanvas implements Runnable, Updateable 
 		this.running = false;
 
 		if (this.thread != null) {
-			this.thread.interrupt();
+			Thread dying = this.thread;
+			this.thread = null;
+			dying.interrupt();
 		}
 	}
 
