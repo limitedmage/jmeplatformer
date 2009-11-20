@@ -57,7 +57,7 @@ public abstract class Screen extends GameCanvas implements Runnable, Updateable 
 			repaint();
 
 			try {
-				Thread.sleep(10);
+				Thread.sleep(50);
 			}
 			catch (InterruptedException e) {
 				return;
