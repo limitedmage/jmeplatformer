@@ -21,4 +21,14 @@ public abstract class GameSprite extends Sprite implements Updateable {
 	public GameSprite(Image img, int fWidth, int fHeight) throws IOException {
 		super(img, fWidth, fHeight);
 	}
+
+	public boolean inScreen(int sWidth, int sHeight) {
+		if (this.getX() + this.getWidth() >= 0 && this.getX() < sWidth
+			&& this.getY() + this.getHeight() >= 0 && this.getY() < sHeight) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
