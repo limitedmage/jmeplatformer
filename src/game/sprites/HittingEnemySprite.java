@@ -12,7 +12,8 @@ public class HittingEnemySprite extends EnemySprite {
 	public static final String imgPath = "/img/characters/Pegador.png";
 
 	//sprite animation definitions
-	private static final int[] idle = {8},
+	private static final int[]
+			idle = {8},
 			attack = {5, 5, 6, 6, 7, 7, 8, 8};
 
 	// sprite states

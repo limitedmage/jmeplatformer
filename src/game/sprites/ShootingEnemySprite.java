@@ -12,7 +12,8 @@ public class ShootingEnemySprite extends EnemySprite {
 	public static final String imgPath = "/img/characters/Lanzador.png";
 
 	//sprite animation definitions
-	private static final int[] attack = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3};
+	private static final int[]
+			attack = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3};
 
 	// sprite states
 	private static final short ATTACK = 2;
