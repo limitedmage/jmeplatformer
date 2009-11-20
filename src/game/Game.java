@@ -53,6 +53,9 @@ public class Game extends Screen {
 	// half of screen width and height, used to calculate scrolling.
 	private int hWidth, hHeight;
 
+	// variables for FPS timing
+	private FpsCounter fpsCounter;
+
 	/**
 	 * Starts a new game
 	 * @param midlet - Parent MIDlet
@@ -116,6 +119,8 @@ public class Game extends Screen {
 		this.points = 0;
 
 		this.startTime = System.currentTimeMillis();
+
+		this.fpsCounter = new FpsCounter();
 	}
 
 	/**
@@ -138,9 +143,10 @@ public class Game extends Screen {
 
 		this.mainChar.paint(g);
 
-		// calculate fps
-		// this.calculateFps(g);
+		// paint fps
+		this.fpsCounter.paint(g);
 
+		// paint HUD
 		this.paintHud(g);
 	}
 
@@ -163,6 +169,8 @@ public class Game extends Screen {
 	 * Updates game input and physics
 	 */
 	public void update() {
+		this.fpsCounter.update();
+
 		this.handleInput();
 
 		this.checkCharacterDamage();
@@ -233,7 +241,7 @@ public class Game extends Screen {
 		int numEnemies = this.enemies.size();
 		for (int i = 0; i < numEnemies; i++) {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(i);
-			if (this.mainChar.collidesWith(enemy, true)) {
+			if (enemy.inScreen(this.getWidth(), this.getHeight()) && this.mainChar.collidesWith(enemy, true)) {
 				this.mainChar.reduceLife();
 				this.midlet.getMusic().playHitTone();
 			}
@@ -264,7 +272,7 @@ public class Game extends Screen {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(enemyIdx);
 			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++) {
 				bullet = (BulletSprite) this.bullets.getSpriteAt(bulletIdx);
-				if (bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true)) {
+				if (enemy.inScreen(getWidth(), getHeight()) && bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true)) {
 					this.midlet.getMusic().playHitTone();
 
 					this.bullets.removeSpriteAt(bulletIdx);
@@ -294,8 +302,8 @@ public class Game extends Screen {
 		for (int itemIdx = 0; itemIdx < this.items.size(); itemIdx++) {
 			// for every item in the group
 			item = (ItemSprite) this.items.getSpriteAt(itemIdx);
-			if (this.mainChar.collidesWith(item, true)) {
-				// if character collides with the item
+			if (item.inScreen(getWidth(), getHeight()) && this.mainChar.collidesWith(item, true)) {
+				// if item in scree and character collides with the item
 				this.midlet.getMusic().playItemTone();
 
 				// add points
@@ -443,11 +451,15 @@ public class Game extends Screen {
 			int timeBonus = 1000 - ((int) (System.currentTimeMillis() - this.startTime) / 1000); // reduce 1 point for every second
 			int lifeBonus = this.mainChar.getLife() * 100; // 100 points per life left
 			int totalPoints = this.points + timeBonus + lifeBonus;
+
+			// write the message
 			StringBuffer wonMessage = new StringBuffer();
 			wonMessage.append("Points: " + this.points + "\n");
 			wonMessage.append("Time Bonus: " + timeBonus + "\n");
 			wonMessage.append("Life Bonus: " + lifeBonus + "\n");
 			wonMessage.append("Total: " + totalPoints);
+
+			// total the points
 			this.points += timeBonus + lifeBonus;
 
 			// can the score be added to high scores?
@@ -469,7 +481,7 @@ public class Game extends Screen {
 				a.setCommandListener(new CommandListener() {
 					public void commandAction(Command c, Displayable d) {
 						if (c.getCommandType() == Command.OK) {
-							Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.points, Game.this.midlet));
+							Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.midlet, Game.this.points));
 						}
 						else if (c.getCommandType() == Command.CANCEL) {
 							Game.this.midlet.startMainMenu();

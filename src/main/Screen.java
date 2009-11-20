@@ -4,7 +4,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
 /**
- * GameScreen includes all the methods every screen in the game,
+ * Screen includes all the methods every screen in the game,
  * from menus to levels, should have.
  *
  * Includes methods for painting, updating, and managing the GameScreen thread.
@@ -57,7 +57,7 @@ public abstract class Screen extends GameCanvas implements Runnable, Updateable 
 			repaint();
 
 			try {
-				Thread.sleep(50);
+				Thread.sleep(10);
 			}
 			catch (InterruptedException e) {
 				return;
