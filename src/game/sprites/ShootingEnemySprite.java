@@ -9,11 +9,13 @@ import javax.microedition.lcdui.Image;
 public class ShootingEnemySprite extends EnemySprite {
 
 	public static Image img;
-	public static final String imgPath = "/img/characters/Lanzador.png";
+	public static final String imgPath = "/img/characters/shooting.png";
 
 	//sprite animation definitions
 	private static final int[]
-			attack = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3};
+			idle = {0},
+			attack = {1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4},
+			hurt = {5, 5, 6, 6};
 
 	// sprite states
 	private static final short ATTACK = 2;
