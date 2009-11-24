@@ -1,7 +1,6 @@
 package game;
 
-import game.maps.Foreground;
-import game.maps.Background;
+import game.maps.*;
 import game.sprites.*;
 import highscores.HighScoreAdder;
 import highscores.HighScoreStore;
@@ -32,8 +31,12 @@ public class Game extends Screen {
 	// game sprite groups for game objects
 	private GameSpriteGroup
 			enemies,
+			enemiesLevel1,
+			enemiesLevel2,
 			bullets,
-			items;
+			items,
+			itemsLevel1,
+			itemsLevel2;
 
 	// points in the game
 	private int points;
@@ -68,37 +71,41 @@ public class Game extends Screen {
 			ImageHelper.initImages();
 
 			// initialize static game objetcs
-			this.foreground = new Foreground();
-			this.background = new Background();
+			this.foreground = new ForegroundLevel2();
+			this.background = new BackgroundLevel2();
 			this.endMarker = new EndMarkerSprite();
 
 			// initialize bullets group
 			this.bullets = new GameSpriteGroup();
 
 			// initialize enemies group
-			this.enemies = new GameSpriteGroup();
+			this.enemiesLevel1 = new GameSpriteGroup();
 
 			// initialize enemies
-			this.enemies.add(new HittingEnemySprite(11, 147));
-			this.enemies.add(new HittingEnemySprite(100, 259));
-			this.enemies.add(new HittingEnemySprite(410, 259));
-			this.enemies.add(new HittingEnemySprite(650, 243));
-			this.enemies.add(new HittingEnemySprite(350, 179));
-			this.enemies.add(new HittingEnemySprite(920, 259));
-			this.enemies.add(new HittingEnemySprite(850, 131));
-			this.enemies.add(new HittingEnemySprite(899, 67));
-			this.enemies.add(new HittingEnemySprite(550, 52));
-			this.enemies.add(new HittingEnemySprite(300, 35));
+			this.enemiesLevel1.add(new HittingEnemySprite(11, 147));
+			this.enemiesLevel1.add(new HittingEnemySprite(100, 259));
+			this.enemiesLevel1.add(new HittingEnemySprite(410, 259));
+			this.enemiesLevel1.add(new HittingEnemySprite(650, 243));
+			this.enemiesLevel1.add(new HittingEnemySprite(350, 179));
+			this.enemiesLevel1.add(new HittingEnemySprite(920, 259));
+			this.enemiesLevel1.add(new HittingEnemySprite(850, 131));
+			this.enemiesLevel1.add(new HittingEnemySprite(899, 67));
+			this.enemiesLevel1.add(new HittingEnemySprite(550, 52));
+			this.enemiesLevel1.add(new HittingEnemySprite(300, 35));
 
-			this.enemies.add(new ShootingEnemySprite(200, 100, this.bullets));
-			this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
+			this.enemiesLevel1.add(new ShootingEnemySprite(200, 100, this.bullets));
+			this.enemiesLevel1.add(new ShootingEnemySprite(100, 100, this.bullets));
+
+			this.enemies = enemiesLevel1;
 
 			// initialize items group
-			this.items = new GameSpriteGroup();
+			this.itemsLevel1 = new GameSpriteGroup();
 
 			// initialize items
-			this.items.add(new SodaItemSprite(100, 147));
-			this.items.add(new HeartItemSprite(400, 50));
+			this.itemsLevel1.add(new SodaItemSprite(100, 147));
+			this.itemsLevel1.add(new HeartItemSprite(400, 50));
+
+			this.items = itemsLevel1;
 
 			// initialize character
 			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
@@ -282,8 +289,6 @@ public class Game extends Screen {
 					enemyIdx--;
 
 					this.points += 100;
-
-					continue;
 				}
 			}
 		}
