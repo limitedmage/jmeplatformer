@@ -22,6 +22,14 @@ import javax.microedition.lcdui.Image;
  */
 public class Game extends Screen {
 
+	private static final short
+			LEVEL1 = 1,
+			LEVEL2 = 2,
+			LEVEL3 = 3;
+	private short currentLevel;
+
+
+
 	// elements of the game
 	private CharacterSprite mainChar;
 	private Foreground foreground;
@@ -31,12 +39,8 @@ public class Game extends Screen {
 	// game sprite groups for game objects
 	private GameSpriteGroup
 			enemies,
-			enemiesLevel1,
-			enemiesLevel2,
 			bullets,
-			items,
-			itemsLevel1,
-			itemsLevel2;
+			items;
 
 	// points in the game
 	private int points;
@@ -70,48 +74,17 @@ public class Game extends Screen {
 			// initialize all images
 			ImageHelper.initImages();
 
-			// initialize static game objetcs
-			this.foreground = new ForegroundLevel2();
-			this.background = new BackgroundLevel2();
-			this.endMarker = new EndMarkerSprite();
-
-			// initialize bullets group
-			this.bullets = new GameSpriteGroup();
-
-			// initialize enemies group
-			this.enemiesLevel1 = new GameSpriteGroup();
-
-			// initialize enemies
-			this.enemiesLevel1.add(new HittingEnemySprite(11, 147));
-			this.enemiesLevel1.add(new HittingEnemySprite(100, 259));
-			this.enemiesLevel1.add(new HittingEnemySprite(410, 259));
-			this.enemiesLevel1.add(new HittingEnemySprite(650, 243));
-			this.enemiesLevel1.add(new HittingEnemySprite(350, 179));
-			this.enemiesLevel1.add(new HittingEnemySprite(920, 259));
-			this.enemiesLevel1.add(new HittingEnemySprite(850, 131));
-			this.enemiesLevel1.add(new HittingEnemySprite(899, 67));
-			this.enemiesLevel1.add(new HittingEnemySprite(550, 52));
-			this.enemiesLevel1.add(new HittingEnemySprite(300, 35));
-
-			this.enemiesLevel1.add(new ShootingEnemySprite(200, 100, this.bullets));
-			this.enemiesLevel1.add(new ShootingEnemySprite(100, 100, this.bullets));
-
-			this.enemies = enemiesLevel1;
-
-			// initialize items group
-			this.itemsLevel1 = new GameSpriteGroup();
-
-			// initialize items
-			this.itemsLevel1.add(new SodaItemSprite(100, 147));
-			this.itemsLevel1.add(new HeartItemSprite(400, 50));
-
-			this.items = itemsLevel1;
+			// initialize Level 1
+			initLevel1();
 
 			// initialize character
 			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
 
 			// initialize life image
 			this.lifeImg = Image.createImage("/img/items/Corazon.png");
+
+			
+
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
@@ -129,6 +102,121 @@ public class Game extends Screen {
 
 		this.fpsCounter = new FpsCounter();
 	}
+
+	public void initLevel1() throws IOException  {
+		// initialize static game objetcs
+		this.foreground = new ForegroundLevel1();
+		this.background = new BackgroundLevel1();
+		this.endMarker = new EndMarkerSprite();
+
+		// initialize bullets group
+		this.bullets = new GameSpriteGroup();
+
+		// initialize enemies group
+		this.enemies = new GameSpriteGroup();
+
+		// initialize enemies
+		this.enemies.add(new HittingEnemySprite(11, 147));
+		this.enemies.add(new HittingEnemySprite(100, 259));
+		this.enemies.add(new HittingEnemySprite(650, 243));
+		this.enemies.add(new HittingEnemySprite(350, 179));
+		this.enemies.add(new HittingEnemySprite(850, 131));
+		this.enemies.add(new ShootingEnemySprite(410, 259, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(920, 259, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(899, 67, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(550, 52, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(300, 35, this.bullets));
+
+		// initialize items group
+		this.items = new GameSpriteGroup();
+
+		// initialize items
+		this.items.add(new SodaItemSprite(100, 147));
+		this.items.add(new HeartItemSprite(400, 50));
+
+		// reposition character
+		//this.mainChar.setPosition(45, 147);
+
+		this.currentLevel = LEVEL1;
+	}
+
+	public void initLevel2() throws IOException {
+		// initialize static game objetcs
+		this.foreground = new ForegroundLevel2();
+		this.background = new BackgroundLevel2();
+		this.endMarker = new EndMarkerSprite();
+
+		// initialize bullets group
+		this.bullets = new GameSpriteGroup();
+
+		// initialize enemies group
+		this.enemies = new GameSpriteGroup();
+
+		// initialize enemies
+		this.enemies.add(new HittingEnemySprite(100, 260));
+		this.enemies.add(new HittingEnemySprite(920, 259));
+		this.enemies.add(new HittingEnemySprite(850, 131));
+		this.enemies.add(new HittingEnemySprite(899, 67));
+		this.enemies.add(new HittingEnemySprite(550, 52));
+		this.enemies.add(new HittingEnemySprite(240, 35));
+		this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(445, 85, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(500, 150, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(400, 200, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(670, 55, this.bullets));
+
+		// initialize items group
+		this.items = new GameSpriteGroup();
+
+		// initialize items
+		this.items.add(new SodaItemSprite(100, 147));
+		this.items.add(new HeartItemSprite(400, 50));
+
+		// reposition character
+		this.mainChar = new CharacterSprite(this, foreground, bullets, this.mainChar.getLife());
+
+		this.currentLevel = LEVEL2;
+	}
+
+
+	public void initLevel3() throws IOException {
+		// initialize static game objetcs
+		this.foreground = new ForegroundLevel2();
+		this.background = new BackgroundLevel2();
+		this.endMarker = new EndMarkerSprite();
+
+		// initialize bullets group
+		this.bullets = new GameSpriteGroup();
+
+		// initialize enemies group
+		this.enemies = new GameSpriteGroup();
+
+		// initialize enemies
+		this.enemies.add(new HittingEnemySprite(100, 260));
+		this.enemies.add(new HittingEnemySprite(920, 259));
+		this.enemies.add(new HittingEnemySprite(850, 131));
+		this.enemies.add(new HittingEnemySprite(899, 67));
+		this.enemies.add(new HittingEnemySprite(550, 52));
+		this.enemies.add(new HittingEnemySprite(240, 35));
+		this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(445, 85, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(500, 150, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(400, 200, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(670, 55, this.bullets));
+
+		// initialize items group
+		this.items = new GameSpriteGroup();
+
+		// initialize items
+		this.items.add(new SodaItemSprite(100, 147));
+		this.items.add(new HeartItemSprite(400, 50));
+
+		// reposition character
+		this.mainChar = new CharacterSprite(this, foreground, bullets, this.mainChar.getLife());
+
+		this.currentLevel = LEVEL3;
+	}
+
 
 	/**
 	 * Paints the game
@@ -449,66 +537,123 @@ public class Game extends Screen {
 		if (this.mainChar.collidesWith(this.endMarker, false)) {
 			// if character has touched end marker
 
-			// stop the game
-			this.stop();
-
-			// calculate score with time and life bonus
-			int timeBonus = 1000 - ((int) (System.currentTimeMillis() - this.startTime) / 1000); // reduce 1 point for every second
-			int lifeBonus = this.mainChar.getLife() * 100; // 100 points per life left
-			int totalPoints = this.points + timeBonus + lifeBonus;
-
-			// write the message
-			StringBuffer wonMessage = new StringBuffer();
-			wonMessage.append("Points: " + this.points + "\n");
-			wonMessage.append("Time Bonus: " + timeBonus + "\n");
-			wonMessage.append("Life Bonus: " + lifeBonus + "\n");
-			wonMessage.append("Total: " + totalPoints);
-
-			// total the points
-			this.points += timeBonus + lifeBonus;
-
-			// can the score be added to high scores?
-			// score can be added when this game's points are higher than the points
-			// of the lowest ranked game in the store,
-			// or if there are less than the maximum number of points in
-			// the store
-			boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore()
-					|| this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
-
-			if (scoreCanBeAdded) {
-				// if yes, ask to user if he wants to add them
-				wonMessage.append("\nHigh Score!! Register?");
-				Alert a = new Alert("Game won!!", wonMessage.toString(), null, AlertType.INFO);
-
-				a.setTimeout(Alert.FOREVER);
-				a.addCommand(new Command("Yes", Command.OK, 1));
-				a.addCommand(new Command("No", Command.CANCEL, 2));
-				a.setCommandListener(new CommandListener() {
-					public void commandAction(Command c, Displayable d) {
-						if (c.getCommandType() == Command.OK) {
-							Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.midlet, Game.this.points));
-						}
-						else if (c.getCommandType() == Command.CANCEL) {
-							Game.this.midlet.startMainMenu();
-						}
-					}
-				});
-				Display.getDisplay(midlet).setCurrent(a, this);
+			if (currentLevel == LEVEL1 || currentLevel == LEVEL2) {
+				// if not at last level, show level complete alert and go to next level.
+				levelComplete();
 			}
 			else {
-				// else, just display the won message
-				Alert a = new Alert("Game won!!", wonMessage.toString(), null, AlertType.INFO);
-				a.setTimeout(Alert.FOREVER);
-				a.addCommand(new Command("Back", Command.OK, 1));
-				a.setCommandListener(new CommandListener() {
-					public void commandAction(Command c, Displayable d) {
-						if (c.getCommandType() == Command.OK) {
-							Game.this.midlet.startMainMenu();
+				// if at level 3, game is complete
+				gameComplete();
+			}
+		}
+	}
+
+	/**
+	 * Called by checkWon() when a not final level is finished
+	 */
+	private void levelComplete() {
+		this.stop();
+		// calculate score with time and life bonus
+		int timeBonus = 1000 - ((int) (System.currentTimeMillis() - this.startTime) / 1000); // reduce 1 point for every second
+		int lifeBonus = this.mainChar.getLife() * 100; // 100 points per life left
+		int totalPoints = this.points + timeBonus + lifeBonus;
+		// write the message
+		StringBuffer wonMessage = new StringBuffer();
+		wonMessage.append("Points: " + this.points + "\n");
+		wonMessage.append("Time Bonus: " + timeBonus + "\n");
+		wonMessage.append("Life Bonus: " + lifeBonus + "\n");
+		wonMessage.append("Total: " + totalPoints);
+		// total the points
+		this.points += timeBonus + lifeBonus;
+		// Show level complete alert
+		Alert a = new Alert("Level Complete!!", wonMessage.toString(), null, AlertType.INFO);
+		a.setTimeout(Alert.FOREVER);
+		a.addCommand(new Command("Continue", Command.OK, 1));
+		a.setCommandListener(new CommandListener() {
+
+			public void commandAction(Command c, Displayable d) {
+				if (c.getCommandType() == Command.OK) {
+					Display.getDisplay(midlet).setCurrent(Game.this);
+					start();
+					try {
+						if (currentLevel == LEVEL1) {
+							initLevel2();
+						}
+						else {
+							initLevel3();
 						}
 					}
-				});
-				Display.getDisplay(midlet).setCurrent(a, this);
+					catch (IOException ex) {
+					}
+				}
 			}
+		});
+		Display.getDisplay(midlet).setCurrent(a, this);
+	}
+
+	/**
+	 * Called by checkWon() when the final level is finished
+	 */
+	private void gameComplete() {
+		// stop the game
+		this.stop();
+
+		// calculate score with time and life bonus
+		int timeBonus = 1000 - ((int) (System.currentTimeMillis() - this.startTime) / 1000); // reduce 1 point for every second
+		int lifeBonus = this.mainChar.getLife() * 100; // 100 points per life left
+		int totalPoints = this.points + timeBonus + lifeBonus;
+
+		// write the message
+		StringBuffer wonMessage = new StringBuffer();
+		wonMessage.append("Points: " + this.points + "\n");
+		wonMessage.append("Time Bonus: " + timeBonus + "\n");
+		wonMessage.append("Life Bonus: " + lifeBonus + "\n");
+		wonMessage.append("Total: " + totalPoints);
+
+		// total the points
+		this.points += timeBonus + lifeBonus;
+
+		// can the score be added to high scores?
+		// score can be added when this game's points are higher than the points
+		// of the lowest ranked game in the store,
+		// or if there are less than the maximum number of points in
+		// the store
+		boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore()
+				|| this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
+
+		if (scoreCanBeAdded) {
+			// if yes, ask to user if he wants to add them
+			wonMessage.append("\nHigh Score!! Register?");
+			Alert a = new Alert("Game won!!", wonMessage.toString(), null, AlertType.INFO);
+
+			a.setTimeout(Alert.FOREVER);
+			a.addCommand(new Command("Yes", Command.OK, 1));
+			a.addCommand(new Command("No", Command.CANCEL, 2));
+			a.setCommandListener(new CommandListener() {
+				public void commandAction(Command c, Displayable d) {
+					if (c.getCommandType() == Command.OK) {
+						Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.midlet, Game.this.points));
+					}
+					else if (c.getCommandType() == Command.CANCEL) {
+						Game.this.midlet.startMainMenu();
+					}
+				}
+			});
+			Display.getDisplay(midlet).setCurrent(a, this);
+		}
+		else {
+			// else, just display the won message
+			Alert a = new Alert("Game won!!", wonMessage.toString(), null, AlertType.INFO);
+			a.setTimeout(Alert.FOREVER);
+			a.addCommand(new Command("Back", Command.OK, 1));
+			a.setCommandListener(new CommandListener() {
+				public void commandAction(Command c, Displayable d) {
+					if (c.getCommandType() == Command.OK) {
+						Game.this.midlet.startMainMenu();
+					}
+				}
+			});
+			Display.getDisplay(midlet).setCurrent(a, this);
 		}
 	}
 
