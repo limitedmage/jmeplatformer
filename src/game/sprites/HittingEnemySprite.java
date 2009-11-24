@@ -9,12 +9,14 @@ import javax.microedition.lcdui.Image;
 public class HittingEnemySprite extends EnemySprite {
 
 	public static Image img;
-	public static final String imgPath = "/img/characters/Pegador.png";
+	public static final String imgPath = "/img/characters/hitting.png";
 
 	//sprite animation definitions
 	private static final int[]
-			idle = {8},
-			attack = {5, 5, 6, 6, 7, 7, 8, 8};
+			idle = {0},
+			walk = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5},
+			attack = {6, 6, 7, 7, 8, 8},
+			hurt = {10, 10, 11, 11};
 
 	// sprite states
 	private static final short IDLE = 1,
