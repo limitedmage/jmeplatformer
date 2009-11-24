@@ -17,8 +17,8 @@ public class Background implements Paintable {
 	 * Creates a new background
 	 * @throws IOException If background image could not be loaded
 	 */
-	public Background() throws IOException {
-		this.image = Image.createImage("/img/backgrounds/nivel1_fondo.png");
+	public Background(Image img) throws IOException {
+		this.image = img;
 		this.setPosition(0, 0);
 	}
 
