@@ -101,6 +101,11 @@ public class CharacterSprite extends GameSprite {
 		this.invulnerable = false;
 	}
 
+	public CharacterSprite(Game game, Foreground foreground, GameSpriteGroup bullets, int life) throws IOException {
+		this(game, foreground, bullets);
+		this.life = life;
+	}
+
 	/**
 	 * Loads the next frame in the sprite.
 	 * If sprite is invincible and invincibility time is over,
