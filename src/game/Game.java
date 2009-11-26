@@ -181,8 +181,8 @@ public class Game extends Screen {
 
 	public void initLevel3() throws IOException {
 		// initialize static game objetcs
-		this.foreground = new ForegroundLevel2();
-		this.background = new BackgroundLevel2();
+		this.foreground = new ForegroundLevel3();
+		this.background = new BackgroundLevel3();
 		this.endMarker = new EndMarkerSprite();
 
 		// initialize bullets group
@@ -239,7 +239,7 @@ public class Game extends Screen {
 		this.mainChar.paint(g);
 
 		// paint fps
-		this.fpsCounter.paint(g);
+		//this.fpsCounter.paint(g);
 
 		// paint HUD
 		this.paintHud(g);
@@ -315,7 +315,7 @@ public class Game extends Screen {
 
 		if ((keys & FIRE_PRESSED) != 0) {
 			if (!this.attacking) {
-				this.midlet.getMusic().playShootTone();
+				//this.midlet.getMusic().playShootTone();
 				this.mainChar.attack();
 				this.attacking = true;
 			}
@@ -338,7 +338,7 @@ public class Game extends Screen {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(i);
 			if (enemy.inScreen(this.getWidth(), this.getHeight()) && this.mainChar.collidesWith(enemy, true)) {
 				this.mainChar.reduceLife();
-				this.midlet.getMusic().playHitTone();
+				//this.midlet.getMusic().playHitTone();
 			}
 		}
 
@@ -349,7 +349,7 @@ public class Game extends Screen {
 			bullet = (BulletSprite) this.bullets.getSpriteAt(i);
 			if (bullet instanceof EnemyBulletSprite && this.mainChar.collidesWith(bullet, true)) {
 				this.mainChar.reduceLife();
-				this.midlet.getMusic().playHitTone();
+				//this.midlet.getMusic().playHitTone();
 			}
 		}
 
@@ -368,7 +368,7 @@ public class Game extends Screen {
 			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++) {
 				bullet = (BulletSprite) this.bullets.getSpriteAt(bulletIdx);
 				if (enemy.inScreen(getWidth(), getHeight()) && bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true)) {
-					this.midlet.getMusic().playHitTone();
+					//this.midlet.getMusic().playHitTone();
 
 					this.bullets.removeSpriteAt(bulletIdx);
 					bulletIdx--;
