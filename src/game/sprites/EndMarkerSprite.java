@@ -9,15 +9,15 @@ import javax.microedition.lcdui.Image;
 public class EndMarkerSprite extends GameSprite {
 
 	public static Image img;
-	public static final String imgPath = "/img/endMarker.png";
+	public static final String imgPath = "/img/Puerta.png";
 
 	/**
 	 * Creates a new EndMarker
 	 * @throws IOException if sprite could not be created
 	 */
 	public EndMarkerSprite() throws IOException {
-		super(img, 45, 45);
-		this.setPosition(1011, 35);
+		super(img, 26, 26);
+		this.setPosition(1011, 54);
 		//this.setPosition(45, 100);
 	}
 
