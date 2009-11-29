@@ -37,8 +37,8 @@ public class Challenge extends Form implements CommandListener {
 		this.number = new TextField("Phone number", null, 10, TextField.PHONENUMBER);
 		this.append(this.number);
 
-		this.message = name + " has made " + points + "playing Metal Vs Pop!! " +
-				"Play and try to beat his score!";
+		this.message = name + " has made " + points + " points playing Metal Vs Pop!! " +
+				"Play and try to beat the score!";
 		this.append("Message: " + this.message);
 
 		this.addCommand(new Command("Send", Command.OK, 1));
