@@ -3,6 +3,7 @@ package menu;
 import main.MainMidlet;
 import menu.choice.CreditsChoice;
 import menu.choice.ExitChoice;
+import menu.choice.HelpChoice;
 import menu.choice.HighScoresChoice;
 import menu.choice.NewGameChoice;
 
@@ -19,6 +20,7 @@ public class MainMenu extends Menu {
 	public MainMenu(MainMidlet midlet) {
 		super(midlet, "/img/menu/titles/maintitle.png");
 		this.addChoice(new NewGameChoice());
+		this.addChoice(new HelpChoice());
 		this.addChoice(new HighScoresChoice());
 		this.addChoice(new CreditsChoice());
 		this.addChoice(new ExitChoice());
