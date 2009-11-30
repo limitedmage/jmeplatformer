@@ -18,7 +18,6 @@ public class EndMarkerSprite extends GameSprite {
 	public EndMarkerSprite() throws IOException {
 		super(img, 26, 26);
 		this.setPosition(1011, 54);
-		//this.setPosition(45, 100);
 	}
 
 	/**

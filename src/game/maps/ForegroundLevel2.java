@@ -1,16 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package game.maps;
 
 import java.io.IOException;
 import javax.microedition.lcdui.Image;
 
 /**
- *
- * @author Juliana Peña <jpenao@gmail.com>
+ * Foreground for level 2
  */
 public class ForegroundLevel2 extends Foreground {
 
@@ -77,7 +71,10 @@ public class ForegroundLevel2 extends Foreground {
 			0, 0, 0, 0, 0, 4, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 5, 5, 6,
 			0, 0, 0, 0, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6}};
 
-
+	/**
+	 * Initialize level 2 foreground
+	 * @throws IOException
+	 */
 	public ForegroundLevel2() throws IOException {
 		super(tileData, Image.createImage("/img/backgrounds/nivel2_tiles.png"), tileSize, rows, cols);
 	}

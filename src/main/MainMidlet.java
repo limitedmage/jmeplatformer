@@ -6,6 +6,7 @@ import highscores.HighScoreScreen;
 import menu.Credits;
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
+import menu.Help;
 import menu.MainMenu;
 import menu.PauseMenu;
 import music.MusicManager;
@@ -19,6 +20,7 @@ public class MainMidlet extends MIDlet {
 	private Screen game,
 			mainMenu,
 			credits,
+			help,
 			pauseMenu,
 			highScores,
 			splash;
@@ -122,6 +124,19 @@ public class MainMidlet extends MIDlet {
 	}
 
 	/**
+	 * Creates the help screen and displays it
+	 */
+	public void startHelp() {
+		this.stopAll();
+
+		if (this.help == null) {
+			this.help = new Help(this);
+		}
+		this.help.start();
+		Display.getDisplay(this).setCurrent(this.help);
+	}
+
+	/**
 	 * Creates high scores screen and displays it
 	 */
 	public void startHighScores() {
@@ -217,6 +232,10 @@ public class MainMidlet extends MIDlet {
 			this.credits.stop();
 		}
 
+		if (this.help != null) {
+			this.help.stop();
+		}
+
 		if (this.pauseMenu != null) {
 			this.pauseMenu.stop();
 		}
@@ -239,6 +258,7 @@ public class MainMidlet extends MIDlet {
 		this.pauseMenu = null;
 		this.highScores = null;
 		this.credits = null;
+		this.help = null;
 		this.splash = null;
 		this.interruptedScreen = null;
 	}
@@ -251,6 +271,10 @@ public class MainMidlet extends MIDlet {
 		return this.scoresStore;
 	}
 
+	/**
+	 * Return the game's music object
+	 * @return the game's music objects
+	 */
 	public MusicManager getMusic() {
 		return this.music;
 	}

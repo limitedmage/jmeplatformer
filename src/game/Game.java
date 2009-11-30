@@ -103,6 +103,10 @@ public class Game extends Screen {
 		this.fpsCounter = new FpsCounter();
 	}
 
+	/**
+	 * Initialize level 1 objects
+	 * @throws IOException
+	 */
 	public void initLevel1() throws IOException  {
 		// initialize static game objetcs
 		this.foreground = new ForegroundLevel1();
@@ -131,8 +135,15 @@ public class Game extends Screen {
 		this.items = new GameSpriteGroup();
 
 		// initialize items
-		this.items.add(new SodaItemSprite(100, 147));
-		this.items.add(new HeartItemSprite(400, 50));
+		this.items.add(new SodaItemSprite(45, 294));
+		this.items.add(new SodaItemSprite(225, 70));
+		this.items.add(new SodaItemSprite(370, 294));
+		this.items.add(new SodaItemSprite(1037, 294));
+		this.items.add(new SodaItemSprite(650, 86));
+		this.items.add(new HeartItemSprite(400, 70));
+		this.items.add(new HeartItemSprite(455, 292));
+		this.items.add(new HeartItemSprite(1039, 190));
+		this.items.add(new HeartItemSprite(630, 276));
 
 		// reposition character
 		//this.mainChar.setPosition(45, 147);
@@ -140,6 +151,10 @@ public class Game extends Screen {
 		this.currentLevel = LEVEL1;
 	}
 
+	/**
+	 * Initialize level 2 objects
+	 * @throws IOException
+	 */
 	public void initLevel2() throws IOException {
 		// initialize static game objetcs
 		this.foreground = new ForegroundLevel2();
@@ -159,7 +174,6 @@ public class Game extends Screen {
 		this.enemies.add(new HittingEnemySprite(899, 67));
 		this.enemies.add(new HittingEnemySprite(550, 52));
 		this.enemies.add(new HittingEnemySprite(240, 35));
-		this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
 		this.enemies.add(new ShootingEnemySprite(445, 85, this.bullets));
 		this.enemies.add(new ShootingEnemySprite(500, 150, this.bullets));
 		this.enemies.add(new ShootingEnemySprite(400, 200, this.bullets));
@@ -178,7 +192,10 @@ public class Game extends Screen {
 		this.currentLevel = LEVEL2;
 	}
 
-
+	/**
+	 * Initialize level 3 objects
+	 * @throws IOException
+	 */
 	public void initLevel3() throws IOException {
 		// initialize static game objetcs
 		this.foreground = new ForegroundLevel3();
@@ -194,15 +211,18 @@ public class Game extends Screen {
 		// initialize enemies
 		this.enemies.add(new HittingEnemySprite(100, 260));
 		this.enemies.add(new HittingEnemySprite(920, 259));
-		this.enemies.add(new HittingEnemySprite(850, 131));
 		this.enemies.add(new HittingEnemySprite(899, 67));
 		this.enemies.add(new HittingEnemySprite(550, 52));
-		this.enemies.add(new HittingEnemySprite(240, 35));
-		this.enemies.add(new ShootingEnemySprite(100, 100, this.bullets));
+		this.enemies.add(new HittingEnemySprite(200, 35));
+
+		this.enemies.add(new ShootingEnemySprite(100, 145, this.bullets));
 		this.enemies.add(new ShootingEnemySprite(445, 85, this.bullets));
 		this.enemies.add(new ShootingEnemySprite(500, 150, this.bullets));
 		this.enemies.add(new ShootingEnemySprite(400, 200, this.bullets));
 		this.enemies.add(new ShootingEnemySprite(670, 55, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(223, 263, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(315, 263, this.bullets));
+		this.enemies.add(new ShootingEnemySprite(860, 131, this.bullets));
 
 		// initialize items group
 		this.items = new GameSpriteGroup();
@@ -397,7 +417,7 @@ public class Game extends Screen {
 			item = (ItemSprite) this.items.getSpriteAt(itemIdx);
 			if (item.inScreen(getWidth(), getHeight()) && this.mainChar.collidesWith(item, true)) {
 				// if item in scree and character collides with the item
-				this.midlet.getMusic().playItemTone();
+				//this.midlet.getMusic().playItemTone();
 
 				// add points
 				this.points += item.getPoints();

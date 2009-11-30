@@ -3,8 +3,14 @@ package game.sprites;
 import java.io.IOException;
 import javax.microedition.lcdui.Image;
 
+/**
+ * Class to help load images
+ */
 public class ImageHelper {
 
+	/**
+	 * Load images for all sprites
+	 */
 	public static void initImages() {
 		try {
 			CharacterSprite.img = Image.createImage(CharacterSprite.imgPath);
