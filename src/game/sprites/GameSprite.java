@@ -22,6 +22,12 @@ public abstract class GameSprite extends Sprite implements Updateable {
 		super(img, fWidth, fHeight);
 	}
 
+	/**
+	 * Checks if the sprite is in the screen
+	 * @param sWidth Screen width
+	 * @param sHeight Screen height
+	 * @return true is sprite is in the screen, false otherwise
+	 */
 	public boolean inScreen(int sWidth, int sHeight) {
 		if (this.getX() + this.getWidth() >= 0 && this.getX() < sWidth
 			&& this.getY() + this.getHeight() >= 0 && this.getY() < sHeight) {

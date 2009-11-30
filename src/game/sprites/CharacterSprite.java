@@ -73,7 +73,7 @@ public class CharacterSprite extends GameSprite {
 	private boolean goingRight;
 
 	/**
-	 * Initializes a CharacterSprite
+	 * Initializes a CharacterSprite with a default life of 6
 	 * @param game Parent game
 	 * @param foreground Foreground to check collision with
 	 * @param bullets Group to add new bullets to
@@ -101,6 +101,14 @@ public class CharacterSprite extends GameSprite {
 		this.invulnerable = false;
 	}
 
+	/**
+	 * Initialize a CharacterSprite with a predetermined life
+	 * @param game Parent game
+	 * @param foreground Foreground to check collision with
+	 * @param bullets Group to add new bullets to
+	 * @param life Initial life of the character
+	 * @throws IOException If sprite cannot be created
+	 */
 	public CharacterSprite(Game game, Foreground foreground, GameSpriteGroup bullets, int life) throws IOException {
 		this(game, foreground, bullets);
 		this.life = life;
