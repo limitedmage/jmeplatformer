@@ -65,7 +65,7 @@ public class Game extends Screen {
 			initLevel1();
 
 			// initialize character
-			this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
+			//this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
 
 			// initialize life image
 			this.lifeImg = Image.createImage("/img/items/Corazon.png");
@@ -133,9 +133,13 @@ public class Game extends Screen {
 		this.items.add(new HeartItemSprite(630, 276));
 
 		// reposition character
-		//this.mainChar.setPosition(45, 147);
+		this.mainChar = new CharacterSprite(this, this.foreground, this.bullets);
 
+		// set current level
 		this.currentLevel = LEVEL1;
+
+		// start music
+		this.midlet.getMusic().playGame1Music();
 	}
 
 	/**
@@ -181,7 +185,11 @@ public class Game extends Screen {
 		// reposition character
 		this.mainChar = new CharacterSprite(this, foreground, bullets, this.mainChar.getLife());
 
+		// set current level
 		this.currentLevel = LEVEL2;
+
+		// start music
+		this.midlet.getMusic().playGame2Music();
 	}
 
 	/**
@@ -230,7 +238,11 @@ public class Game extends Screen {
 		// reposition character
 		this.mainChar = new CharacterSprite(this, foreground, bullets, this.mainChar.getLife());
 
+		// set current level
 		this.currentLevel = LEVEL3;
+
+		// start music
+		this.midlet.getMusic().playGame3Music();
 	}
 
 	/**
@@ -330,7 +342,6 @@ public class Game extends Screen {
 
 		if ((keys & FIRE_PRESSED) != 0) {
 			if (!this.attacking) {
-				//this.midlet.getMusic().playShootTone();
 				this.mainChar.attack();
 				this.attacking = true;
 			}
@@ -353,7 +364,6 @@ public class Game extends Screen {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(i);
 			if (enemy.inScreen(this.getWidth(), this.getHeight()) && this.mainChar.collidesWith(enemy, true)) {
 				this.mainChar.reduceLife();
-				//this.midlet.getMusic().playHitTone();
 			}
 		}
 
@@ -364,7 +374,6 @@ public class Game extends Screen {
 			bullet = (BulletSprite) this.bullets.getSpriteAt(i);
 			if (bullet instanceof EnemyBulletSprite && this.mainChar.collidesWith(bullet, true)) {
 				this.mainChar.reduceLife();
-				//this.midlet.getMusic().playHitTone();
 			}
 		}
 
@@ -383,8 +392,6 @@ public class Game extends Screen {
 			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++) {
 				bullet = (BulletSprite) this.bullets.getSpriteAt(bulletIdx);
 				if (enemy.inScreen(getWidth(), getHeight()) && bullet instanceof CharacterBulletSprite && enemy.collidesWith(bullet, true)) {
-					//this.midlet.getMusic().playHitTone();
-
 					this.bullets.removeSpriteAt(bulletIdx);
 					bulletIdx--;
 
@@ -412,8 +419,6 @@ public class Game extends Screen {
 			item = (ItemSprite) this.items.getSpriteAt(itemIdx);
 			if (item.inScreen(getWidth(), getHeight()) && this.mainChar.collidesWith(item, true)) {
 				// if item in scree and character collides with the item
-				//this.midlet.getMusic().playItemTone();
-
 				// add points
 				this.points += item.getPoints();
 				// recover life

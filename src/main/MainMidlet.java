@@ -69,16 +69,12 @@ public class MainMidlet extends MIDlet {
 	 * Creates new game and displays it
 	 */
 	public void startGame() {
-		this.music.playGameMusic();
-
 		this.stopAll();
 		this.nullifyAll();
 
 		this.game = new Game(this);
 		this.game.start();
 		Display.getDisplay(this).setCurrent(this.game);
-
-		this.music.playSelectedTone();
 	}
 
 	/**
