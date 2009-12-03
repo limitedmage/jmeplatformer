@@ -22,44 +22,31 @@ import javax.microedition.lcdui.Image;
  */
 public class Game extends Screen {
 
-	private static final short
-			LEVEL1 = 1,
+	private static final short LEVEL1 = 1,
 			LEVEL2 = 2,
 			LEVEL3 = 3;
 	private short currentLevel;
-
-
-
 	// elements of the game
 	private CharacterSprite mainChar;
 	private Foreground foreground;
 	private Background background;
 	private EndMarkerSprite endMarker;
-
 	// game sprite groups for game objects
-	private GameSpriteGroup
-			enemies,
+	private GameSpriteGroup enemies,
 			bullets,
 			items;
-
 	// points in the game
 	private int points;
-
 	// start time
 	private long startTime;
-
 	// image for showing life
 	private Image lifeImg;
-
 	// flag for jumping input handling
 	private boolean jumping;
-
 	// flag for attacking input handling
 	private boolean attacking;
-
 	// half of screen width and height, used to calculate scrolling.
 	private int hWidth, hHeight;
-
 	// variables for FPS timing
 	private FpsCounter fpsCounter;
 
@@ -83,7 +70,7 @@ public class Game extends Screen {
 			// initialize life image
 			this.lifeImg = Image.createImage("/img/items/Corazon.png");
 
-			
+
 
 		}
 		catch (IOException ex) {
@@ -107,7 +94,7 @@ public class Game extends Screen {
 	 * Initialize level 1 objects
 	 * @throws IOException
 	 */
-	public void initLevel1() throws IOException  {
+	public void initLevel1() throws IOException {
 		// initialize static game objetcs
 		this.foreground = new ForegroundLevel1();
 		this.background = new BackgroundLevel1();
@@ -185,6 +172,11 @@ public class Game extends Screen {
 		// initialize items
 		this.items.add(new SodaItemSprite(100, 147));
 		this.items.add(new HeartItemSprite(400, 50));
+		this.items.add(new HeartItemSprite(720, 294));
+		this.items.add(new SodaItemSprite(90, 294));
+		this.items.add(new SodaItemSprite(349, 294));
+		this.items.add(new HeartItemSprite(723, 147));
+		this.items.add(new HeartItemSprite(1039, 190));
 
 		// reposition character
 		this.mainChar = new CharacterSprite(this, foreground, bullets, this.mainChar.getLife());
@@ -229,14 +221,17 @@ public class Game extends Screen {
 
 		// initialize items
 		this.items.add(new SodaItemSprite(100, 147));
-		this.items.add(new HeartItemSprite(400, 50));
+		this.items.add(new HeartItemSprite(540, 70));
+		this.items.add(new SodaItemSprite(190, 250));
+		this.items.add(new SodaItemSprite(290, 250));
+		this.items.add(new HeartItemSprite(730, 160));
+		this.items.add(new SodaItemSprite(865, 160));
 
 		// reposition character
 		this.mainChar = new CharacterSprite(this, foreground, bullets, this.mainChar.getLife());
 
 		this.currentLevel = LEVEL3;
 	}
-
 
 	/**
 	 * Paints the game
@@ -271,7 +266,7 @@ public class Game extends Screen {
 	 */
 	private void paintHud(Graphics g) {
 		g.setColor(0);
-		
+
 		g.drawString(this.points + "", 0, 0, Graphics.TOP | Graphics.LEFT);
 
 		int life = this.mainChar.getLife();
@@ -382,7 +377,7 @@ public class Game extends Screen {
 	public void checkEnemyDamage() {
 		EnemySprite enemy;
 		BulletSprite bullet;
-		
+
 		for (int enemyIdx = 0; enemyIdx < this.enemies.size(); enemyIdx++) {
 			enemy = (EnemySprite) this.enemies.getSpriteAt(enemyIdx);
 			for (int bulletIdx = 0; bulletIdx < this.bullets.size(); bulletIdx++) {
@@ -496,9 +491,9 @@ public class Game extends Screen {
 			// since character can go above foreground, this test is unnecesary
 			/*
 			if (spritePosY >= 0 || dy > 0) {
-				this.mainChar.move(0, dy);
+			this.mainChar.move(0, dy);
 			}
-			*/
+			 */
 
 			// move the character
 			this.mainChar.move(0, dy);
@@ -509,9 +504,9 @@ public class Game extends Screen {
 			// since character can go bellow foreground, this test is unnecesary
 			/*
 			if (spritePosY + this.mainChar.getHeight() <= this.foreground.getHeight() || dy < 0) {
-				this.mainChar.move(0, dy);
+			this.mainChar.move(0, dy);
 			}
-			*/
+			 */
 
 			// move the caracter
 			this.mainChar.move(0, dy);
@@ -594,13 +589,15 @@ public class Game extends Screen {
 			public void commandAction(Command c, Displayable d) {
 				if (c.getCommandType() == Command.OK) {
 					Display.getDisplay(midlet).setCurrent(Game.this);
-					start();
+					
 					try {
 						if (currentLevel == LEVEL1) {
 							initLevel2();
+							start();
 						}
 						else {
 							initLevel3();
+							start();
 						}
 					}
 					catch (IOException ex) {
@@ -638,8 +635,7 @@ public class Game extends Screen {
 		// of the lowest ranked game in the store,
 		// or if there are less than the maximum number of points in
 		// the store
-		boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore()
-				|| this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
+		boolean scoreCanBeAdded = this.points > this.midlet.getScores().getLowestScore() || this.midlet.getScores().size() < HighScoreStore.MAX_SCORES;
 
 		if (scoreCanBeAdded) {
 			// if yes, ask to user if he wants to add them
@@ -650,6 +646,7 @@ public class Game extends Screen {
 			a.addCommand(new Command("Yes", Command.OK, 1));
 			a.addCommand(new Command("No", Command.CANCEL, 2));
 			a.setCommandListener(new CommandListener() {
+
 				public void commandAction(Command c, Displayable d) {
 					if (c.getCommandType() == Command.OK) {
 						Display.getDisplay(Game.this.midlet).setCurrent(new HighScoreAdder(Game.this.midlet, Game.this.points));
@@ -667,6 +664,7 @@ public class Game extends Screen {
 			a.setTimeout(Alert.FOREVER);
 			a.addCommand(new Command("Back", Command.OK, 1));
 			a.setCommandListener(new CommandListener() {
+
 				public void commandAction(Command c, Displayable d) {
 					if (c.getCommandType() == Command.OK) {
 						Game.this.midlet.startMainMenu();
@@ -693,6 +691,7 @@ public class Game extends Screen {
 			a.setTimeout(Alert.FOREVER);
 			a.addCommand(new Command("Back", Command.OK, 1));
 			a.setCommandListener(new CommandListener() {
+
 				public void commandAction(Command c, Displayable d) {
 					if (c.getCommandType() == Command.OK) {
 						Game.this.midlet.startMainMenu();
