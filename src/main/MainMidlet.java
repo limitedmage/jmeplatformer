@@ -6,8 +6,8 @@ import highscores.HighScoreScreen;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.midlet.MIDlet;
-import menu.CreditsForm;
-import menu.HelpForm;
+import menu.Credits;
+import menu.Help;
 import menu.MainMenu;
 import menu.PauseMenu;
 import music.MusicManager;
@@ -113,7 +113,7 @@ public class MainMidlet extends MIDlet {
 	 * Creates credits screen and displays it
 	 */
 	public void startCredits() {
-		Display.getDisplay(this).setCurrent(new CreditsForm(this));
+		Display.getDisplay(this).setCurrent(new Credits(this));
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class MainMidlet extends MIDlet {
 	public void startHelp() {
 		this.stopAll();
 
-		Display.getDisplay(this).setCurrent(new HelpForm(this));
+		Display.getDisplay(this).setCurrent(new Help(this));
 	}
 
 	/**

@@ -4,91 +4,42 @@ import java.io.IOException;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.Font;
-import main.MainMidlet;
-import main.Screen;
-import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
+import javax.microedition.lcdui.ImageItem;
+import main.MainMidlet;
 
-/**
- * A credits screen aknowledging all contributors
- */
-public class Credits extends Screen implements CommandListener {
+public class Credits extends Form implements CommandListener {
 
-	// Credits text to be shown
-	private String[] text;
-	private Image title;
+	private MainMidlet midlet;
+	private static String text =
+			"Alejando Cruz\n" +
+			"A00469848@itesm.mx\n" +
+			"Carlos Meléndez\n" +
+			"A00963806@itesm.mx\n" +
+			"Juliana Peña\n" +
+			"A01165536@item.mx\n\n" +
+			"Tecnológico de Monterrey\n" +
+			"Campus Estado de México\n" +
+			"TC1006 Proyecto Integrador ISC\n\n" +
+			"http://code.google.com/p/jmeplatformer/";
 
-	/**
-	 * Creates a new Credits screen
-	 * @param midlet
-	 */
+
 	public Credits(MainMidlet midlet) {
-		super(midlet);
-		this.setFullScreenMode(false);
+		super("Credits");
+		this.midlet = midlet;
 
-		this.text = new String[]{
-			"Alejando Cruz",
-			"alex_onish@hotmail.com",
-			"Carlos Meléndez",
-			"carlosmega106@hotmail.com",
-			"Juliana Peña",
-			"jpenao@gmail.com",
-			"",
-			"ITESM CEM",
-			"TC1006",
-			"http://code.google.com/p",
-			"/jmeplatformer/"
-		};
-
-		this.addCommand(new Command("Back", Command.BACK, 1));
-		this.setCommandListener(this);
 
 		try {
-			this.title = Image.createImage("/img/menu/titles/credits.png");
+			this.append(new ImageItem(null, Image.createImage("/img/menu/titles/credits.png"), ImageItem.LAYOUT_CENTER, null));
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
 		}
-	}
+		this.append(text);
 
-	/**
-	 * Updates the credits screen
-	 * Pressing any key exits back to main menu
-	 */
-	public void update() {
-		// press any key to go back to main menu
-		if ((getKeyStates()) != 0) {
-			this.midlet.startMainMenu();
-		}
-	}
-
-	/**
-	 * Paints the game screen
-	 * @param g
-	 */
-	public void paint(Graphics g) {
-		g.setColor(0x00000000);
-		g.fillRect(0, 0, getWidth(), getHeight());
-
-		int x = getWidth() / 2;
-
-		g.drawImage(this.title, x, 0, Graphics.HCENTER | Graphics.TOP);
-
-		int len = this.text.length;
-
-		if (len > 0) {
-			int y = this.title.getHeight() * 2;
-
-			Font f = g.getFont();
-
-			int dy = getHeight() / len;
-			g.setColor(0x00ffffff);
-			for (int i = 0; i < len; i++) {
-				g.drawString(this.text[i], x, y, Graphics.HCENTER | Graphics.TOP);
-				y += f.getHeight();
-			}
-		}
+		this.addCommand(new Command("Back", Command.BACK, 1));
+		this.setCommandListener(this);
 	}
 
 	/**
