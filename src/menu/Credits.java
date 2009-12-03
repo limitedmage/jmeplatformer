@@ -7,6 +7,9 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.ImageItem;
+import javax.microedition.lcdui.Item;
+import javax.microedition.lcdui.ItemCommandListener;
+import javax.microedition.lcdui.StringItem;
 import main.MainMidlet;
 
 /**
@@ -16,17 +19,16 @@ public class Credits extends Form implements CommandListener {
 
 	private MainMidlet midlet;
 	private static String text =
-			"Alejando Cruz\n" +
-			"A00469848@itesm.mx\n" +
+			"Juliana Peña\n" +
+			"A01165536@item.mx\n" +
 			"Carlos Meléndez\n" +
 			"A00963806@itesm.mx\n" +
-			"Juliana Peña\n" +
-			"A01165536@item.mx\n\n" +
+			"Alejando Cruz\n" +
+			"A00469848@itesm.mx\n\n" +
 			"Tecnológico de Monterrey\n" +
 			"Campus Estado de México\n" +
-			"TC1006 Proyecto Integrador ISC\n\n" +
-			"http://code.google.com/p/jmeplatformer/";
-
+			"TC1006 Proyecto Integrador ISC\n\n";
+	private static String url = "http://code.google.com/p/jmeplatformer/";
 
 	/**
 	 * Creates a new credits screen
@@ -36,7 +38,6 @@ public class Credits extends Form implements CommandListener {
 		super("Credits");
 		this.midlet = midlet;
 
-
 		try {
 			this.append(new ImageItem(null, Image.createImage("/img/menu/titles/credits.png"), ImageItem.LAYOUT_CENTER, null));
 		}
@@ -44,6 +45,27 @@ public class Credits extends Form implements CommandListener {
 			ex.printStackTrace();
 		}
 		this.append(text);
+
+		StringItem urlItem = new StringItem(null, url, Item.HYPERLINK);
+		urlItem.setDefaultCommand(new Command("Open", Command.ITEM, 1));
+		urlItem.setItemCommandListener(new ItemCommandListener() {
+			public void commandAction(Command c, Item item) {
+				switch (c.getCommandType()) {
+					case Command.ITEM:
+						try {
+							Credits.this.midlet.platformRequest(url); // try to open url
+							Credits.this.midlet.notifyDestroyed();
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+							// fail silently
+						}
+						break;
+				}
+			}
+		});
+
+		this.append(urlItem);
 
 		this.addCommand(new Command("Back", Command.BACK, 1));
 		this.setCommandListener(this);
@@ -58,6 +80,7 @@ public class Credits extends Form implements CommandListener {
 		switch (c.getCommandType()) {
 			case Command.BACK:
 				this.midlet.startMainMenu();
+				break;
 		}
 	}
 }
