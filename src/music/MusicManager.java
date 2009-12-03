@@ -15,7 +15,9 @@ public class MusicManager
 
 	private static final String
 			menuMusicPath = "/music/menu.mid",
-			gameMusicPath = "/music/game.mid";
+			game1MusicPath = "/music/game1.mid",
+			game2MusicPath = "/music/game2.mid",
+			game3MusicPath = "/music/game3.mid";
 
 	/**
 	 * Create a new MusicManager
@@ -49,10 +51,24 @@ public class MusicManager
 	}
 
 	/**
-	 * Play game.mid
+	 * Play game1.mid
 	 */
-	public void playGameMusic() {
-		this.playMidiFromPath(gameMusicPath);
+	public void playGame1Music() {
+		this.playMidiFromPath(game1MusicPath);
+	}
+
+	/**
+	 * Play game2.mid
+	 */
+	public void playGame2Music() {
+		this.playMidiFromPath(game2MusicPath);
+	}
+
+	/**
+	 * Play game3.mid
+	 */
+	public void playGame3Music() {
+		this.playMidiFromPath(game3MusicPath);
 	}
 
 	/**
@@ -60,77 +76,5 @@ public class MusicManager
 	 */
 	public void playMenuMusic() {
 		this.playMidiFromPath(menuMusicPath);
-	}
-
-	/**
-	 * Play tone for when a choice is selected in the menu
-	 */
-	public void playSelectedTone() {
-		try {
-			Manager.playTone(50, 500, 70);
-		}
-		catch (MediaException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	/**
-	 * Play tone for when shooting in the game
-	 */
-	public void playShootTone() {
-		try {
-			Manager.playTone(80, 500, 70);
-		}
-		catch (MediaException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	/**
-	 * Play tone for when hitting in the game
-	 */
-	public void playHitTone() {
-		try {
-			Manager.playTone(100, 500, 70);
-		}
-		catch (MediaException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	/**
-	 * Play tone for when collecting items in the game
-	 */
-	public void playItemTone() {
-		try {
-			Manager.playTone(100, 500, 70);
-		}
-		catch (MediaException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	/**
-	 * Play tone for when winning the game
-	 */
-	public void playWonTone() {
-		try {
-			Manager.playTone(100, 500, 70);
-		}
-		catch (MediaException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	/**
-	 * Play tone for when losing the game
-	 */
-	public void playLostTone() {
-		try {
-			Manager.playTone(100, 500, 70);
-		}
-		catch (MediaException ex) {
-			ex.printStackTrace();
-		}
 	}
 }
