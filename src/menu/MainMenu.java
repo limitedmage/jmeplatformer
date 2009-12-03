@@ -20,8 +20,8 @@ public class MainMenu extends Menu {
 	public MainMenu(MainMidlet midlet) {
 		super(midlet, "/img/menu/titles/maintitle.png");
 		this.addChoice(new NewGameChoice());
-		this.addChoice(new HelpChoice());
 		this.addChoice(new HighScoresChoice());
+		this.addChoice(new HelpChoice());
 		this.addChoice(new CreditsChoice());
 		this.addChoice(new ExitChoice());
 	}
