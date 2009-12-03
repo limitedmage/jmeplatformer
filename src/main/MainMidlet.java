@@ -3,10 +3,11 @@ package main;
 import highscores.HighScoreStore;
 import game.Game;
 import highscores.HighScoreScreen;
-import menu.Credits;
 import javax.microedition.lcdui.Display;
+import javax.microedition.lcdui.Displayable;
 import javax.microedition.midlet.MIDlet;
-import menu.Help;
+import menu.CreditsForm;
+import menu.HelpForm;
 import menu.MainMenu;
 import menu.PauseMenu;
 import music.MusicManager;
@@ -19,14 +20,12 @@ public class MainMidlet extends MIDlet {
 	// screen objects
 	private Screen game,
 			mainMenu,
-			credits,
-			help,
 			pauseMenu,
 			highScores,
 			splash;
 
 	// screen stored when game interrupted
-	private Screen interruptedScreen;
+	private Displayable interruptedScreen;
 
 	private MusicManager music;
 
@@ -114,13 +113,7 @@ public class MainMidlet extends MIDlet {
 	 * Creates credits screen and displays it
 	 */
 	public void startCredits() {
-		this.stopAll();
-
-		if (this.credits == null) {
-			this.credits = new Credits(this);
-		}
-		this.credits.start();
-		Display.getDisplay(this).setCurrent(this.credits);
+		Display.getDisplay(this).setCurrent(new CreditsForm(this));
 	}
 
 	/**
@@ -129,11 +122,7 @@ public class MainMidlet extends MIDlet {
 	public void startHelp() {
 		this.stopAll();
 
-		if (this.help == null) {
-			this.help = new Help(this);
-		}
-		this.help.start();
-		Display.getDisplay(this).setCurrent(this.help);
+		Display.getDisplay(this).setCurrent(new HelpForm(this));
 	}
 
 	/**
@@ -196,7 +185,7 @@ public class MainMidlet extends MIDlet {
 	 * Stores the interrupted screen for restoring later
 	 */
 	public void pauseApp() {
-		this.interruptedScreen = (Screen) Display.getDisplay(this).getCurrent();
+		this.interruptedScreen = Display.getDisplay(this).getCurrent();
 	}
 
 	/**
@@ -228,14 +217,6 @@ public class MainMidlet extends MIDlet {
 			this.mainMenu.stop();
 		}
 
-		if (this.credits != null) {
-			this.credits.stop();
-		}
-
-		if (this.help != null) {
-			this.help.stop();
-		}
-
 		if (this.pauseMenu != null) {
 			this.pauseMenu.stop();
 		}
@@ -257,8 +238,6 @@ public class MainMidlet extends MIDlet {
 		this.mainMenu = null;
 		this.pauseMenu = null;
 		this.highScores = null;
-		this.credits = null;
-		this.help = null;
 		this.splash = null;
 		this.interruptedScreen = null;
 	}
