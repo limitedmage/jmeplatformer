@@ -5,6 +5,7 @@ import game.Game;
 import highscores.HighScoreScreen;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.Form;
 import javax.microedition.midlet.MIDlet;
 import menu.Credits;
 import menu.Help;
@@ -23,6 +24,8 @@ public class MainMidlet extends MIDlet {
 			pauseMenu,
 			highScores,
 			splash;
+
+	private Form help, credits;
 
 	// screen stored when game interrupted
 	private Displayable interruptedScreen;
@@ -62,6 +65,8 @@ public class MainMidlet extends MIDlet {
 			this.startSplash();
 		}
 
+		this.music.resume();
+
 
 	}
 
@@ -84,6 +89,7 @@ public class MainMidlet extends MIDlet {
 		this.music.playMenuMusic();
 
 		this.stopAll();
+		this.nullifyAll();
 
 		if (this.mainMenu == null) {
 			this.mainMenu = new MainMenu(this);
@@ -109,7 +115,12 @@ public class MainMidlet extends MIDlet {
 	 * Creates credits screen and displays it
 	 */
 	public void startCredits() {
-		Display.getDisplay(this).setCurrent(new Credits(this));
+		this.stopAll();
+
+		if (this.credits == null) {
+			this.credits = new Credits(this);
+		}
+		Display.getDisplay(this).setCurrent(credits);
 	}
 
 	/**
@@ -118,7 +129,10 @@ public class MainMidlet extends MIDlet {
 	public void startHelp() {
 		this.stopAll();
 
-		Display.getDisplay(this).setCurrent(new Help(this));
+		if (this.help == null) {
+			this.help = new Help(this);
+		}
+		Display.getDisplay(this).setCurrent(help);
 	}
 
 	/**
@@ -141,7 +155,7 @@ public class MainMidlet extends MIDlet {
 	 * @throws NullPointerException if there is no game to pause.
 	 */
 	public void pauseGame() {
-		if (game != null) {
+		if (this.game != null) {
 			// stop the game
 			this.game.stop();
 
@@ -182,6 +196,7 @@ public class MainMidlet extends MIDlet {
 	 */
 	public void pauseApp() {
 		this.interruptedScreen = Display.getDisplay(this).getCurrent();
+		this.music.stop();
 	}
 
 	/**
@@ -236,6 +251,8 @@ public class MainMidlet extends MIDlet {
 		this.highScores = null;
 		this.splash = null;
 		this.interruptedScreen = null;
+		this.help = null;
+		this.credits = null;
 	}
 
 	/**

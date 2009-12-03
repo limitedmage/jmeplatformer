@@ -19,6 +19,8 @@ public class MusicManager
 			game2MusicPath = "/music/game2.mid",
 			game3MusicPath = "/music/game3.mid";
 
+	private String current;
+
 	/**
 	 * Create a new MusicManager
 	 */
@@ -55,6 +57,7 @@ public class MusicManager
 	 */
 	public void playGame1Music() {
 		this.playMidiFromPath(game1MusicPath);
+		current = game1MusicPath;
 	}
 
 	/**
@@ -62,6 +65,7 @@ public class MusicManager
 	 */
 	public void playGame2Music() {
 		this.playMidiFromPath(game2MusicPath);
+		current = game2MusicPath;
 	}
 
 	/**
@@ -69,6 +73,7 @@ public class MusicManager
 	 */
 	public void playGame3Music() {
 		this.playMidiFromPath(game3MusicPath);
+		current = game3MusicPath;
 	}
 
 	/**
@@ -76,5 +81,30 @@ public class MusicManager
 	 */
 	public void playMenuMusic() {
 		this.playMidiFromPath(menuMusicPath);
+		current = menuMusicPath;
+	}
+
+	/**
+	 * Stop music
+	 */
+	public void stop() {
+		try {
+			if (player != null) {
+				player.stop();
+				player.close();
+				player = null;
+			}
+		}
+		catch (MediaException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	/**
+	 * Resume music
+	 */
+	public void resume() {
+		if (current != null)
+			playMidiFromPath(current);
 	}
 }
