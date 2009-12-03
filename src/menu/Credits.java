@@ -9,6 +9,9 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.ImageItem;
 import main.MainMidlet;
 
+/**
+ * Credits screen
+ */
 public class Credits extends Form implements CommandListener {
 
 	private MainMidlet midlet;
@@ -25,6 +28,10 @@ public class Credits extends Form implements CommandListener {
 			"http://code.google.com/p/jmeplatformer/";
 
 
+	/**
+	 * Creates a new credits screen
+	 * @param midlet Parent midlet
+	 */
 	public Credits(MainMidlet midlet) {
 		super("Credits");
 		this.midlet = midlet;

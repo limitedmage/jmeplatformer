@@ -9,6 +9,9 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.ImageItem;
 import main.MainMidlet;
 
+/**
+ * Help screen
+ */
 public class Help extends Form implements CommandListener {
 
 	private MainMidlet midlet;
@@ -21,6 +24,10 @@ public class Help extends Form implements CommandListener {
 			"(keys may change depending on your phone)";
 
 
+	/**
+	 * Creates a new help screen
+	 * @param midlet Parent midlet
+	 */
 	public Help(MainMidlet midlet) {
 		super("Help");
 		this.midlet = midlet;
